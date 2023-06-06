@@ -10,7 +10,7 @@ export default function Footer() {
         <li className="mr-12">
           <a
             target="blank"
-            href="mailto:hello@simmmple.com"
+            href="https://www.hotelxcaretmexico.com/es/aviso-de-privacidad/"
             className="text-sm text-gray-600 hover:text-gray-600 md:text-base lg:text-white lg:hover:text-white"
           >
             Aviso de privacidad
@@ -19,7 +19,7 @@ export default function Footer() {
         <li className="mr-12">
           <a
             target="blank"
-            href="https://simmmple.com/licenses"
+            href="https://www.facebook.com/hotelxcaretmexico"
             className="text-sm text-gray-600 hover:text-gray-600 md:text-base lg:text-white lg:hover:text-white"
           >
             <i class="fab fa-facebook"></i>
@@ -28,7 +28,7 @@ export default function Footer() {
         <li className="mr-12">
           <a
             target="blank"
-            href="https://simmmple.com/terms-of-service"
+            href="https://twitter.com/hotelxcaretmx"
             className="text-sm text-gray-600 hover:text-gray-600 md:text-base lg:text-white lg:hover:text-white"
           >
             <i class="fab fa-twitter"></i>
@@ -37,7 +37,7 @@ export default function Footer() {
         <li>
           <a
             target="blank"
-            href="https://blog.horizon-ui.com/"
+            href="https://www.instagram.com/hotelxcaretmexico"
             className="text-sm text-gray-600 hover:text-gray-600 md:text-base lg:text-white lg:hover:text-white"
           >
             <i class="fab fa-instagram"></i>

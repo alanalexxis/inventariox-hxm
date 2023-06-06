@@ -12,7 +12,8 @@ const Footer = () => {
           <ul className="flex flex-wrap items-center gap-3 sm:flex-nowrap md:gap-10">
             <li>
               <a
-                href="http://www.utselva.edu.mx/conocenos/aviso-de-privacidad.php"
+                target="blank"
+                href="https://www.instagram.com/hotelxcaretmexico"
                 className="text-base font-medium text-gray-600 hover:text-gray-600"
               >
                 Aviso de privacidad
@@ -20,7 +21,7 @@ const Footer = () => {
             </li>
             <li>
               <a
-                href="https://www.facebook.com/utdelaselva"
+                href="https://www.facebook.com/hotelxcaretmexico"
                 class="text-base font-medium text-gray-600 hover:text-gray-600"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -32,7 +33,7 @@ const Footer = () => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://twitter.com/utselvaoficial"
+                href="https://twitter.com/hotelxcaretmx"
                 class="text-base font-medium text-gray-600 hover:text-gray-600"
               >
                 <i class="fab fa-twitter"></i>
@@ -42,7 +43,7 @@ const Footer = () => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://www.instagram.com/utselvaoficial/"
+                href="https://www.instagram.com/hotelxcaretmexico"
                 class="text-base font-medium text-gray-600 hover:text-gray-600"
               >
                 <i class="fab fa-instagram"></i>
