@@ -1,11 +1,26 @@
 import InputField from "components/fields/InputField";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import Checkbox from "components/checkbox";
 
 export default function SignIn() {
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      const submitButton = document.getElementById("submit-button");
+      if (submitButton) {
+        submitButton.click();
+      }
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("keypress", handleKeyPress);
+    return () => {
+      document.removeEventListener("keypress", handleKeyPress);
+    };
+  }, []);
+
   const [body, setBody] = useState({ correo: "", contrasena: "" });
   const [error, setError] = useState(null); // nuevo estado para almacenar el mensaje de error
   const navigate = useNavigate();
@@ -115,6 +130,7 @@ export default function SignIn() {
           </a>
         </div>
         <button
+          id="submit-button" // Agrega el id al botón de enviar
           onClick={onSubmit}
           className="linear mt-2 w-full rounded-xl bg-green-500 py-[12px] text-base font-medium text-white transition duration-200 hover:bg-green-600 active:bg-green-700 dark:bg-green-400 dark:text-white dark:hover:bg-green-300 dark:active:bg-green-200"
         >
