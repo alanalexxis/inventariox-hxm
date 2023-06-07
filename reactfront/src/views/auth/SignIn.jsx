@@ -6,6 +6,11 @@ import { useNavigate } from "react-router-dom";
 import Checkbox from "components/checkbox";
 
 export default function SignIn() {
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const handleRememberMe = () => {
+    setRememberMe(!rememberMe);
+  };
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       const submitButton = document.getElementById("submit-button");
@@ -54,6 +59,12 @@ export default function SignIn() {
         // Guardar datos del usuario en localStorage
         localStorage.setItem("legedin", JSON.stringify(data)); // Almacenar el objeto del usuario como una cadena JSON
         localStorage.setItem("auth", '"yes"'); // Almacenar el valor "yes" para indicar que el usuario ha iniciado sesión
+        // Guardar opción "Recordarme" en localStorage si se seleccionó
+        if (rememberMe) {
+          localStorage.setItem("rememberMe", "true");
+        } else {
+          localStorage.removeItem("rememberMe");
+        }
 
         // Verificar el valor de idrangos
         if (data.usuario.idrangos === 3) {
@@ -68,6 +79,16 @@ export default function SignIn() {
         console.log(response.data);
         setError(response.data); // establecer el mensaje de error en el estado
       });
+
+    // Agregar un listener de eventos para el evento beforeunload
+    window.addEventListener("beforeunload", function () {
+      // Verificar si la opción "Recuérdame" no está seleccionada
+      if (!rememberMe) {
+        // Borrar los datos del localStorage bajo la clave "legedin"
+        localStorage.removeItem("legedin");
+        localStorage.removeItem("auth");
+      }
+    });
   };
 
   return (
@@ -117,7 +138,7 @@ export default function SignIn() {
         {/* Checkbox */}
         <div className="mb-4 flex items-center justify-between px-2">
           <div className="flex items-center">
-            <Checkbox />
+            <Checkbox checked={rememberMe} onChange={handleRememberMe} />
             <p className="ml-2 text-sm font-medium text-navy-700 dark:text-white">
               Recuérdame
             </p>
