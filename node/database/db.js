@@ -15,7 +15,7 @@
 
 import { Sequelize } from "sequelize";
 
-const db = new Sequelize("bdPermisos", "root", "", {
+const db = new Sequelize("dbinventariohxm", "root", "", {
   host: "localhost",
   dialect: "mysql",
   define: {
