@@ -10,7 +10,7 @@ import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
-const TablaAlumnos = (props) => {
+const TablaProductos = (props) => {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
   const [idAlumnosGruposToDelete, setIdAlumnosGruposToDelete] = useState(null);
@@ -47,12 +47,12 @@ const TablaAlumnos = (props) => {
         className="ml-10 mb-10 inline-block rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-3 py-2 text-center text-sm font-medium text-white shadow-lg shadow-green-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-2 focus:ring-green-300 dark:shadow-lg dark:shadow-green-800/80 dark:focus:ring-green-800"
         style={{ position: "sticky", top: "50px", maxWidth: "200px" }}
       >
-        Registrar alumno a grupo <i className="fas fa-user-plus mr-0"></i>
+        Registrar producto <i className="fas fa-user-plus mr-0"></i>
       </Link>
 
       <header className="relative flex items-center justify-between">
         <div className="text-xl font-bold text-navy-700 dark:text-white">
-          Alumnos
+          Productos
         </div>
         <CardMenu />
       </header>
@@ -64,61 +64,49 @@ const TablaAlumnos = (props) => {
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
-                  ID
+                  CÓDIGO DE BARRAS
                 </div>
               </th>
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
-                  MATRÍCULA
+                  DESCRIPCIÓN
                 </div>
               </th>
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
-                  NOMBRE
+                  ENTRADAS
                 </div>
               </th>
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
-                  CORREO
+                  SALIDAS
                 </div>
               </th>
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
-                  GRUPO
+                  CANTIDAD
                 </div>
               </th>
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
-                  CARRERA
+                  COSTO UNITARIO
                 </div>
               </th>
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
-                  TURNO
+                  COSTO TOTAL
                 </div>
               </th>
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
-                  PERIODO
-                </div>
-              </th>
-              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
-                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
-                  {" "}
-                  AÑO
-                </div>
-              </th>
-              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
-                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
-                  {" "}
-                  TUTOR
+                  CATEGORÍA
                 </div>
               </th>
 
@@ -224,12 +212,12 @@ const TablaAlumnos = (props) => {
                                         as="h3"
                                         className="text-base font-semibold leading-6 text-gray-900 dark:text-gray-100"
                                       >
-                                        Eliminar alumno
+                                        Eliminar producto
                                       </Dialog.Title>
                                       <div className="mt-2">
                                         <p className="text-sm text-gray-500 dark:text-gray-300">
                                           ¿Está seguro de que desea eliminar
-                                          este alumno? Todos sus datos serán
+                                          este producto? Todos sus datos serán
                                           eliminados permanentemente. Esta
                                           acción no se puede deshacer.
                                         </p>
@@ -275,4 +263,4 @@ const TablaAlumnos = (props) => {
   );
 };
 
-export default TablaAlumnos;
+export default TablaProductos;
