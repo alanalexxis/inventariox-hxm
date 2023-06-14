@@ -13,7 +13,7 @@ const Footer = () => {
             <li>
               <a
                 target="blank"
-                href="https://www.instagram.com/hotelxcaretmexico"
+                href="https://www.hotelxcaretmexico.com/es/aviso-de-privacidad/"
                 className="text-base font-medium text-gray-600 hover:text-gray-600"
               >
                 Aviso de privacidad
