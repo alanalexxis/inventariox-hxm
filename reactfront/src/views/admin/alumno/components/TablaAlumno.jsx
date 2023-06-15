@@ -13,37 +13,38 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 const TablaProductos = (props) => {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
-  const [idAlumnosGruposToDelete, setIdAlumnosGruposToDelete] = useState(null);
+  const [idProductosGruposToDelete, setIdProductosGruposToDelete] =
+    useState(null);
 
-  const [alumnos, setAlumno] = useState([]);
+  const [productos, setProducto] = useState([]);
   useEffect(() => {
-    getAlumnos();
+    getProductos();
   }, []);
 
   //procedimiento para mostrar todos los usuarios
-  const getAlumnos = async () => {
+  const getProductos = async () => {
     const res = await axios.get(URI);
-    setAlumno(res.data);
+    setProducto(res.data);
   };
   //procedimiento para eliminar un usuario
-  const deleteAlumno = async (idAlumnosGrupos) => {
-    await axios.delete(`${URI}${idAlumnosGrupos}`);
+  const deleteProducto = async (idProductosGrupos) => {
+    await axios.delete(`${URI}${idProductosGrupos}`);
     setOpen(false);
-    setIdAlumnosGruposToDelete(null);
-    getAlumnos();
+    setIdProductosGruposToDelete(null);
+    getProductos();
   };
 
-  const handleDeleteClick = (idAlumnosGrupos) => {
-    setIdAlumnosGruposToDelete(idAlumnosGrupos);
+  const handleDeleteClick = (idProductosGrupos) => {
+    setIdProductosGruposToDelete(idProductosGrupos);
     setOpen(true);
   };
 
-  const URI = process.env.REACT_APP_API_BACKEND + "alumnosgrupos/";
+  const URI = process.env.REACT_APP_API_BACKEND + "productos/";
 
   return (
     <Card extra={"w-full pb-10 p-4 h-full"} style={{ marginTop: "50px" }}>
       <Link
-        to="/admin/alumno/createalumnogrupo"
+        to="/admin/producto/createproductogrupo"
         className="ml-10 mb-10 inline-block rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-3 py-2 text-center text-sm font-medium text-white shadow-lg shadow-green-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-2 focus:ring-green-300 dark:shadow-lg dark:shadow-green-800/80 dark:focus:ring-green-800"
         style={{ position: "sticky", top: "50px", maxWidth: "200px" }}
       >
@@ -120,49 +121,45 @@ const TablaProductos = (props) => {
           </thead>
 
           <tbody>
-            {alumnos.map((alumno) => (
+            {productos.map((producto) => (
               <tr>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {alumno.idAlumnosGrupos}
+                  {producto.codBarras}
                 </td>
 
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {alumno.matricula}
+                  {producto.descripcion}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {alumno.nombre}
+                  {producto.totalEntradas}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {alumno.correo}
+                  {producto.totalSalidas}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {alumno.grupo}
+                  {producto.totalProductos}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {alumno.carrera}
+                  {producto.costoUnitario}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {alumno.turno}
+                  {producto.costoTotal}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {alumno.periodo}
-                </td>
-                <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {alumno.anio}
-                </td>
-                <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {alumno.tutor}
+                  {producto.nomCategorias}
                 </td>
 
                 <td className="flex items-center">
                   <Link
-                    to={`/admin/alumno/editalumnogrupo/${alumno.idAlumnosGrupos}`}
+                    to={`/admin/producto/editproductogrupo/${producto.idProductosGrupos}`}
                   >
                     <FaEdit className="text-gray-400 hover:text-gray-800" />
                   </Link>
 
                   <button
-                    onClick={() => handleDeleteClick(alumno.idAlumnosGrupos)}
+                    onClick={() =>
+                      handleDeleteClick(producto.idProductosGrupos)
+                    }
                     style={{ marginLeft: "10px" }}
                   >
                     <FaTrash className="text-red-200 hover:text-red-600" />
@@ -230,7 +227,7 @@ const TablaProductos = (props) => {
                                     type="button"
                                     className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 dark:bg-red-500 sm:ml-3 sm:w-auto"
                                     onClick={() =>
-                                      deleteAlumno(idAlumnosGruposToDelete)
+                                      deleteProducto(idProductosGruposToDelete)
                                     }
                                   >
                                     Eliminar
