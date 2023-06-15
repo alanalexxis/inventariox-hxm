@@ -62,7 +62,7 @@ const routes = [
     component: <DataTables />,
   },
   {
-    name: "Alumnos",
+    name: "Inventario",
     layout: "/admin",
     icon: <MdPeople className="h-6 w-6" />,
     path: "alumnos",

@@ -48,7 +48,7 @@ const TablaProductos = (props) => {
         className="ml-10 mb-10 inline-block rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-3 py-2 text-center text-sm font-medium text-white shadow-lg shadow-green-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-2 focus:ring-green-300 dark:shadow-lg dark:shadow-green-800/80 dark:focus:ring-green-800"
         style={{ position: "sticky", top: "50px", maxWidth: "200px" }}
       >
-        Registrar producto <i className="far fa-cart-plus fa-2x mr-0"></i>
+        Registrar producto <i className="far fa-cart-plus mr-0"></i>
       </Link>
 
       <header className="relative flex items-center justify-between">
