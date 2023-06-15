@@ -17,10 +17,12 @@ import GrupoRoutes from "./routes/routesGrupo.js";
 import AlumnoGrupoRoutes from "./routes/routesAlumnoGrupo.js";
 import PermisoRoutes from "./routes/routesPermiso.js";
 import DirectorRoutes from "./routes/routesDirector.js";
+import ProductoRoutes from "./routes/routesProducto.js";
 import usuarioModel from "./models/UsuarioModel.js";
 import alumnoModel from "./models/AlumnoModel.js";
 import tutorModel from "./models/TutorModel.js";
 import directorModel from "./models/DirectorModel.js";
+
 const app = express();
 
 app.use(cors());
@@ -35,6 +37,7 @@ app.use("/grupos", GrupoRoutes);
 app.use("/alumnosgrupos", AlumnoGrupoRoutes);
 app.use("/permisos", PermisoRoutes);
 app.use("/directores", DirectorRoutes);
+app.use("/productos", ProductoRoutes);
 
 try {
   await db.authenticate();

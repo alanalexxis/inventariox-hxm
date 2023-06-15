@@ -1,26 +1,30 @@
 // importamos la conexion de la bd
 import db from "../database/db.js";
-import rangoModel from "../models/RangoModel.js";
 
 //importamos sequelize
 import { DataTypes } from "sequelize";
+import categoriaModel from "./CategoriaModel.js";
 
 const productoModel = db.define("producto", {
-  idusuarios: {
+  idproductos: {
     type: DataTypes.INTEGER,
     primaryKey: true,
   },
 
-  correo: { type: DataTypes.STRING },
-  contrasena: { type: DataTypes.STRING },
-  idrangos: { type: DataTypes.INTEGER },
-  image: { type: DataTypes.STRING }, // Tipo de dato para el nombre de archivo
+  codBarras: { type: DataTypes.STRING },
+  descripcion: { type: DataTypes.STRING },
+  totalEntradas: { type: DataTypes.INTEGER },
+  totalSalidas: { type: DataTypes.INTEGER },
+  totalProductos: { type: DataTypes.INTEGER },
+  costoUnitario: { type: DataTypes.INTEGER },
+  costoTotal: { type: DataTypes.INTEGER },
+  idcategorias: { type: DataTypes.INTEGER },
 });
 
 // Definir la asociación entre la tabla de usuarios y la tabla de rangos
-usuarioModel.belongsTo(rangoModel, {
-  foreignKey: "idrangos",
-  as: "rango",
+productoModel.belongsTo(categoriaModel, {
+  foreignKey: "idcategorias",
+  as: "categoria",
 });
 
-export default usuarioModel;
+export default productoModel;
