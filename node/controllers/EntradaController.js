@@ -15,6 +15,7 @@ export const getAllEntradas = async (req, res) => {
       entradas.map((entrada) => ({
         identradas: entrada.identradas,
         numEntradas: entrada.numEntradas,
+        costoUnitario: entrada.producto.costoUnitario,
         costoTotal: entrada.costoTotal,
         fechaEntrada: entrada.fechaEntrada,
         numFactura: entrada.numFactura,
