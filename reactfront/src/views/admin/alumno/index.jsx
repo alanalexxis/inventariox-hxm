@@ -1,6 +1,6 @@
-import TablaProductos from "./components/TablaAlumno";
+import TablaProductos from "./components/TablaProducto";
 
-const TableAlumno = () => {
+const TablaProducto = () => {
   return (
     <div>
       <div className="xl-xgrid mt-5 h-full grid-cols-1 gap-5 xl:grid-cols-2">
@@ -10,4 +10,4 @@ const TableAlumno = () => {
   );
 };
 
-export default TableAlumno;
+export default TablaProducto;
