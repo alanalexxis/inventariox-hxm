@@ -21,6 +21,7 @@ import {
   MdLock,
   MdNoteAdd,
   MdPeople,
+  MdInventory,
 } from "react-icons/md";
 import RouteController from "routes/RouteController";
 
@@ -64,7 +65,7 @@ const routes = [
   {
     name: "Inventario",
     layout: "/admin",
-    icon: <MdPeople className="h-6 w-6" />,
+    icon: <MdInventory className="h-6 w-6" />,
     path: "inventario",
     component: <AlumnoTable />,
   },
