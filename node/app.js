@@ -18,6 +18,7 @@ import AlumnoGrupoRoutes from "./routes/routesAlumnoGrupo.js";
 import PermisoRoutes from "./routes/routesPermiso.js";
 import DirectorRoutes from "./routes/routesDirector.js";
 import ProductoRoutes from "./routes/routesProducto.js";
+import EntradaRoutes from "./routes/routesEntrada.js";
 import usuarioModel from "./models/UsuarioModel.js";
 import alumnoModel from "./models/AlumnoModel.js";
 import tutorModel from "./models/TutorModel.js";
@@ -38,6 +39,7 @@ app.use("/alumnosgrupos", AlumnoGrupoRoutes);
 app.use("/permisos", PermisoRoutes);
 app.use("/directores", DirectorRoutes);
 app.use("/productos", ProductoRoutes);
+app.use("/entradas", EntradaRoutes);
 
 try {
   await db.authenticate();
