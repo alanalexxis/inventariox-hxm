@@ -186,7 +186,7 @@ const routes = [
     name: "Añadir productos",
     layout: "/admin",
     icon: <MdBarChart className="h-6 w-6" />,
-    path: "producto/create",
+    path: "inventario/create",
     component: <CompCreateAlumnoGrupo />,
   },
   {

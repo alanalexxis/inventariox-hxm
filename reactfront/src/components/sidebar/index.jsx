@@ -24,6 +24,7 @@ const Sidebar = ({ open, onClose }) => {
       route.name !== "Editar permisos" &&
       route.name !== "Añadir directores" &&
       route.name !== "Editar directores" &&
+      route.name !== "Añadir productos" &&
       route.name !== "Editar info"
   );
 

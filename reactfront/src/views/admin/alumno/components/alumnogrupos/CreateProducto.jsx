@@ -26,6 +26,7 @@ const CompCreateUsuario = () => {
       costoTotal: 0,
       idcategorias: categoria,
     });
+    navigate("/admin/inventario");
   };
 
   return (

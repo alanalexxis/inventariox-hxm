@@ -13,8 +13,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 const TablaProductos = (props) => {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
-  const [idProductosGruposToDelete, setIdProductosGruposToDelete] =
-    useState(null);
+  const [idproductosToDelete, setIdproductosToDelete] = useState(null);
 
   const [productos, setProducto] = useState([]);
   useEffect(() => {
@@ -27,15 +26,15 @@ const TablaProductos = (props) => {
     setProducto(res.data);
   };
   //procedimiento para eliminar un usuario
-  const deleteProducto = async (idProductosGrupos) => {
-    await axios.delete(`${URI}${idProductosGrupos}`);
+  const deleteProducto = async (idproductos) => {
+    await axios.delete(`${URI}${idproductos}`);
     setOpen(false);
-    setIdProductosGruposToDelete(null);
+    setIdproductosToDelete(null);
     getProductos();
   };
 
-  const handleDeleteClick = (idProductosGrupos) => {
-    setIdProductosGruposToDelete(idProductosGrupos);
+  const handleDeleteClick = (idproductos) => {
+    setIdproductosToDelete(idproductos);
     setOpen(true);
   };
 
@@ -44,7 +43,7 @@ const TablaProductos = (props) => {
   return (
     <Card extra={"w-full pb-10 p-4 h-full"} style={{ marginTop: "50px" }}>
       <Link
-        to="/admin/producto/createproductogrupo"
+        to="/admin/inventario/create"
         className="ml-10 mb-10 inline-block rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-3 py-2 text-center text-sm font-medium text-white shadow-lg shadow-green-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-2 focus:ring-green-300 dark:shadow-lg dark:shadow-green-800/80 dark:focus:ring-green-800"
         style={{ position: "sticky", top: "50px", maxWidth: "200px" }}
       >
@@ -157,9 +156,7 @@ const TablaProductos = (props) => {
                   </Link>
 
                   <button
-                    onClick={() =>
-                      handleDeleteClick(producto.idProductosGrupos)
-                    }
+                    onClick={() => handleDeleteClick(producto.idproductos)}
                     style={{ marginLeft: "10px" }}
                   >
                     <FaTrash className="text-red-200 hover:text-red-600" />
@@ -227,7 +224,7 @@ const TablaProductos = (props) => {
                                     type="button"
                                     className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 dark:bg-red-500 sm:ml-3 sm:w-auto"
                                     onClick={() =>
-                                      deleteProducto(idProductosGruposToDelete)
+                                      deleteProducto(idproductosToDelete)
                                     }
                                   >
                                     Eliminar
