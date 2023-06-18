@@ -149,9 +149,7 @@ const TablaProductos = (props) => {
                 </td>
 
                 <td className="flex items-center">
-                  <Link
-                    to={`/admin/producto/editproductogrupo/${producto.idProductosGrupos}`}
-                  >
+                  <Link to={`/admin/inventario/edit/${producto.idproductos}`}>
                     <FaEdit className="text-gray-400 hover:text-gray-800" />
                   </Link>
 

@@ -18,6 +18,7 @@ export const getAllProductos = async (req, res) => {
         costoUnitario: producto.costoUnitario,
         costoTotal: producto.costoTotal,
         nomCategorias: producto.categoria.nomCategorias,
+        idcategorias: producto.categoria.idcategorias,
       }))
     );
   } catch (error) {

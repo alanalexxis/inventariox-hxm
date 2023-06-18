@@ -37,7 +37,7 @@ import CompCreateProducto from "views/admin/alumno/components/alumnogrupos/Creat
 import CompEditAlumno from "views/admin/usuario/components/alumno/EditAlumno";
 import CompCreateTutor from "views/admin/usuario/components/tutor/CreateTutor";
 import CompEditTutor from "views/admin/usuario/components/tutor/EditTutor";
-import CompEditAlumnoGrupo from "views/admin/alumno/components/alumnogrupos/EditProducto";
+import CompEditProducto from "views/admin/alumno/components/alumnogrupos/EditProducto";
 import CompEditGrupo from "views/admin/grupo/components/grupo/EditGrupo";
 import CompCreatePermiso from "views/admin/permiso/components/permiso/CreatePermiso";
 import CompEditPermiso from "views/admin/permiso/components/permiso/EditPermiso";
@@ -120,11 +120,11 @@ const routes = [
     component: <CompEditGeneral />,
   },
   {
-    name: "Editar alumnos grupos",
+    name: "Editar productos",
     layout: "/admin",
     icon: <MdBarChart className="h-6 w-6" />,
-    path: "alumno/editalumnogrupo/:idAlumnosGrupos",
-    component: <CompEditAlumnoGrupo />,
+    path: "inventario/edit/:idproductos",
+    component: <CompEditProducto />,
   },
   {
     name: "Editar grupos",
