@@ -16,8 +16,8 @@ const productoModel = db.define("producto", {
   totalEntradas: { type: DataTypes.INTEGER },
   totalSalidas: { type: DataTypes.INTEGER },
   totalProductos: { type: DataTypes.INTEGER },
-  costoUnitario: { type: DataTypes.INTEGER },
-  costoTotal: { type: DataTypes.INTEGER },
+  costoUnitario: { type: DataTypes.FLOAT },
+  costoTotal: { type: DataTypes.FLOAT },
   idcategorias: { type: DataTypes.INTEGER },
 });
 
