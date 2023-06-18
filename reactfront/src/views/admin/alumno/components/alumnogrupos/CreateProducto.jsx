@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const URI = process.env.REACT_APP_API_BACKEND + "productos/";
 
-const CompCreateUsuario = () => {
+const CompCreateProducto = () => {
   const [codigo, setCodigo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [costo, setCosto] = useState("");
@@ -113,4 +113,4 @@ const CompCreateUsuario = () => {
   );
 };
 
-export default CompCreateUsuario;
+export default CompCreateProducto;

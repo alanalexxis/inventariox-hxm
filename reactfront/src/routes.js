@@ -33,11 +33,11 @@ import CompCreatePeriodo from "views/admin/grupo/components/periodo/CreatePeriod
 import CompCreateCarrera from "views/admin/grupo/components/carrera/CreateCarrera";
 import CompEditCarrera from "views/admin/grupo/components/carrera/EditCarrera";
 import CompEditPeriodo from "views/admin/grupo/components/periodo/EditPeriodo";
-import CompCreateAlumnoGrupo from "views/admin/alumno/components/alumnogrupos/CreateProducto";
+import CompCreateProducto from "views/admin/alumno/components/alumnogrupos/CreateProducto";
 import CompEditAlumno from "views/admin/usuario/components/alumno/EditAlumno";
 import CompCreateTutor from "views/admin/usuario/components/tutor/CreateTutor";
 import CompEditTutor from "views/admin/usuario/components/tutor/EditTutor";
-import CompEditAlumnoGrupo from "views/admin/alumno/components/alumnogrupos/EditAlumnoGrupo";
+import CompEditAlumnoGrupo from "views/admin/alumno/components/alumnogrupos/EditProducto";
 import CompEditGrupo from "views/admin/grupo/components/grupo/EditGrupo";
 import CompCreatePermiso from "views/admin/permiso/components/permiso/CreatePermiso";
 import CompEditPermiso from "views/admin/permiso/components/permiso/EditPermiso";
@@ -187,7 +187,7 @@ const routes = [
     layout: "/admin",
     icon: <MdBarChart className="h-6 w-6" />,
     path: "inventario/create",
-    component: <CompCreateAlumnoGrupo />,
+    component: <CompCreateProducto />,
   },
   {
     name: "Añadir carreras",
