@@ -14,6 +14,8 @@ export const getAllEntradas = async (req, res) => {
     res.json(
       entradas.map((entrada) => ({
         identradas: entrada.identradas,
+        codBarras: entrada.producto.codBarras,
+        descripcion: entrada.producto.descripcion,
         numEntradas: entrada.numEntradas,
         costoUnitario: entrada.producto.costoUnitario,
         costoTotal: entrada.costoTotal,

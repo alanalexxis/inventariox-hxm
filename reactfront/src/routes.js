@@ -22,7 +22,9 @@ import {
   MdNoteAdd,
   MdPeople,
   MdInventory,
+  MdExitToApp,
 } from "react-icons/md";
+import { ImEnter } from "react-icons/im";
 import RouteController from "routes/RouteController";
 
 import CompEditUsuario from "views/admin/usuario/components/usuario/EditUsuario";
@@ -65,7 +67,7 @@ const routes = [
   {
     name: "Entradas",
     layout: "/admin",
-    icon: <MdInventory className="h-6 w-6" />,
+    icon: <MdExitToApp className="h-6 w-6" />,
     path: "entradas",
     component: <ProductoTabla />,
   },

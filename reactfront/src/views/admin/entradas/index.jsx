@@ -1,4 +1,4 @@
-import TablaProductos from "./components/TablaProducto";
+import TablaProductos from "./components/TablaEntrada";
 
 const TablaProducto = () => {
   return (
