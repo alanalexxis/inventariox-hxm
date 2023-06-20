@@ -1,13 +1,13 @@
-import TablaProductos from "./components/TablaEntrada";
+import TablaEntradas from "./components/TablaEntrada";
 
-const TablaProducto = () => {
+const TablaEntrada = () => {
   return (
     <div>
       <div className="xl-xgrid mt-5 h-full grid-cols-1 gap-5 xl:grid-cols-2">
-        <TablaProductos />
+        <TablaEntradas />
       </div>
     </div>
   );
 };
 
-export default TablaProducto;
+export default TablaEntrada;

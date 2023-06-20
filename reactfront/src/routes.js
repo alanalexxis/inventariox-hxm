@@ -6,9 +6,10 @@ import MainDashboard from "views/admin/default";
 import Profile from "views/admin/profile";
 import DataTables from "views/admin/usuario";
 import ProductoTabla from "views/admin/inventario/";
+import EntradaTabla from "views/admin/entradas";
 import GrupoTable from "views/admin/grupo/";
 import PermisoTable from "views/admin/permiso/";
-import ProductoTablee from "views/admin/inventario";
+
 // Auth Imports
 import SignIn from "views/auth/SignIn";
 
@@ -69,14 +70,14 @@ const routes = [
     layout: "/admin",
     icon: <MdExitToApp className="h-6 w-6" />,
     path: "entradas",
-    component: <ProductoTabla />,
+    component: <EntradaTabla />,
   },
   {
     name: "Inventario",
     layout: "/admin",
     icon: <MdInventory className="h-6 w-6" />,
     path: "inventario",
-    component: <ProductoTablee />,
+    component: <ProductoTabla />,
   },
   {
     name: "Grupos",

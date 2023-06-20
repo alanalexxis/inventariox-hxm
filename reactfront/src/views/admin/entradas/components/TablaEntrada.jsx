@@ -10,12 +10,12 @@ import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
-const TablaProductos = (props) => {
+const TablaEntradas = (props) => {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
-  const [idproductosToDelete, setIdproductosToDelete] = useState(null);
+  const [identradasToDelete, setIdentradasToDelete] = useState(null);
 
-  const [productos, setProducto] = useState([]);
+  const [entradas, setProducto] = useState([]);
   useEffect(() => {
     getProductos();
   }, []);
@@ -26,19 +26,19 @@ const TablaProductos = (props) => {
     setProducto(res.data);
   };
   //procedimiento para eliminar un usuario
-  const deleteProducto = async (idproductos) => {
-    await axios.delete(`${URI}${idproductos}`);
+  const deleteProducto = async (identradas) => {
+    await axios.delete(`${URI}${identradas}`);
     setOpen(false);
-    setIdproductosToDelete(null);
+    setIdentradasToDelete(null);
     getProductos();
   };
 
-  const handleDeleteClick = (idproductos) => {
-    setIdproductosToDelete(idproductos);
+  const handleDeleteClick = (identradas) => {
+    setIdentradasToDelete(identradas);
     setOpen(true);
   };
 
-  const URI = process.env.REACT_APP_API_BACKEND + "productos/";
+  const URI = process.env.REACT_APP_API_BACKEND + "entradas/";
 
   return (
     <Card extra={"w-full pb-10 p-4 h-full"} style={{ marginTop: "50px" }}>
@@ -47,12 +47,12 @@ const TablaProductos = (props) => {
         className="ml-10 mb-10 inline-block rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-3 py-2 text-center text-sm font-medium text-white shadow-lg shadow-green-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-2 focus:ring-green-300 dark:shadow-lg dark:shadow-green-800/80 dark:focus:ring-green-800"
         style={{ position: "sticky", top: "50px", maxWidth: "200px" }}
       >
-        Registrar producto <i className="far fa-cart-plus mr-0"></i>
+        Registrar entrada <i className="far fa-cart-plus mr-0"></i>
       </Link>
 
       <header className="relative flex items-center justify-between">
         <div className="text-xl font-bold text-navy-700 dark:text-white">
-          Productos
+          Entradas
         </div>
         <CardMenu />
       </header>
@@ -82,18 +82,6 @@ const TablaProductos = (props) => {
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
-                  SALIDAS
-                </div>
-              </th>
-              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
-                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
-                  {" "}
-                  CANTIDAD
-                </div>
-              </th>
-              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
-                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
-                  {" "}
                   COSTO UNITARIO
                 </div>
               </th>
@@ -106,7 +94,19 @@ const TablaProductos = (props) => {
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
-                  CATEGORÍA
+                  FECHA
+                </div>
+              </th>
+              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
+                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
+                  {" "}
+                  PROVEEDOR
+                </div>
+              </th>
+              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
+                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
+                  {" "}
+                  NÚMERO DE FACTURA
                 </div>
               </th>
 
@@ -120,41 +120,41 @@ const TablaProductos = (props) => {
           </thead>
 
           <tbody>
-            {productos.map((producto) => (
+            {entradas.map((entrada) => (
               <tr>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {producto.codBarras}
+                  {entrada.codBarras}
                 </td>
 
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {producto.descripcion}
+                  {entrada.descripcion}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {producto.totalEntradas}
+                  {entrada.numEntradas}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {producto.totalSalidas}
+                  {entrada.costoUnitario}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {producto.totalProductos}
+                  {entrada.costoTotal}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {producto.costoUnitario}
+                  {entrada.fechaEntrada}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {producto.costoTotal}
+                  {entrada.nomProveedor}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {producto.nomCategorias}
+                  {entrada.numFactura}
                 </td>
 
                 <td className="flex items-center">
-                  <Link to={`/admin/inventario/edit/${producto.idproductos}`}>
+                  <Link to={`/admin/inventario/edit/${entrada.identradas}`}>
                     <FaEdit className="text-gray-400 hover:text-gray-800" />
                   </Link>
 
                   <button
-                    onClick={() => handleDeleteClick(producto.idproductos)}
+                    onClick={() => handleDeleteClick(entrada.identradas)}
                     style={{ marginLeft: "10px" }}
                   >
                     <FaTrash className="text-red-200 hover:text-red-600" />
@@ -204,12 +204,12 @@ const TablaProductos = (props) => {
                                         as="h3"
                                         className="text-base font-semibold leading-6 text-gray-900 dark:text-gray-100"
                                       >
-                                        Eliminar producto
+                                        Eliminar entrada
                                       </Dialog.Title>
                                       <div className="mt-2">
                                         <p className="text-sm text-gray-500 dark:text-gray-300">
                                           ¿Está seguro de que desea eliminar
-                                          este producto? Todos sus datos serán
+                                          esta entrada? Todos sus datos serán
                                           eliminados permanentemente. Esta
                                           acción no se puede deshacer.
                                         </p>
@@ -222,7 +222,7 @@ const TablaProductos = (props) => {
                                     type="button"
                                     className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 dark:bg-red-500 sm:ml-3 sm:w-auto"
                                     onClick={() =>
-                                      deleteProducto(idproductosToDelete)
+                                      deleteProducto(identradasToDelete)
                                     }
                                   >
                                     Eliminar
@@ -255,4 +255,4 @@ const TablaProductos = (props) => {
   );
 };
 
-export default TablaProductos;
+export default TablaEntradas;

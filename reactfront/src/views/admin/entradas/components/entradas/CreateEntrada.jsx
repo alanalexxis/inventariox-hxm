@@ -2,9 +2,9 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const URI = process.env.REACT_APP_API_BACKEND + "productos/";
+const URI = process.env.REACT_APP_API_BACKEND + "entradas/";
 
-const CompCreateProducto = () => {
+const CompCreateEntrada = () => {
   const [codigo, setCodigo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [costo, setCosto] = useState("");
