@@ -43,6 +43,7 @@ import CompEditTutor from "views/admin/usuario/components/tutor/EditTutor";
 import CompEditProducto from "views/admin/inventario/components/inventario/EditProducto";
 import CompEditGrupo from "views/admin/grupo/components/grupo/EditGrupo";
 import CompCreatePermiso from "views/admin/permiso/components/permiso/CreatePermiso";
+import CompCreateEntrada from "views/admin/entradas/components/entradas/CreateEntrada";
 import CompEditPermiso from "views/admin/permiso/components/permiso/EditPermiso";
 import CompCreateDirector from "views/admin/usuario/components/director/CreateDirector";
 import CompEditDirector from "views/admin/usuario/components/director/EditDirector";
@@ -71,6 +72,13 @@ const routes = [
     icon: <MdExitToApp className="h-6 w-6" />,
     path: "entradas",
     component: <EntradaTabla />,
+  },
+  {
+    name: "Añadir entradas",
+    layout: "/admin",
+    icon: <MdBarChart className="h-6 w-6" />,
+    path: "entradas/create",
+    component: <CompCreateEntrada />,
   },
   {
     name: "Inventario",
