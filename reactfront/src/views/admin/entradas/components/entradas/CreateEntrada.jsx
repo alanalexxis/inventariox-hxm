@@ -8,6 +8,7 @@ const CompCreateEntrada = () => {
   const [idproductos, setIdproductos] = useState("");
   const [numEntradas, setNumEntradas] = useState("");
   const [selectedResult, setSelectedResult] = useState(null);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
   const [showSearchResults, setShowSearchResults] = useState(false);
 
@@ -42,7 +43,35 @@ const CompCreateEntrada = () => {
     } else {
       setSearchResults([]);
     }
-  }, [idproductos]);
+
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        setHighlightedIndex((prevIndex) =>
+          prevIndex < searchResults.length - 1 ? prevIndex + 1 : prevIndex
+        );
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        setHighlightedIndex((prevIndex) =>
+          prevIndex > 0 ? prevIndex - 1 : prevIndex
+        );
+      } else if (event.key === "Enter") {
+        event.preventDefault();
+        if (highlightedIndex !== -1) {
+          const selectedResult = searchResults[highlightedIndex];
+          setSelectedResult(selectedResult);
+          setShowSearchResults(false); // Hide search results when a selection is made
+          setHighlightedIndex(-1); // Reset the highlighted index
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [idproductos, searchResults, highlightedIndex]);
 
   // Procedimiento para guardar
   const store = async (e) => {
@@ -91,13 +120,16 @@ const CompCreateEntrada = () => {
                   searchResults.length > 0 &&
                   !selectedResult && (
                     <ul className="mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md">
-                      {searchResults.map((result) => (
+                      {searchResults.map((result, index) => (
                         <li
                           key={result.id}
-                          className="cursor-pointer px-4 py-2 hover:bg-gray-100"
+                          className={`cursor-pointer px-4 py-2 hover:bg-gray-100 ${
+                            index === highlightedIndex ? "bg-gray-100" : ""
+                          }`}
                           onClick={() => {
                             setSelectedResult(result);
                             setShowSearchResults(false); // Hide search results when a selection is made
+                            setHighlightedIndex(-1); // Reset the highlighted index
                           }}
                         >
                           {result.descripcion}
