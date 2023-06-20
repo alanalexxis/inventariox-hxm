@@ -6,6 +6,11 @@ const URI = process.env.REACT_APP_API_BACKEND + "entradas/";
 
 const CompCreateEntrada = () => {
   const [idproductos, setIdproductos] = useState("");
+  const [numEntradas, setNumEntradas] = useState("");
+  const [selectedResult, setSelectedResult] = useState(null);
+
+  const [showSearchResults, setShowSearchResults] = useState(false);
+
   const [error, setError] = useState("");
   const [searchResults, setSearchResults] = useState([]); // State to hold the search results
   const navigate = useNavigate();
@@ -26,6 +31,7 @@ const CompCreateEntrada = () => {
               .startsWith(idproductos.toLowerCase())
           )
         );
+        setShowSearchResults(true); // Set showSearchResults to true when there are search results
       } catch (error) {
         setError("Error retrieving search results");
       }
@@ -66,35 +72,47 @@ const CompCreateEntrada = () => {
                   Buscar producto.
                 </label>
                 <input
-                  value={idproductos}
-                  onChange={(e) => setIdproductos(e.target.value)}
+                  value={
+                    selectedResult ? selectedResult.descripcion : idproductos
+                  }
+                  onChange={(e) => {
+                    setIdproductos(e.target.value);
+                    setSelectedResult(null); // Reset the selected result when the input value changes
+                    setShowSearchResults(true); // Show search results when the input value changes
+                  }}
                   type="text"
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                   placeholder="Ingrese un código de producto."
                   required
                 />
+
                 {/* Display search results */}
-                {searchResults.length > 0 && (
-                  <ul className="mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md">
-                    {searchResults.map((result) => (
-                      <li
-                        key={result.id}
-                        className="cursor-pointer px-4 py-2 hover:bg-gray-100"
-                        onClick={() => setIdproductos(result.descripcion)}
-                      >
-                        {result.descripcion}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                {showSearchResults &&
+                  searchResults.length > 0 &&
+                  !selectedResult && (
+                    <ul className="mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md">
+                      {searchResults.map((result) => (
+                        <li
+                          key={result.id}
+                          className="cursor-pointer px-4 py-2 hover:bg-gray-100"
+                          onClick={() => {
+                            setSelectedResult(result);
+                            setShowSearchResults(false); // Hide search results when a selection is made
+                          }}
+                        >
+                          {result.descripcion}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
               </div>
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Número de entradas.
                 </label>
                 <input
-                  value={idproductos}
-                  onChange={(e) => setIdproductos(e.target.value)}
+                  value={numEntradas}
+                  onChange={(e) => setNumEntradas(e.target.value)}
                   type="text"
                   className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                   placeholder="Ingrese un código de producto."
