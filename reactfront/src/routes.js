@@ -5,10 +5,10 @@ import MainDashboard from "views/admin/default";
 
 import Profile from "views/admin/profile";
 import DataTables from "views/admin/usuario";
-import ProductoTabla from "views/admin/alumno/";
+import ProductoTabla from "views/admin/inventario/";
 import GrupoTable from "views/admin/grupo/";
 import PermisoTable from "views/admin/permiso/";
-
+import ProductoTablee from "views/admin/inventario";
 // Auth Imports
 import SignIn from "views/auth/SignIn";
 
@@ -33,11 +33,11 @@ import CompCreatePeriodo from "views/admin/grupo/components/periodo/CreatePeriod
 import CompCreateCarrera from "views/admin/grupo/components/carrera/CreateCarrera";
 import CompEditCarrera from "views/admin/grupo/components/carrera/EditCarrera";
 import CompEditPeriodo from "views/admin/grupo/components/periodo/EditPeriodo";
-import CompCreateProducto from "views/admin/alumno/components/alumnogrupos/CreateProducto";
+import CompCreateProducto from "views/admin/inventario/components/inventario/CreateProducto";
 import CompEditAlumno from "views/admin/usuario/components/alumno/EditAlumno";
 import CompCreateTutor from "views/admin/usuario/components/tutor/CreateTutor";
 import CompEditTutor from "views/admin/usuario/components/tutor/EditTutor";
-import CompEditProducto from "views/admin/alumno/components/alumnogrupos/EditProducto";
+import CompEditProducto from "views/admin/inventario/components/inventario/EditProducto";
 import CompEditGrupo from "views/admin/grupo/components/grupo/EditGrupo";
 import CompCreatePermiso from "views/admin/permiso/components/permiso/CreatePermiso";
 import CompEditPermiso from "views/admin/permiso/components/permiso/EditPermiso";
@@ -63,11 +63,18 @@ const routes = [
     component: <DataTables />,
   },
   {
+    name: "Entradas",
+    layout: "/admin",
+    icon: <MdInventory className="h-6 w-6" />,
+    path: "entradas",
+    component: <ProductoTabla />,
+  },
+  {
     name: "Inventario",
     layout: "/admin",
     icon: <MdInventory className="h-6 w-6" />,
     path: "inventario",
-    component: <ProductoTabla />,
+    component: <ProductoTablee />,
   },
   {
     name: "Grupos",
