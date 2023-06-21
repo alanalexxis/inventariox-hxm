@@ -16,7 +16,7 @@ const CompCreateEntrada = () => {
   const [numEntradas, setNumEntradas] = useState("");
   const [selectedResult, setSelectedResult] = useState(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const [fechasolicitud, setFechaSolicitud] = useState(new Date());
+  const [fechaSolicitud, setFechaSolicitud] = useState(new Date());
   const [showSearchResults, setShowSearchResults] = useState(false);
 
   const [error, setError] = useState("");
@@ -115,12 +115,11 @@ const CompCreateEntrada = () => {
                   Fecha y hora de entrada
                 </label>
                 <DatePicker
-                  readOnly={true}
-                  selected={fechasolicitud}
+                  selected={fechaSolicitud}
                   onChange={(e) => setFechaSolicitud(e.target.value)}
-                  dateFormat="dd-MM-yyyy HH:mm"
-                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                  placeholderText={format(new Date(), "yyyy-MM-dd")}
+                  dateFormat="dd-MMM-yyyy HH:mm"
+                  readOnly
+                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                 />
               </div>
               <div className="mb-6">
