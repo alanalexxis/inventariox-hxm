@@ -11,9 +11,12 @@ registerLocale("es", es); // registrar la localización de español
 
 const URI = process.env.REACT_APP_API_BACKEND + "entradas/";
 
+const URIinventario = process.env.REACT_APP_API_BACKEND + "productos/";
+
 const CompCreateEntrada = () => {
   const [idproductos, setIdproductos] = useState("");
   const [numEntradas, setNumEntradas] = useState("");
+  const [numFactura, setNumFactura] = useState("");
   const [selectedResult, setSelectedResult] = useState(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [fechaEntrada, setFechaEntrada] = useState(new Date());
@@ -27,7 +30,7 @@ const CompCreateEntrada = () => {
     // Function to fetch search results based on input value
     const fetchSearchResults = async () => {
       try {
-        const response = await axios.get(URI, {
+        const response = await axios.get(URIinventario, {
           params: {
             description: idproductos,
           },
@@ -101,6 +104,7 @@ const CompCreateEntrada = () => {
           idproductos: idproductos,
           numEntradas: numEntradas,
           fechaEntrada: formattedFechaEntrada, // Use the formatted value in the request body
+          numFactura: numFactura,
         });
 
         navigate("/admin/entradas");
@@ -191,6 +195,19 @@ const CompCreateEntrada = () => {
                   type="number"
                   className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                   placeholder="Ingrese el número de entradas."
+                  required
+                ></input>
+              </div>
+              <div className="mb-6">
+                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                  Número de factura.
+                </label>
+                <input
+                  value={numFactura}
+                  onChange={(e) => setNumFactura(e.target.value)}
+                  type="text"
+                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                  placeholder="Ej. 9999"
                   required
                 ></input>
               </div>
