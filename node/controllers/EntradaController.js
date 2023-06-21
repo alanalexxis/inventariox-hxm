@@ -23,6 +23,7 @@ export const getAllEntradas = async (req, res) => {
         numFactura: entrada.numFactura,
         nomProducto: entrada.producto.descripcion,
         nomProveedor: entrada.proveedor.nomProveedor,
+        idproductos: entrada.producto.idproductos,
       }))
     );
   } catch (error) {

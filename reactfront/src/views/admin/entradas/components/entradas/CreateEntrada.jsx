@@ -74,17 +74,23 @@ const CompCreateEntrada = () => {
     };
   }, [idproductos, searchResults.length, highlightedIndex]);
 
-  // Procedimiento para guardar
   const store = async (e) => {
     e.preventDefault();
-    // Validamos el formato del correo y la longitud de la contraseña
 
-    await axios.post(URI, {
-      idproductos: idproductos,
-    });
-    navigate("/admin/inventario");
+    if (selectedResult) {
+      const { idproductos } = selectedResult;
+
+      try {
+        await axios.post(URI, {
+          idproductos: idproductos,
+        });
+
+        navigate("/admin/entradas");
+      } catch (error) {
+        setError("Error al guardar la entrada");
+      }
+    }
   };
-
   return (
     <>
       <div className="relative pt-2">
@@ -135,6 +141,7 @@ const CompCreateEntrada = () => {
                             setSelectedResult(result);
                             setShowSearchResults(false); // Hide search results when a selection is made
                             setHighlightedIndex(-1); // Reset the highlighted index
+                            console.log(result.idproductos);
                           }}
                         >
                           {result.descripcion}
