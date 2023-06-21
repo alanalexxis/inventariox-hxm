@@ -11,7 +11,7 @@ const entradaModel = db.define("entrada", {
     primaryKey: true,
   },
   numEntradas: { type: DataTypes.INTEGER },
-  costoTotal: { type: DataTypes.INTEGER },
+  costoTotal: { type: DataTypes.FLOAT },
   fechaEntrada: { type: DataTypes.DATE },
   numFactura: { type: DataTypes.STRING },
 });
