@@ -72,7 +72,7 @@ const CompCreateEntrada = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [idproductos, searchResults, highlightedIndex]);
+  }, [idproductos, searchResults.length, highlightedIndex]);
 
   // Procedimiento para guardar
   const store = async (e) => {
