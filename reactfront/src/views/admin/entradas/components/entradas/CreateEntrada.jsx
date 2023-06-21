@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
 
 const URI = process.env.REACT_APP_API_BACKEND + "entradas/";
 
@@ -100,21 +101,25 @@ const CompCreateEntrada = () => {
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Buscar producto.
                 </label>
-                <input
-                  value={
-                    selectedResult ? selectedResult.descripcion : idproductos
-                  }
-                  onChange={(e) => {
-                    setIdproductos(e.target.value);
-                    setSelectedResult(null); // Reset the selected result when the input value changes
-                    setShowSearchResults(true); // Show search results when the input value changes
-                  }}
-                  type="text"
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                  placeholder="Ingrese un código de producto."
-                  required
-                />
-
+                <div className="relative">
+                  <input
+                    value={
+                      selectedResult ? selectedResult.descripcion : idproductos
+                    }
+                    onChange={(e) => {
+                      setIdproductos(e.target.value);
+                      setSelectedResult(null); // Reset the selected result when the input value changes
+                      setShowSearchResults(true); // Show search results when the input value changes
+                    }}
+                    type="text"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                    placeholder="Buscar producto..."
+                    required
+                  />
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                    <FaSearch className="text-gray-400" />
+                  </div>
+                </div>
                 {/* Display search results */}
                 {showSearchResults &&
                   searchResults.length > 0 &&
