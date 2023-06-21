@@ -88,7 +88,11 @@ const CompCreateEntrada = () => {
 
     return () => clearInterval(interval);
   }, []);
-
+  const formattedFechaSolicitud = format(
+    fechaSolicitud,
+    "dd-MMM-yyyy HH:mm:ss"
+  );
+  // Resto de los datos que deseas enviar en tu solicitud
   const store = async (e) => {
     e.preventDefault();
 
@@ -99,6 +103,7 @@ const CompCreateEntrada = () => {
         await axios.post(URI, {
           idproductos: idproductos,
           numEntradas: numEntradas,
+          fechaEntrada: formattedFechaSolicitud, // Use the formatted value in the request body
         });
 
         navigate("/admin/entradas");
@@ -188,7 +193,7 @@ const CompCreateEntrada = () => {
                   onChange={(e) => setNumEntradas(e.target.value)}
                   type="number"
                   className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                  placeholder="Ingrese un código de producto."
+                  placeholder="Ingrese el número de entradas."
                   required
                 ></input>
               </div>
