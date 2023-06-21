@@ -16,7 +16,7 @@ const CompCreateEntrada = () => {
   const [numEntradas, setNumEntradas] = useState("");
   const [selectedResult, setSelectedResult] = useState(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const [fechaSolicitud, setFechaSolicitud] = useState(new Date());
+  const [fechaEntrada, setFechaEntrada] = useState(new Date());
   const [showSearchResults, setShowSearchResults] = useState(false);
 
   const [error, setError] = useState("");
@@ -83,15 +83,12 @@ const CompCreateEntrada = () => {
   //hora y fecha en tiempo real
   useEffect(() => {
     const interval = setInterval(() => {
-      setFechaSolicitud(new Date());
+      setFechaEntrada(new Date());
     }, 1000);
 
     return () => clearInterval(interval);
   }, []);
-  const formattedFechaSolicitud = format(
-    fechaSolicitud,
-    "dd-MMM-yyyy HH:mm:ss"
-  );
+  const formattedFechaEntrada = format(fechaEntrada, "dd-MMM-yyyy HH:mm:ss");
   // Resto de los datos que deseas enviar en tu solicitud
   const store = async (e) => {
     e.preventDefault();
@@ -103,7 +100,7 @@ const CompCreateEntrada = () => {
         await axios.post(URI, {
           idproductos: idproductos,
           numEntradas: numEntradas,
-          fechaEntrada: formattedFechaSolicitud, // Use the formatted value in the request body
+          fechaEntrada: formattedFechaEntrada, // Use the formatted value in the request body
         });
 
         navigate("/admin/entradas");
@@ -129,8 +126,8 @@ const CompCreateEntrada = () => {
                   Fecha y hora de entrada
                 </label>
                 <DatePicker
-                  selected={fechaSolicitud}
-                  onChange={(date) => setFechaSolicitud(date)}
+                  selected={fechaEntrada}
+                  onChange={(date) => setFechaEntrada(date)}
                   dateFormat="dd-MMM-yyyy HH:mm:ss"
                   showTimeInput
                   readOnly
@@ -197,6 +194,7 @@ const CompCreateEntrada = () => {
                   required
                 ></input>
               </div>
+
               <button
                 type="submit"
                 className=" mt-10 w-full rounded-lg bg-green-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 sm:w-auto"
