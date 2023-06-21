@@ -3,6 +3,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker, { registerLocale } from "react-datepicker";
+import es from "date-fns/locale/es";
+import { format } from "date-fns";
+registerLocale("es", es); // registrar la localización de español
+
 const URI = process.env.REACT_APP_API_BACKEND + "entradas/";
 
 const CompCreateEntrada = () => {
@@ -10,7 +16,7 @@ const CompCreateEntrada = () => {
   const [numEntradas, setNumEntradas] = useState("");
   const [selectedResult, setSelectedResult] = useState(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-
+  const [fechasolicitud, setFechaSolicitud] = useState(new Date());
   const [showSearchResults, setShowSearchResults] = useState(false);
 
   const [error, setError] = useState("");
@@ -83,6 +89,7 @@ const CompCreateEntrada = () => {
       try {
         await axios.post(URI, {
           idproductos: idproductos,
+          numEntradas: numEntradas,
         });
 
         navigate("/admin/entradas");
@@ -103,6 +110,19 @@ const CompCreateEntrada = () => {
                   {error}
                 </p>
               )}
+              <div className="mb-6">
+                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                  Fecha y hora de entrada
+                </label>
+                <DatePicker
+                  readOnly={true}
+                  selected={fechasolicitud}
+                  onChange={(e) => setFechaSolicitud(e.target.value)}
+                  dateFormat="dd-MM-yyyy HH:mm"
+                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                  placeholderText={format(new Date(), "yyyy-MM-dd")}
+                />
+              </div>
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Buscar producto.
@@ -157,7 +177,7 @@ const CompCreateEntrada = () => {
                 <input
                   value={numEntradas}
                   onChange={(e) => setNumEntradas(e.target.value)}
-                  type="text"
+                  type="number"
                   className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                   placeholder="Ingrese un código de producto."
                   required
