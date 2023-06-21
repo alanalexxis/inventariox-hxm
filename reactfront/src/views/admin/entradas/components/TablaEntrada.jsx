@@ -134,10 +134,10 @@ const TablaEntradas = (props) => {
                   {entrada.numEntradas}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {entrada.costoUnitario}
+                  {entrada.costoUnitario.toFixed(2)}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {entrada.costoTotal}
+                  {entrada.costoTotal.toFixed(2)}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {format(

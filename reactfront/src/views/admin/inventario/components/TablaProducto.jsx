@@ -139,10 +139,10 @@ const TablaProductos = (props) => {
                   {producto.totalProductos}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {producto.costoUnitario}
+                {producto.costoUnitario.toFixed(2)}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {producto.costoTotal}
+                  {producto.costoTotal.toFixed(2)}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {producto.nomCategorias}
