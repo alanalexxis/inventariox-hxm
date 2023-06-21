@@ -80,6 +80,15 @@ const CompCreateEntrada = () => {
     };
   }, [idproductos, searchResults.length, highlightedIndex]);
 
+  //hora y fecha en tiempo real
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFechaSolicitud(new Date());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const store = async (e) => {
     e.preventDefault();
 
@@ -116,8 +125,9 @@ const CompCreateEntrada = () => {
                 </label>
                 <DatePicker
                   selected={fechaSolicitud}
-                  onChange={(e) => setFechaSolicitud(e.target.value)}
-                  dateFormat="dd-MMM-yyyy HH:mm"
+                  onChange={(date) => setFechaSolicitud(date)}
+                  dateFormat="dd-MMM-yyyy HH:mm:ss"
+                  showTimeInput
                   readOnly
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                 />
