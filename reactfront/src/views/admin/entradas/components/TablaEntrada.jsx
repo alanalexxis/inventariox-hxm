@@ -1,6 +1,7 @@
 import CardMenu from "components/card/CardMenu";
 import Card from "components/card";
 import axios from "axios";
+import { format } from "date-fns";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
@@ -94,7 +95,7 @@ const TablaEntradas = (props) => {
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
-                  FECHA
+                  FECHA Y HORA
                 </div>
               </th>
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
@@ -139,7 +140,10 @@ const TablaEntradas = (props) => {
                   {entrada.costoTotal}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {entrada.fechaEntrada}
+                  {format(
+                    new Date(entrada.fechaEntrada),
+                    "dd-MMM-yyyy HH:mm:ss"
+                  )}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {entrada.nomProveedor}
