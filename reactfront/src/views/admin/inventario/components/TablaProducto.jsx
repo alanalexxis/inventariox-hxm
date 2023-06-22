@@ -129,7 +129,7 @@ const TablaProductos = (props) => {
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {producto.descripcion}
                 </td>
-                <td className="text-sm font-bold text-navy-700 dark:text-white">
+                 <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {producto.totalEntradas}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">

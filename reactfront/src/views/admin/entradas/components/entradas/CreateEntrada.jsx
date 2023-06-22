@@ -29,11 +29,10 @@ const CompCreateEntrada = () => {
     }
     return "";
   };
-  
+
   useEffect(() => {
     setCostoTotal(calculateTotal());
   }, [numEntradas, selectedResult]);
-  
 
   const [error, setError] = useState("");
   const [searchResults, setSearchResults] = useState([]); // State to hold the search results
@@ -118,6 +117,7 @@ const CompCreateEntrada = () => {
           numEntradas: numEntradas,
           fechaEntrada: formattedFechaEntrada, // Use the formatted value in the request body
           numFactura: numFactura,
+          costoTotal: costoTotal,
         });
 
         navigate("/admin/entradas");
@@ -210,7 +210,6 @@ const CompCreateEntrada = () => {
                   className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                   placeholder="Ingrese el número de entradas."
                   required
-               
                 ></input>
               </div>
               <div className="mb-6">
@@ -218,13 +217,13 @@ const CompCreateEntrada = () => {
                   Total.
                 </label>
                 <input
-                 value={costoTotal}
-                 onChange={(e) => setCostoTotal(e.target.value)}
+                  value={costoTotal}
+                  onChange={(e) => setCostoTotal(e.target.value)}
                   type="number"
                   className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                   placeholder="Calculando...."
                   required
-                     readOnly={true}
+                  readOnly={true}
                 ></input>
               </div>
               <div className="mb-6">
