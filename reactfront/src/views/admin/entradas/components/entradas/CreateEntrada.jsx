@@ -22,6 +22,7 @@ const CompCreateEntrada = () => {
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [fechaEntrada, setFechaEntrada] = useState(new Date());
   const [showSearchResults, setShowSearchResults] = useState(false);
+
   const calculateTotal = () => {
     if (selectedResult && numEntradas) {
       const total = selectedResult.costoUnitario * numEntradas;
@@ -238,6 +239,54 @@ const CompCreateEntrada = () => {
                   placeholder="Ej. 9999"
                   required
                 ></input>
+              </div>
+              <div className="mb-6">
+                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                  Buscar proveedor.
+                </label>
+                <div className="relative">
+                  <input
+                    value={
+                      selectedResult ? selectedResult.descripcion : idproductos
+                    }
+                    onChange={(e) => {
+                      setIdproductos(e.target.value);
+                      setSelectedResult(null); // Reset the selected result when the input value changes
+                      setShowSearchResults(true); // Show search results when the input value changes
+                    }}
+                    type="text"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                    placeholder="Buscar producto..."
+                    required
+                  />
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                    <FaSearch className="text-gray-400" />
+                  </div>
+                </div>
+                {/* Display search results */}
+                {showSearchResults &&
+                  searchResults.length > 0 &&
+                  !selectedResult && (
+                    <ul className="mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md">
+                      {searchResults.map((result, index) => (
+                        <li
+                          key={result.id}
+                          className={`cursor-pointer px-4 py-2 hover:bg-gray-100 ${
+                            index === highlightedIndex ? "bg-gray-100" : ""
+                          }`}
+                          onClick={() => {
+                            setSelectedResult(result);
+                            setShowSearchResults(false); // Hide search results when a selection is made
+                            setHighlightedIndex(-1); // Reset the highlighted index
+                            console.log(result.idproductos);
+                            console.log(result.costoUnitario * numEntradas);
+                          }}
+                        >
+                          {result.descripcion}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
               </div>
 
               <button
