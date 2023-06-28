@@ -15,6 +15,7 @@ const URIinventario = process.env.REACT_APP_API_BACKEND + "productos/";
 
 const CompCreateEntrada = () => {
   const [idproductos, setIdproductos] = useState("");
+  const [idproveedors, setIdproveedors] = useState("");
   const [numEntradas, setNumEntradas] = useState("");
   const [numFactura, setNumFactura] = useState("");
   const [costoTotal, setCostoTotal] = useState("");
@@ -37,6 +38,7 @@ const CompCreateEntrada = () => {
 
   const [error, setError] = useState("");
   const [searchResults, setSearchResults] = useState([]); // State to hold the search results
+  const [searchResultsProveedor, setSearchResultsProveedors] = useState([]); // State to hold the search results
   const navigate = useNavigate();
 
   useEffect(() => {
