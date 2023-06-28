@@ -13,6 +13,8 @@ const URI = process.env.REACT_APP_API_BACKEND + "entradas/";
 
 const URIinventario = process.env.REACT_APP_API_BACKEND + "productos/";
 
+const URIproveedor = process.env.REACT_APP_API_BACKEND + "proveedors/";
+
 const CompCreateEntrada = () => {
   const [idproductos, setIdproductos] = useState("");
   const [idproveedors, setIdproveedors] = useState("");
@@ -20,10 +22,14 @@ const CompCreateEntrada = () => {
   const [numFactura, setNumFactura] = useState("");
   const [costoTotal, setCostoTotal] = useState("");
   const [selectedResult, setSelectedResult] = useState(null);
+  const [selectedResultProveedor, setSelectedResultProveedor] = useState(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [highlightedIndexProveedor, setHighlightedIndexProveedor] =
+    useState(-1);
   const [fechaEntrada, setFechaEntrada] = useState(new Date());
   const [showSearchResults, setShowSearchResults] = useState(false);
-
+  const [showSearchResultsProveedor, setShowSearchResultsProveedor] =
+    useState(false);
   const calculateTotal = () => {
     if (selectedResult && numEntradas) {
       const total = selectedResult.costoUnitario * numEntradas;
@@ -38,9 +44,10 @@ const CompCreateEntrada = () => {
 
   const [error, setError] = useState("");
   const [searchResults, setSearchResults] = useState([]); // State to hold the search results
-  const [searchResultsProveedor, setSearchResultsProveedors] = useState([]); // State to hold the search results
+  const [searchResultsProveedor, setSearchResultsProveedor] = useState([]); // State to hold the search results
   const navigate = useNavigate();
 
+  //funcion buscar productos
   useEffect(() => {
     // Function to fetch search results based on input value
     const fetchSearchResults = async () => {
@@ -98,6 +105,65 @@ const CompCreateEntrada = () => {
     };
   }, [idproductos, searchResults.length, highlightedIndex]);
 
+  //funcion buscar proveedores
+  useEffect(() => {
+    // Function to fetch search results based on input value
+    const fetchSearchResultsProveedor = async () => {
+      try {
+        const response = await axios.get(URIproveedor, {
+          params: {
+            description: idproveedors,
+          },
+        });
+        setSearchResultsProveedor(
+          response.data.filter((result) =>
+            result.nomProveedor
+              .toLowerCase()
+              .startsWith(idproveedors.toLowerCase())
+          )
+        );
+        setShowSearchResultsProveedor(true); // Set showSearchResults to true when there are search results
+      } catch (error) {
+        setError("Error retrieving search results");
+      }
+    };
+
+    if (idproveedors) {
+      fetchSearchResultsProveedor();
+    } else {
+      setSearchResultsProveedor([]);
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        setHighlightedIndexProveedor((prevIndex) =>
+          prevIndex < searchResults.length - 1 ? prevIndex + 1 : prevIndex
+        );
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        setHighlightedIndexProveedor((prevIndex) =>
+          prevIndex > 0 ? prevIndex - 1 : prevIndex
+        );
+      } else if (event.key === "Enter") {
+        event.preventDefault();
+        if (highlightedIndexProveedor !== -1) {
+          const selectedResultProveedor =
+            searchResultsProveedor[highlightedIndexProveedor];
+          setSelectedResultProveedor(selectedResultProveedor);
+          setShowSearchResultsProveedor(false); // Hide search results when a selection is made
+          setHighlightedIndexProveedor(-1); // Reset the highlighted index
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [idproveedors, searchResultsProveedor.length, highlightedIndexProveedor]);
+
   //hora y fecha en tiempo real
   useEffect(() => {
     const interval = setInterval(() => {
@@ -111,12 +177,14 @@ const CompCreateEntrada = () => {
   const store = async (e) => {
     e.preventDefault();
 
-    if (selectedResult) {
+    if (selectedResult && selectedResultProveedor) {
       const { idproductos } = selectedResult;
+      const { idproveedors } = selectedResultProveedor;
 
       try {
         await axios.post(URI, {
           idproductos: idproductos,
+          idproveedors: idproductos,
           numEntradas: numEntradas,
           fechaEntrada: formattedFechaEntrada, // Use the formatted value in the request body
           numFactura: numFactura,
@@ -249,16 +317,18 @@ const CompCreateEntrada = () => {
                 <div className="relative">
                   <input
                     value={
-                      selectedResult ? selectedResult.descripcion : idproductos
+                      selectedResultProveedor
+                        ? selectedResultProveedor.nomProveedor
+                        : idproveedors
                     }
                     onChange={(e) => {
-                      setIdproductos(e.target.value);
-                      setSelectedResult(null); // Reset the selected result when the input value changes
-                      setShowSearchResults(true); // Show search results when the input value changes
+                      setIdproveedors(e.target.value);
+                      setSelectedResultProveedor(null); // Reset the selected result when the input value changes
+                      setShowSearchResultsProveedor(true); // Show search results when the input value changes
                     }}
                     type="text"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                    placeholder="Buscar producto..."
+                    placeholder="Buscar proveedor..."
                     required
                   />
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
@@ -266,25 +336,26 @@ const CompCreateEntrada = () => {
                   </div>
                 </div>
                 {/* Display search results */}
-                {showSearchResults &&
-                  searchResults.length > 0 &&
-                  !selectedResult && (
+                {showSearchResultsProveedor &&
+                  searchResultsProveedor.length > 0 &&
+                  !selectedResultProveedor && (
                     <ul className="mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md">
-                      {searchResults.map((result, index) => (
+                      {searchResultsProveedor.map((result, index) => (
                         <li
                           key={result.id}
                           className={`cursor-pointer px-4 py-2 hover:bg-gray-100 ${
-                            index === highlightedIndex ? "bg-gray-100" : ""
+                            index === highlightedIndexProveedor
+                              ? "bg-gray-100"
+                              : ""
                           }`}
                           onClick={() => {
-                            setSelectedResult(result);
-                            setShowSearchResults(false); // Hide search results when a selection is made
-                            setHighlightedIndex(-1); // Reset the highlighted index
-                            console.log(result.idproductos);
-                            console.log(result.costoUnitario * numEntradas);
+                            setSelectedResultProveedor(result);
+                            setShowSearchResultsProveedor(false); // Hide search results when a selection is made
+                            setHighlightedIndexProveedor(-1); // Reset the highlighted index
+                            console.log(result.nomProveedor);
                           }}
                         >
-                          {result.descripcion}
+                          {result.nomProveedor}
                         </li>
                       ))}
                     </ul>
