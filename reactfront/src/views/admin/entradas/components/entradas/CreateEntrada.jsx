@@ -197,6 +197,7 @@ const CompCreateEntrada = () => {
       }
     }
   };
+
   return (
     <>
       <div className="relative pt-2">
