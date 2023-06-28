@@ -260,8 +260,6 @@ const CompCreateEntrada = () => {
                             setSelectedResult(result);
                             setShowSearchResults(false); // Hide search results when a selection is made
                             setHighlightedIndex(-1); // Reset the highlighted index
-                            console.log(result.idproductos);
-                            console.log(result.costoUnitario * numEntradas);
                           }}
                         >
                           {result.descripcion}
