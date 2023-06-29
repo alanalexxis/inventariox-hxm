@@ -184,7 +184,7 @@ const CompCreateEntrada = () => {
       try {
         await axios.post(URI, {
           idproductos: idproductos,
-          idproveedors: idproductos,
+          idproveedors: idproveedors,
           numEntradas: numEntradas,
           fechaEntrada: formattedFechaEntrada, // Use the formatted value in the request body
           numFactura: numFactura,
