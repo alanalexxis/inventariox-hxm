@@ -183,7 +183,7 @@ const CompEditEntrada = () => {
       const { idproveedors } = selectedResultProveedor;
 
       try {
-        await axios.post(URI, {
+        await axios.put(URI, {
           idproductos: idproductos,
           idproveedors: idproveedors,
           numEntradas: numEntradas,
@@ -399,7 +399,7 @@ const CompEditEntrada = () => {
                 type="submit"
                 className=" mt-10 w-full rounded-lg bg-green-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 sm:w-auto"
               >
-                Guardar
+                Actualizar
               </button>
             </form>
           </div>
