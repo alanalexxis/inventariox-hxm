@@ -191,6 +191,21 @@ const CompCreateEntrada = () => {
           costoTotal: costoTotal,
         });
 
+        const productoResponse = await axios.get(
+          `${process.env.REACT_APP_API_BACKEND}productos/${idproductos}`
+        );
+
+        const producto = productoResponse.data;
+        const newNumEntradas =
+          parseInt(producto.totalEntradas) + parseInt(numEntradas);
+
+        await axios.put(
+          `${process.env.REACT_APP_API_BACKEND}productos/${idproductos}`,
+          {
+            totalEntradas: newNumEntradas,
+          }
+        );
+
         navigate("/admin/entradas");
       } catch (error) {
         setError("Error al guardar la entrada");
@@ -275,7 +290,17 @@ const CompCreateEntrada = () => {
                 </label>
                 <input
                   value={numEntradas}
-                  onChange={(e) => setNumEntradas(e.target.value)}
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    const numValue = parseInt(inputValue);
+
+                    if (isNaN(numValue) || numValue < 0) {
+                      // Si el valor ingresado no es un número válido o es menor que cero
+                      setNumEntradas(0); // Restablecer el valor a cero
+                    } else {
+                      setNumEntradas(numValue); // Establecer el valor ingresado
+                    }
+                  }}
                   type="number"
                   className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                   placeholder="Ingrese el número de entradas."
