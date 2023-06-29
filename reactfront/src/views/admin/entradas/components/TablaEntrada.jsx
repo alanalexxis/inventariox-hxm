@@ -153,7 +153,7 @@ const TablaEntradas = (props) => {
                 </td>
 
                 <td className="flex items-center">
-                  <Link to={`/admin/inventario/edit/${entrada.identradas}`}>
+                  <Link to={`/admin/entrada/edit/${entrada.identradas}`}>
                     <FaEdit className="text-gray-400 hover:text-gray-800" />
                   </Link>
 
