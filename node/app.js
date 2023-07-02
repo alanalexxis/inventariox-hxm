@@ -20,6 +20,7 @@ import DirectorRoutes from "./routes/routesDirector.js";
 import ProductoRoutes from "./routes/routesProducto.js";
 import EntradaRoutes from "./routes/routesEntrada.js";
 import ProveedorRoutes from "./routes/routesProveedor.js";
+import AreaRoutes from "./routes/routesArea.js";
 import usuarioModel from "./models/UsuarioModel.js";
 import alumnoModel from "./models/AlumnoModel.js";
 import tutorModel from "./models/TutorModel.js";
@@ -42,6 +43,7 @@ app.use("/directores", DirectorRoutes);
 app.use("/productos", ProductoRoutes);
 app.use("/entradas", EntradaRoutes);
 app.use("/proveedors", ProveedorRoutes);
+app.use("/areas", AreaRoutes);
 try {
   await db.authenticate();
   console.log("Base de datos conectada");
