@@ -216,11 +216,30 @@ const CompEditEntrada = () => {
 
   useEffect(() => {
     const getBlogById = async () => {
-      const res = await axios.get(URI + identradas);
-      setNumEntradas(res.data.numEntradas);
+      try {
+        const res = await axios.get(URI + identradas);
+        setNumEntradas(res.data.numEntradas);
+        setNumFactura(res.data.numFactura);
+
+        // Obtener los datos del proveedor
+        const proveedorResponse = await axios.get(
+          `${process.env.REACT_APP_API_BACKEND}proveedors/${res.data.idproveedors}`
+        );
+        const proveedor = proveedorResponse.data;
+        setSelectedResultProveedor(proveedor);
+
+        // Obtener los datos del producto
+        const productoResponse = await axios.get(
+          `${process.env.REACT_APP_API_BACKEND}productos/${res.data.idproductos}`
+        );
+        const producto = productoResponse.data;
+        setSelectedResult(producto);
+      } catch (error) {
+        setError("Error al obtener los datos de la entrada");
+      }
     };
     getBlogById();
-  }, [idproveedors]);
+  }, [identradas]);
 
   return (
     <>
