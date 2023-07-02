@@ -183,7 +183,7 @@ const CompEditEntrada = () => {
       const { idproveedors } = selectedResultProveedor;
 
       try {
-        await axios.put(URI, {
+        await axios.put(URI + identradas, {
           idproductos: idproductos,
           idproveedors: idproveedors,
           numEntradas: numEntradas,
