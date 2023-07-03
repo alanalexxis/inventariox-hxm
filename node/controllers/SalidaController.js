@@ -18,7 +18,7 @@ export const getAllSalidas = async (req, res) => {
         descripcion: salida.producto.descripcion,
         numSalidas: salida.numSalidas,
         numSap: salida.numSap,
-        nomTecnicos: salida.nomTecnico,
+        nomTecnico: salida.nomTecnico,
         nomArea: salida.area.nomArea,
         costoUnitario: salida.producto.costoUnitario,
         costoTotal: salida.costoTotal,

@@ -7,6 +7,7 @@ import Profile from "views/admin/profile";
 import DataTables from "views/admin/usuario";
 import ProductoTabla from "views/admin/inventario/";
 import EntradaTabla from "views/admin/entradas";
+import SalidaTabla from "views/admin/salidas";
 import GrupoTable from "views/admin/grupo/";
 import PermisoTable from "views/admin/permiso/";
 
@@ -75,6 +76,13 @@ const routes = [
     component: <EntradaTabla />,
   },
   {
+    name: "Salidas",
+    layout: "/admin",
+    icon: <MdExitToApp className="h-6 w-6" />,
+    path: "salidas",
+    component: <SalidaTabla />,
+  },
+  {
     name: "Añadir entradas",
     layout: "/admin",
     icon: <MdBarChart className="h-6 w-6" />,
@@ -95,6 +103,7 @@ const routes = [
     path: "inventario",
     component: <ProductoTabla />,
   },
+  
   {
     name: "Grupos",
     layout: "/admin",
