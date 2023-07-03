@@ -20,12 +20,12 @@ const salidaModel = db.define("salida", {
 });
 
 // Definir la asociación entre la tabla de usuarios y la tabla de area
-entradaModel.belongsTo(areaModel, {
+salidaModel.belongsTo(areaModel, {
   foreignKey: "idareas",
   as: "area",
 });
 // Definir la asociación entre la tabla de usuarios y la tabla de producto
-entradaModel.belongsTo(productoModel, {
+salidaModel.belongsTo(productoModel, {
   foreignKey: "idproductos",
   as: "producto",
 });
