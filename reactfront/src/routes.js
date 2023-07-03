@@ -50,6 +50,7 @@ import CompEditPermiso from "views/admin/permiso/components/permiso/EditPermiso"
 import CompCreateDirector from "views/admin/usuario/components/director/CreateDirector";
 import CompEditDirector from "views/admin/usuario/components/director/EditDirector";
 import CompEditGeneral from "views/admin/profile/components/editGeneral/editGeneral";
+import CompCreateSalida from "views/admin/salidas/components/salidas/CreateSalida";
 const routes = [
   {
     name: "Menú principal",
@@ -81,6 +82,13 @@ const routes = [
     icon: <MdExitToApp className="h-6 w-6" />,
     path: "salidas",
     component: <SalidaTabla />,
+  },
+  {
+    name: "Añadir salidas",
+    layout: "/admin",
+    icon: <MdBarChart className="h-6 w-6" />,
+    path: "salidas/create",
+    component: <CompCreateSalida />,
   },
   {
     name: "Añadir entradas",

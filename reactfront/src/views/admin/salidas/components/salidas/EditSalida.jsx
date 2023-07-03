@@ -15,7 +15,7 @@ const URIinventario = process.env.REACT_APP_API_BACKEND + "productos/";
 
 const URIproveedor = process.env.REACT_APP_API_BACKEND + "proveedors/";
 
-const CompEditEntrada = () => {
+const CompEditSalida = () => {
   const { identradas } = useParams();
   const [idproductos, setIdproductos] = useState("");
   const [idproveedors, setIdproveedors] = useState("");
@@ -429,4 +429,4 @@ const CompEditEntrada = () => {
   );
 };
 
-export default CompEditEntrada;
+export default CompEditSalida;

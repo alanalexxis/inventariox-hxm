@@ -15,7 +15,7 @@ const URIinventario = process.env.REACT_APP_API_BACKEND + "productos/";
 
 const URIproveedor = process.env.REACT_APP_API_BACKEND + "proveedors/";
 
-const CompCreateEntrada = () => {
+const CompCreateSalida = () => {
   const [idproductos, setIdproductos] = useState("");
   const [idproveedors, setIdproveedors] = useState("");
   const [numEntradas, setNumEntradas] = useState("");
@@ -227,7 +227,7 @@ const CompCreateEntrada = () => {
               )}
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Fecha y hora de entrada
+                  Fecha y hora de salida
                 </label>
                 <DatePicker
                   selected={fechaEntrada}
@@ -401,4 +401,4 @@ const CompCreateEntrada = () => {
   );
 };
 
-export default CompCreateEntrada;
+export default CompCreateSalida;
