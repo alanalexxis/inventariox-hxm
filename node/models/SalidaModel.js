@@ -13,7 +13,7 @@ const salidaModel = db.define("salida", {
   },
   numSalidas: { type: DataTypes.INTEGER },
   numSap: { type: DataTypes.STRING},
-  nomTecnico: { type: DataTypes.FLOAT},
+  nomTecnico: { type: DataTypes.STRING},
   costoTotal: { type: DataTypes.FLOAT },
   fechaSalida: { type: DataTypes.DATE },
  

@@ -9,7 +9,7 @@ import es from "date-fns/locale/es";
 import { format } from "date-fns";
 registerLocale("es", es); // registrar la localización de español
 
-const URI = process.env.REACT_APP_API_BACKEND + "entradas/";
+const URI = process.env.REACT_APP_API_BACKEND + "salidas/";
 
 const URIinventario = process.env.REACT_APP_API_BACKEND + "productos/";
 
@@ -18,21 +18,23 @@ const URIproveedor = process.env.REACT_APP_API_BACKEND + "proveedors/";
 const CompCreateSalida = () => {
   const [idproductos, setIdproductos] = useState("");
   const [idproveedors, setIdproveedors] = useState("");
-  const [numEntradas, setNumEntradas] = useState("");
-  const [numFactura, setNumFactura] = useState("");
+  const [numSalidas, setNumEntradas] = useState("");
+  const [numSap, setNumSap] = useState("");
+  const [nomTecnico, setNomTecnico] = useState("");
+
   const [costoTotal, setCostoTotal] = useState("");
   const [selectedResult, setSelectedResult] = useState(null);
   const [selectedResultProveedor, setSelectedResultProveedor] = useState(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [highlightedIndexProveedor, setHighlightedIndexProveedor] =
     useState(-1);
-  const [fechaEntrada, setFechaEntrada] = useState(new Date());
+  const [fechaSalida, setFechaSalida] = useState(new Date());
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [showSearchResultsProveedor, setShowSearchResultsProveedor] =
     useState(false);
   const calculateTotal = () => {
-    if (selectedResult && numEntradas) {
-      const total = selectedResult.costoUnitario * numEntradas;
+    if (selectedResult && numSalidas) {
+      const total = selectedResult.costoUnitario * numSalidas;
       return total.toFixed(2); // Format the result with two decimal places
     }
     return "";
@@ -40,7 +42,7 @@ const CompCreateSalida = () => {
 
   useEffect(() => {
     setCostoTotal(calculateTotal());
-  }, [numEntradas, selectedResult]);
+  }, [numSalidas, selectedResult]);
 
   const [error, setError] = useState("");
   const [searchResults, setSearchResults] = useState([]); // State to hold the search results
@@ -167,12 +169,12 @@ const CompCreateSalida = () => {
   //hora y fecha en tiempo real
   useEffect(() => {
     const interval = setInterval(() => {
-      setFechaEntrada(new Date());
+      setFechaSalida(new Date());
     }, 1000);
 
     return () => clearInterval(interval);
   }, []);
-  const formattedFechaEntrada = format(fechaEntrada, "dd-MMM-yyyy HH:mm:ss");
+  const formattedFechaSalida = format(fechaSalida, "dd-MMM-yyyy HH:mm:ss");
   // Resto de los datos que deseas enviar en tu solicitud
   const store = async (e) => {
     e.preventDefault();
@@ -185,9 +187,10 @@ const CompCreateSalida = () => {
         await axios.post(URI, {
           idproductos: idproductos,
           idproveedors: idproveedors,
-          numEntradas: numEntradas,
-          fechaEntrada: formattedFechaEntrada, // Use the formatted value in the request body
-          numFactura: numFactura,
+          numSalidas: numSalidas,
+          numSap: numSap,
+          nomTecnico: nomTecnico,
+          fechaSalida: formattedFechaSalida, // Use the formatted value in the request body
           costoTotal: costoTotal,
         });
 
@@ -197,7 +200,7 @@ const CompCreateSalida = () => {
 
         const producto = productoResponse.data;
         const newNumEntradas =
-          parseInt(producto.totalEntradas) + parseInt(numEntradas);
+          parseInt(producto.totalEntradas) + parseInt(numSalidas);
 
         await axios.put(
           `${process.env.REACT_APP_API_BACKEND}productos/${idproductos}`,
@@ -230,8 +233,8 @@ const CompCreateSalida = () => {
                   Fecha y hora de salida
                 </label>
                 <DatePicker
-                  selected={fechaEntrada}
-                  onChange={(date) => setFechaEntrada(date)}
+                  selected={fechaSalida}
+                  onChange={(date) => setFechaSalida(date)}
                   dateFormat="dd-MMM-yyyy HH:mm:ss"
                   showTimeInput
                   readOnly
@@ -286,10 +289,10 @@ const CompCreateSalida = () => {
               </div>
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Número de entradas.
+                  Número de salidas.
                 </label>
                 <input
-                  value={numEntradas}
+                  value={numSalidas}
                   onChange={(e) => {
                     const inputValue = e.target.value;
                     const numValue = parseInt(inputValue);
@@ -303,10 +306,37 @@ const CompCreateSalida = () => {
                   }}
                   type="number"
                   className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                  placeholder="Ingrese el número de entradas."
+                  placeholder="Ingrese el número de salidas."
                   required
                 ></input>
               </div>
+              <div className="mb-6">
+                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                  Número de SAP.
+                </label>
+                <input
+                  value={numSap}
+                  onChange={(e) => setNumSap(e.target.value)}
+                  type="text"
+                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                  placeholder="Ej. 9999"
+                  required
+                ></input>
+              </div>
+              <div className="mb-6">
+                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                  Nombre de técnico.
+                </label>
+                <input
+                  value={nomTecnico}
+                  onChange={(e) => setNomTecnico(e.target.value)}
+                  type="text"
+                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                  placeholder="Ingrese un nombre."
+                  required
+                ></input>
+              </div>
+
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Total.
@@ -321,22 +351,10 @@ const CompCreateSalida = () => {
                   readOnly={true}
                 ></input>
               </div>
+
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Número de factura.
-                </label>
-                <input
-                  value={numFactura}
-                  onChange={(e) => setNumFactura(e.target.value)}
-                  type="text"
-                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                  placeholder="Ej. 9999"
-                  required
-                ></input>
-              </div>
-              <div className="mb-6">
-                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Buscar proveedor.
+                  Buscar área.
                 </label>
                 <div className="relative">
                   <input
@@ -352,7 +370,7 @@ const CompCreateSalida = () => {
                     }}
                     type="text"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                    placeholder="Buscar proveedor..."
+                    placeholder="Buscar área..."
                     required
                   />
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
