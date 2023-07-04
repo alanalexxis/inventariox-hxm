@@ -13,25 +13,23 @@ const URI = process.env.REACT_APP_API_BACKEND + "salidas/";
 
 const URIinventario = process.env.REACT_APP_API_BACKEND + "productos/";
 
-const URIproveedor = process.env.REACT_APP_API_BACKEND + "proveedors/";
+const URIarea = process.env.REACT_APP_API_BACKEND + "areas/";
 
 const CompCreateSalida = () => {
   const [idproductos, setIdproductos] = useState("");
-  const [idproveedors, setIdproveedors] = useState("");
+  const [idareas, setIdAreas] = useState("");
   const [numSalidas, setNumEntradas] = useState("");
   const [numSap, setNumSap] = useState("");
   const [nomTecnico, setNomTecnico] = useState("");
 
   const [costoTotal, setCostoTotal] = useState("");
   const [selectedResult, setSelectedResult] = useState(null);
-  const [selectedResultProveedor, setSelectedResultProveedor] = useState(null);
+  const [selectedResultArea, setSelectedResultArea] = useState(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const [highlightedIndexProveedor, setHighlightedIndexProveedor] =
-    useState(-1);
+  const [highlightedIndexArea, setHighlightedIndexArea] = useState(-1);
   const [fechaSalida, setFechaSalida] = useState(new Date());
   const [showSearchResults, setShowSearchResults] = useState(false);
-  const [showSearchResultsProveedor, setShowSearchResultsProveedor] =
-    useState(false);
+  const [showSearchResultsArea, setShowSearchResultsArea] = useState(false);
   const calculateTotal = () => {
     if (selectedResult && numSalidas) {
       const total = selectedResult.costoUnitario * numSalidas;
@@ -46,7 +44,7 @@ const CompCreateSalida = () => {
 
   const [error, setError] = useState("");
   const [searchResults, setSearchResults] = useState([]); // State to hold the search results
-  const [searchResultsProveedor, setSearchResultsProveedor] = useState([]); // State to hold the search results
+  const [searchResultsArea, setSearchResultsArea] = useState([]); // State to hold the search results
   const navigate = useNavigate();
 
   //funcion buscar productos
@@ -110,51 +108,48 @@ const CompCreateSalida = () => {
   //funcion buscar proveedores
   useEffect(() => {
     // Function to fetch search results based on input value
-    const fetchSearchResultsProveedor = async () => {
+    const fetchSearchResultsArea = async () => {
       try {
-        const response = await axios.get(URIproveedor, {
+        const response = await axios.get(URIarea, {
           params: {
-            description: idproveedors,
+            description: idareas,
           },
         });
-        setSearchResultsProveedor(
+        setSearchResultsArea(
           response.data.filter((result) =>
-            result.nomProveedor
-              .toLowerCase()
-              .startsWith(idproveedors.toLowerCase())
+            result.nomArea.toLowerCase().startsWith(idareas.toLowerCase())
           )
         );
-        setShowSearchResultsProveedor(true); // Set showSearchResults to true when there are search results
+        setShowSearchResultsArea(true); // Set showSearchResults to true when there are search results
       } catch (error) {
         setError("Error retrieving search results");
       }
     };
 
-    if (idproveedors) {
-      fetchSearchResultsProveedor();
+    if (idareas) {
+      fetchSearchResultsArea();
     } else {
-      setSearchResultsProveedor([]);
+      setSearchResultsArea([]);
     }
 
     const handleKeyDown = (event) => {
       if (event.key === "ArrowDown") {
         event.preventDefault();
-        setHighlightedIndexProveedor((prevIndex) =>
+        setHighlightedIndexArea((prevIndex) =>
           prevIndex < searchResults.length - 1 ? prevIndex + 1 : prevIndex
         );
       } else if (event.key === "ArrowUp") {
         event.preventDefault();
-        setHighlightedIndexProveedor((prevIndex) =>
+        setHighlightedIndexArea((prevIndex) =>
           prevIndex > 0 ? prevIndex - 1 : prevIndex
         );
       } else if (event.key === "Enter") {
         event.preventDefault();
-        if (highlightedIndexProveedor !== -1) {
-          const selectedResultProveedor =
-            searchResultsProveedor[highlightedIndexProveedor];
-          setSelectedResultProveedor(selectedResultProveedor);
-          setShowSearchResultsProveedor(false); // Hide search results when a selection is made
-          setHighlightedIndexProveedor(-1); // Reset the highlighted index
+        if (highlightedIndexArea !== -1) {
+          const selectedResultArea = searchResultsArea[highlightedIndexArea];
+          setSelectedResultArea(selectedResultArea);
+          setShowSearchResultsArea(false); // Hide search results when a selection is made
+          setHighlightedIndexArea(-1); // Reset the highlighted index
         }
       }
     };
@@ -164,7 +159,7 @@ const CompCreateSalida = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [idproveedors, searchResultsProveedor.length, highlightedIndexProveedor]);
+  }, [idareas, searchResultsArea.length, highlightedIndexArea]);
 
   //hora y fecha en tiempo real
   useEffect(() => {
@@ -179,14 +174,14 @@ const CompCreateSalida = () => {
   const store = async (e) => {
     e.preventDefault();
 
-    if (selectedResult && selectedResultProveedor) {
+    if (selectedResult && selectedResultArea) {
       const { idproductos } = selectedResult;
-      const { idproveedors } = selectedResultProveedor;
+      const { idareas } = selectedResultArea;
 
       try {
         await axios.post(URI, {
           idproductos: idproductos,
-          idproveedors: idproveedors,
+          idareas: idareas,
           numSalidas: numSalidas,
           numSap: numSap,
           nomTecnico: nomTecnico,
@@ -199,19 +194,19 @@ const CompCreateSalida = () => {
         );
 
         const producto = productoResponse.data;
-        const newNumEntradas =
-          parseInt(producto.totalEntradas) + parseInt(numSalidas);
+        const newNumSalidas =
+          parseInt(producto.totalSalidas) + parseInt(numSalidas);
 
         await axios.put(
           `${process.env.REACT_APP_API_BACKEND}productos/${idproductos}`,
           {
-            totalEntradas: newNumEntradas,
+            totalSalidas: newNumSalidas,
           }
         );
 
-        navigate("/admin/entradas");
+        navigate("/admin/salidas");
       } catch (error) {
-        setError("Error al guardar la entrada");
+        setError("Error al guardar la salida");
       }
     }
   };
@@ -359,14 +354,12 @@ const CompCreateSalida = () => {
                 <div className="relative">
                   <input
                     value={
-                      selectedResultProveedor
-                        ? selectedResultProveedor.nomProveedor
-                        : idproveedors
+                      selectedResultArea ? selectedResultArea.nomArea : idareas
                     }
                     onChange={(e) => {
-                      setIdproveedors(e.target.value);
-                      setSelectedResultProveedor(null); // Reset the selected result when the input value changes
-                      setShowSearchResultsProveedor(true); // Show search results when the input value changes
+                      setIdAreas(e.target.value);
+                      setSelectedResultArea(null); // Reset the selected result when the input value changes
+                      setShowSearchResultsArea(true); // Show search results when the input value changes
                     }}
                     type="text"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
@@ -378,26 +371,24 @@ const CompCreateSalida = () => {
                   </div>
                 </div>
                 {/* Display search results */}
-                {showSearchResultsProveedor &&
-                  searchResultsProveedor.length > 0 &&
-                  !selectedResultProveedor && (
+                {showSearchResultsArea &&
+                  searchResultsArea.length > 0 &&
+                  !selectedResultArea && (
                     <ul className="mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md">
-                      {searchResultsProveedor.map((result, index) => (
+                      {searchResultsArea.map((result, index) => (
                         <li
                           key={result.id}
                           className={`cursor-pointer px-4 py-2 hover:bg-gray-100 ${
-                            index === highlightedIndexProveedor
-                              ? "bg-gray-100"
-                              : ""
+                            index === highlightedIndexArea ? "bg-gray-100" : ""
                           }`}
                           onClick={() => {
-                            setSelectedResultProveedor(result);
-                            setShowSearchResultsProveedor(false); // Hide search results when a selection is made
-                            setHighlightedIndexProveedor(-1); // Reset the highlighted index
-                            console.log(result.nomProveedor);
+                            setSelectedResultArea(result);
+                            setShowSearchResultsArea(false); // Hide search results when a selection is made
+                            setHighlightedIndexArea(-1); // Reset the highlighted index
+                            console.log(result.nomArea);
                           }}
                         >
-                          {result.nomProveedor}
+                          {result.nomArea}
                         </li>
                       ))}
                     </ul>
