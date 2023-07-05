@@ -29,6 +29,7 @@ const Sidebar = ({ open, onClose }) => {
       route.name !== "Editar entradas" &&
       route.name !== "Editar info" &&
       route.name !== "Añadir salidas" &&
+      route.name !== "Editar salidas" &&
       route.name !== "Añadir entradas"
   );
 

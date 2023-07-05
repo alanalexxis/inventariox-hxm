@@ -158,7 +158,7 @@ const TablaSalidas = (props) => {
                   {format(new Date(salida.fechaSalida), "dd-MMM-yyyy HH:mm:ss")}
                 </td>
                 <td className="flex items-center">
-                  <Link to={`/admin/salida/edit/${salida.idsalidas}`}>
+                  <Link to={`/admin/salidas/edit/${salida.idsalidas}`}>
                     <FaEdit className="text-gray-400 hover:text-gray-800" />
                   </Link>
 

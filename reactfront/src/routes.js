@@ -91,6 +91,13 @@ const routes = [
     component: <CompCreateSalida />,
   },
   {
+    name: "Editar salidas",
+    layout: "/admin",
+    icon: <MdBarChart className="h-6 w-6" />,
+    path: "salidas/edit/:idsalidas",
+    component: <CompEditEntrada />,
+  },
+  {
     name: "Añadir entradas",
     layout: "/admin",
     icon: <MdBarChart className="h-6 w-6" />,
