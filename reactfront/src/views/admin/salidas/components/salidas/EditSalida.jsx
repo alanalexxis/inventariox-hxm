@@ -246,7 +246,7 @@ const CompEditSalida = () => {
       <div className="relative pt-2">
         <div className="mx-auto max-w-xs p-4 sm:w-full">
           <div className="block max-w-sm rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-hidden dark:bg-navy-800">
-            <form className="" onSubmit={update}>
+            <form className="" onSubmit={store}>
               {/* Renderizar mensaje de error si existe */}
               {error && (
                 <p className="mt-2 rounded border border-red-400 bg-red-100 px-4 py-2 text-red-500">
@@ -255,11 +255,11 @@ const CompEditSalida = () => {
               )}
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Fecha y hora de entrada
+                  Fecha y hora de salida
                 </label>
                 <DatePicker
-                  selected={fechaEntrada}
-                  onChange={(date) => setFechaEntrada(date)}
+                  selected={fechaSalida}
+                  onChange={(date) => setFechaSalida(date)}
                   dateFormat="dd-MMM-yyyy HH:mm:ss"
                   showTimeInput
                   readOnly
@@ -314,10 +314,10 @@ const CompEditSalida = () => {
               </div>
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Número de entradas.
+                  Número de salidas.
                 </label>
                 <input
-                  value={numEntradas}
+                  value={numSalidas}
                   onChange={(e) => {
                     const inputValue = e.target.value;
                     const numValue = parseInt(inputValue);
@@ -331,10 +331,37 @@ const CompEditSalida = () => {
                   }}
                   type="number"
                   className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                  placeholder="Ingrese el número de entradas."
+                  placeholder="Ingrese el número de salidas."
                   required
                 ></input>
               </div>
+              <div className="mb-6">
+                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                  Número de SAP.
+                </label>
+                <input
+                  value={numSap}
+                  onChange={(e) => setNumSap(e.target.value)}
+                  type="text"
+                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                  placeholder="Ej. 9999"
+                  required
+                ></input>
+              </div>
+              <div className="mb-6">
+                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                  Nombre de técnico.
+                </label>
+                <input
+                  value={nomTecnico}
+                  onChange={(e) => setNomTecnico(e.target.value)}
+                  type="text"
+                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                  placeholder="Ingrese un nombre."
+                  required
+                ></input>
+              </div>
+
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Total.
@@ -349,38 +376,24 @@ const CompEditSalida = () => {
                   readOnly={true}
                 ></input>
               </div>
+
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Número de factura.
-                </label>
-                <input
-                  value={numFactura}
-                  onChange={(e) => setNumFactura(e.target.value)}
-                  type="text"
-                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                  placeholder="Ej. 9999"
-                  required
-                ></input>
-              </div>
-              <div className="mb-6">
-                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Buscar proveedor.
+                  Buscar área.
                 </label>
                 <div className="relative">
                   <input
                     value={
-                      selectedResultProveedor
-                        ? selectedResultProveedor.nomProveedor
-                        : idproveedors
+                      selectedResultArea ? selectedResultArea.nomArea : idareas
                     }
                     onChange={(e) => {
-                      setIdproveedors(e.target.value);
-                      setSelectedResultProveedor(null); // Reset the selected result when the input value changes
-                      setShowSearchResultsProveedor(true); // Show search results when the input value changes
+                      setIdAreas(e.target.value);
+                      setSelectedResultArea(null); // Reset the selected result when the input value changes
+                      setShowSearchResultsArea(true); // Show search results when the input value changes
                     }}
                     type="text"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                    placeholder="Buscar proveedor..."
+                    placeholder="Buscar área..."
                     required
                   />
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
@@ -388,26 +401,24 @@ const CompEditSalida = () => {
                   </div>
                 </div>
                 {/* Display search results */}
-                {showSearchResultsProveedor &&
-                  searchResultsProveedor.length > 0 &&
-                  !selectedResultProveedor && (
+                {showSearchResultsArea &&
+                  searchResultsArea.length > 0 &&
+                  !selectedResultArea && (
                     <ul className="mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md">
-                      {searchResultsProveedor.map((result, index) => (
+                      {searchResultsArea.map((result, index) => (
                         <li
                           key={result.id}
                           className={`cursor-pointer px-4 py-2 hover:bg-gray-100 ${
-                            index === highlightedIndexProveedor
-                              ? "bg-gray-100"
-                              : ""
+                            index === highlightedIndexArea ? "bg-gray-100" : ""
                           }`}
                           onClick={() => {
-                            setSelectedResultProveedor(result);
-                            setShowSearchResultsProveedor(false); // Hide search results when a selection is made
-                            setHighlightedIndexProveedor(-1); // Reset the highlighted index
-                            console.log(result.nomProveedor);
+                            setSelectedResultArea(result);
+                            setShowSearchResultsArea(false); // Hide search results when a selection is made
+                            setHighlightedIndexArea(-1); // Reset the highlighted index
+                            console.log(result.nomArea);
                           }}
                         >
-                          {result.nomProveedor}
+                          {result.nomArea}
                         </li>
                       ))}
                     </ul>
