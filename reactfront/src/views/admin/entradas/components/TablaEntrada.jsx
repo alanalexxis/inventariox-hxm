@@ -134,10 +134,16 @@ const TablaEntradas = (props) => {
                   {entrada.numEntradas}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {entrada.costoUnitario.toFixed(2)}
+                  {"$" +
+                    entrada.costoUnitario
+                      .toFixed(2)
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {entrada.costoTotal.toFixed(2)}
+                  {"$" +
+                    entrada.costoTotal
+                      .toFixed(2)
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {format(

@@ -149,10 +149,16 @@ const TablaSalidas = (props) => {
                   {salida.nomArea}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {salida.costoUnitario.toFixed(2)}
+                  {"$" +
+                    salida.costoUnitario
+                      .toFixed(2)
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {salida.costoTotal.toFixed(2)}
+                  {"$" +
+                    salida.costoTotal
+                      .toFixed(2)
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {format(new Date(salida.fechaSalida), "dd-MMM-yyyy HH:mm:ss")}

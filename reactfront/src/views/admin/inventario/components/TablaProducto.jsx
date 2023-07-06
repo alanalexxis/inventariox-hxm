@@ -129,7 +129,7 @@ const TablaProductos = (props) => {
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {producto.descripcion}
                 </td>
-                 <td className="text-sm font-bold text-navy-700 dark:text-white">
+                <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {producto.totalEntradas}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
@@ -139,10 +139,16 @@ const TablaProductos = (props) => {
                   {producto.totalProductos}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                {producto.costoUnitario.toFixed(2)}
+                  {"$" +
+                    producto.costoUnitario
+                      .toFixed(2)
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {producto.costoTotal.toFixed(2)}
+                  {"$" +
+                    producto.costoTotal
+                      .toFixed(2)
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {producto.nomCategorias}
