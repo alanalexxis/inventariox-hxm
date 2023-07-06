@@ -46,6 +46,7 @@ import CompEditGrupo from "views/admin/grupo/components/grupo/EditGrupo";
 import CompCreatePermiso from "views/admin/permiso/components/permiso/CreatePermiso";
 import CompCreateEntrada from "views/admin/entradas/components/entradas/CreateEntrada";
 import CompEditEntrada from "views/admin/entradas/components/entradas/EditEntrada";
+import CompEditSalida from "views/admin/salidas/components/salidas/EditSalida";
 import CompEditPermiso from "views/admin/permiso/components/permiso/EditPermiso";
 import CompCreateDirector from "views/admin/usuario/components/director/CreateDirector";
 import CompEditDirector from "views/admin/usuario/components/director/EditDirector";
@@ -95,7 +96,7 @@ const routes = [
     layout: "/admin",
     icon: <MdBarChart className="h-6 w-6" />,
     path: "salidas/edit/:idsalidas",
-    component: <CompEditEntrada />,
+    component: <CompEditSalida />,
   },
   {
     name: "Añadir entradas",

@@ -9,31 +9,31 @@ import es from "date-fns/locale/es";
 import { format } from "date-fns";
 registerLocale("es", es); // registrar la localización de español
 
-const URI = process.env.REACT_APP_API_BACKEND + "entradas/";
+const URI = process.env.REACT_APP_API_BACKEND + "salidas/";
 
 const URIinventario = process.env.REACT_APP_API_BACKEND + "productos/";
 
-const URIproveedor = process.env.REACT_APP_API_BACKEND + "proveedors/";
+const URIarea = process.env.REACT_APP_API_BACKEND + "areas/";
 
 const CompEditSalida = () => {
-  const { identradas } = useParams();
+  const { idsalidas } = useParams();
   const [idproductos, setIdproductos] = useState("");
-  const [idproveedors, setIdproveedors] = useState("");
-  const [numEntradas, setNumEntradas] = useState("");
-  const [numFactura, setNumFactura] = useState("");
+  const [idareas, setIdAreas] = useState("");
+  const [numSalidas, setNumSalidas] = useState("");
+  const [numSap, setNumSap] = useState("");
+  const [nomTecnico, setNomTecnico] = useState("");
+
   const [costoTotal, setCostoTotal] = useState("");
   const [selectedResult, setSelectedResult] = useState(null);
-  const [selectedResultProveedor, setSelectedResultProveedor] = useState(null);
+  const [selectedResultArea, setSelectedResultArea] = useState(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const [highlightedIndexProveedor, setHighlightedIndexProveedor] =
-    useState(-1);
-  const [fechaEntrada, setFechaEntrada] = useState(new Date());
+  const [highlightedIndexArea, setHighlightedIndexArea] = useState(-1);
+  const [fechaSalida, setFechaSalida] = useState(new Date());
   const [showSearchResults, setShowSearchResults] = useState(false);
-  const [showSearchResultsProveedor, setShowSearchResultsProveedor] =
-    useState(false);
+  const [showSearchResultsArea, setShowSearchResultsArea] = useState(false);
   const calculateTotal = () => {
-    if (selectedResult && numEntradas) {
-      const total = selectedResult.costoUnitario * numEntradas;
+    if (selectedResult && numSalidas) {
+      const total = selectedResult.costoUnitario * numSalidas;
       return total.toFixed(2); // Format the result with two decimal places
     }
     return "";
@@ -41,11 +41,11 @@ const CompEditSalida = () => {
 
   useEffect(() => {
     setCostoTotal(calculateTotal());
-  }, [numEntradas, selectedResult]);
+  }, [numSalidas, selectedResult]);
 
   const [error, setError] = useState("");
   const [searchResults, setSearchResults] = useState([]); // State to hold the search results
-  const [searchResultsProveedor, setSearchResultsProveedor] = useState([]); // State to hold the search results
+  const [searchResultsArea, setSearchResultsArea] = useState([]); // State to hold the search results
   const navigate = useNavigate();
 
   //funcion buscar productos
@@ -109,51 +109,48 @@ const CompEditSalida = () => {
   //funcion buscar proveedores
   useEffect(() => {
     // Function to fetch search results based on input value
-    const fetchSearchResultsProveedor = async () => {
+    const fetchSearchResultsArea = async () => {
       try {
-        const response = await axios.get(URIproveedor, {
+        const response = await axios.get(URIarea, {
           params: {
-            description: idproveedors,
+            description: idareas,
           },
         });
-        setSearchResultsProveedor(
+        setSearchResultsArea(
           response.data.filter((result) =>
-            result.nomProveedor
-              .toLowerCase()
-              .startsWith(idproveedors.toLowerCase())
+            result.nomArea.toLowerCase().startsWith(idareas.toLowerCase())
           )
         );
-        setShowSearchResultsProveedor(true); // Set showSearchResults to true when there are search results
+        setShowSearchResultsArea(true); // Set showSearchResults to true when there are search results
       } catch (error) {
         setError("Error retrieving search results");
       }
     };
 
-    if (idproveedors) {
-      fetchSearchResultsProveedor();
+    if (idareas) {
+      fetchSearchResultsArea();
     } else {
-      setSearchResultsProveedor([]);
+      setSearchResultsArea([]);
     }
 
     const handleKeyDown = (event) => {
       if (event.key === "ArrowDown") {
         event.preventDefault();
-        setHighlightedIndexProveedor((prevIndex) =>
+        setHighlightedIndexArea((prevIndex) =>
           prevIndex < searchResults.length - 1 ? prevIndex + 1 : prevIndex
         );
       } else if (event.key === "ArrowUp") {
         event.preventDefault();
-        setHighlightedIndexProveedor((prevIndex) =>
+        setHighlightedIndexArea((prevIndex) =>
           prevIndex > 0 ? prevIndex - 1 : prevIndex
         );
       } else if (event.key === "Enter") {
         event.preventDefault();
-        if (highlightedIndexProveedor !== -1) {
-          const selectedResultProveedor =
-            searchResultsProveedor[highlightedIndexProveedor];
-          setSelectedResultProveedor(selectedResultProveedor);
-          setShowSearchResultsProveedor(false); // Hide search results when a selection is made
-          setHighlightedIndexProveedor(-1); // Reset the highlighted index
+        if (highlightedIndexArea !== -1) {
+          const selectedResultArea = searchResultsArea[highlightedIndexArea];
+          setSelectedResultArea(selectedResultArea);
+          setShowSearchResultsArea(false); // Hide search results when a selection is made
+          setHighlightedIndexArea(-1); // Reset the highlighted index
         }
       }
     };
@@ -163,32 +160,33 @@ const CompEditSalida = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [idproveedors, searchResultsProveedor.length, highlightedIndexProveedor]);
+  }, [idareas, searchResultsArea.length, highlightedIndexArea]);
 
   //hora y fecha en tiempo real
   useEffect(() => {
     const interval = setInterval(() => {
-      setFechaEntrada(new Date());
+      setFechaSalida(new Date());
     }, 1000);
 
     return () => clearInterval(interval);
   }, []);
-  const formattedFechaEntrada = format(fechaEntrada, "dd-MMM-yyyy HH:mm:ss");
+  const formattedFechaSalida = format(fechaSalida, "dd-MMM-yyyy HH:mm:ss");
   // Resto de los datos que deseas enviar en tu solicitud
   const update = async (e) => {
     e.preventDefault();
 
-    if (selectedResult && selectedResultProveedor) {
+    if (selectedResult && selectedResultArea) {
       const { idproductos } = selectedResult;
-      const { idproveedors } = selectedResultProveedor;
+      const { idareas } = selectedResultArea;
 
       try {
-        await axios.put(URI + identradas, {
+        await axios.put(URI + idsalidas, {
           idproductos: idproductos,
-          idproveedors: idproveedors,
-          numEntradas: numEntradas,
-          fechaEntrada: formattedFechaEntrada, // Use the formatted value in the request body
-          numFactura: numFactura,
+          idareas: idareas,
+          numSalidas: numSalidas,
+          numSap: numSap,
+          nomTecnico: nomTecnico,
+          fechaSalida: formattedFechaSalida, // Use the formatted value in the request body
           costoTotal: costoTotal,
         });
 
@@ -197,19 +195,19 @@ const CompEditSalida = () => {
         );
 
         const producto = productoResponse.data;
-        const newNumEntradas =
-          parseInt(producto.totalEntradas) + parseInt(numEntradas);
+        const newNumSalidas =
+          parseInt(producto.totalSalidas) + parseInt(numSalidas);
 
         await axios.put(
           `${process.env.REACT_APP_API_BACKEND}productos/${idproductos}`,
           {
-            totalEntradas: newNumEntradas,
+            totalSalidas: newNumSalidas,
           }
         );
 
-        navigate("/admin/entradas");
+        navigate("/admin/salidas");
       } catch (error) {
-        setError("Error al guardar la entrada");
+        setError("Error al guardar la salida");
       }
     }
   };
@@ -217,16 +215,17 @@ const CompEditSalida = () => {
   useEffect(() => {
     const getBlogById = async () => {
       try {
-        const res = await axios.get(URI + identradas);
-        setNumEntradas(res.data.numEntradas);
-        setNumFactura(res.data.numFactura);
+        const res = await axios.get(URI + idsalidas);
+        setNumSalidas(res.data.numSalidas);
+        setNumSap(res.data.numSap);
+        setNomTecnico(res.data.nomTecnico);
 
         // Obtener los datos del proveedor
-        const proveedorResponse = await axios.get(
-          `${process.env.REACT_APP_API_BACKEND}proveedors/${res.data.idproveedors}`
+        const areaResponse = await axios.get(
+          `${process.env.REACT_APP_API_BACKEND}areas/${res.data.idareas}`
         );
-        const proveedor = proveedorResponse.data;
-        setSelectedResultProveedor(proveedor);
+        const area = areaResponse.data;
+        setSelectedResultArea(area);
 
         // Obtener los datos del producto
         const productoResponse = await axios.get(
@@ -239,14 +238,14 @@ const CompEditSalida = () => {
       }
     };
     getBlogById();
-  }, [identradas]);
+  }, [idsalidas]);
 
   return (
     <>
       <div className="relative pt-2">
         <div className="mx-auto max-w-xs p-4 sm:w-full">
           <div className="block max-w-sm rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-hidden dark:bg-navy-800">
-            <form className="" onSubmit={store}>
+            <form className="" onSubmit={update}>
               {/* Renderizar mensaje de error si existe */}
               {error && (
                 <p className="mt-2 rounded border border-red-400 bg-red-100 px-4 py-2 text-red-500">
@@ -324,9 +323,9 @@ const CompEditSalida = () => {
 
                     if (isNaN(numValue) || numValue < 0) {
                       // Si el valor ingresado no es un número válido o es menor que cero
-                      setNumEntradas(0); // Restablecer el valor a cero
+                      setNumSalidas(0); // Restablecer el valor a cero
                     } else {
-                      setNumEntradas(numValue); // Establecer el valor ingresado
+                      setNumSalidas(numValue); // Establecer el valor ingresado
                     }
                   }}
                   type="number"
