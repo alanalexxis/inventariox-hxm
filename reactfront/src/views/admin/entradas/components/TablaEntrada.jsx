@@ -77,24 +77,6 @@ const TablaEntradas = (props) => {
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
-                  ENTRADAS
-                </div>
-              </th>
-              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
-                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
-                  {" "}
-                  COSTO UNITARIO
-                </div>
-              </th>
-              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
-                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
-                  {" "}
-                  COSTO TOTAL
-                </div>
-              </th>
-              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
-                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
-                  {" "}
                   FECHA Y HORA
                 </div>
               </th>
@@ -108,6 +90,24 @@ const TablaEntradas = (props) => {
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
                   NÚMERO DE FACTURA
+                </div>
+              </th>
+              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
+                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
+                  {" "}
+                  ENTRADAS
+                </div>
+              </th>
+              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
+                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
+                  {" "}
+                  COSTO UNITARIO
+                </div>
+              </th>
+              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
+                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
+                  {" "}
+                  COSTO TOTAL
                 </div>
               </th>
 
@@ -131,6 +131,18 @@ const TablaEntradas = (props) => {
                   {entrada.descripcion}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
+                  {format(
+                    new Date(entrada.fechaEntrada),
+                    "dd-MMM-yyyy HH:mm:ss"
+                  )}
+                </td>
+                <td className="text-sm font-bold text-navy-700 dark:text-white">
+                  {entrada.nomProveedor}
+                </td>
+                <td className="text-sm font-bold text-navy-700 dark:text-white">
+                  {entrada.numFactura}
+                </td>
+                <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {entrada.numEntradas}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
@@ -144,18 +156,6 @@ const TablaEntradas = (props) => {
                     entrada.costoTotal
                       .toFixed(2)
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                </td>
-                <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {format(
-                    new Date(entrada.fechaEntrada),
-                    "dd-MMM-yyyy HH:mm:ss"
-                  )}
-                </td>
-                <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {entrada.nomProveedor}
-                </td>
-                <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {entrada.numFactura}
                 </td>
 
                 <td className="flex items-center">

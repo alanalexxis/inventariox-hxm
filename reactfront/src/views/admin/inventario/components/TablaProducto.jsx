@@ -76,6 +76,12 @@ const TablaProductos = (props) => {
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
+                  CATEGORÍA
+                </div>
+              </th>
+              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
+                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
+                  {" "}
                   ENTRADAS
                 </div>
               </th>
@@ -103,12 +109,6 @@ const TablaProductos = (props) => {
                   COSTO TOTAL
                 </div>
               </th>
-              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
-                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
-                  {" "}
-                  CATEGORÍA
-                </div>
-              </th>
 
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
@@ -130,6 +130,9 @@ const TablaProductos = (props) => {
                   {producto.descripcion}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
+                  {producto.nomCategorias}
+                </td>
+                <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {producto.totalEntradas}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
@@ -149,9 +152,6 @@ const TablaProductos = (props) => {
                     producto.costoTotal
                       .toFixed(2)
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                </td>
-                <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {producto.nomCategorias}
                 </td>
 
                 <td className="flex items-center">

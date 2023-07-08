@@ -77,7 +77,7 @@ const TablaSalidas = (props) => {
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
-                  SALIDAS
+                  FECHA Y HORA
                 </div>
               </th>
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
@@ -101,6 +101,12 @@ const TablaSalidas = (props) => {
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
+                  SALIDAS
+                </div>
+              </th>
+              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
+                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
+                  {" "}
                   COSTO UNITARIO
                 </div>
               </th>
@@ -108,12 +114,6 @@ const TablaSalidas = (props) => {
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
                   COSTO TOTAL
-                </div>
-              </th>
-              <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
-                <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
-                  {" "}
-                  FECHA Y HORA
                 </div>
               </th>
 
@@ -137,7 +137,7 @@ const TablaSalidas = (props) => {
                   {salida.descripcion}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {salida.numSalidas}
+                  {format(new Date(salida.fechaSalida), "dd-MMM-yyyy HH:mm:ss")}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {salida.numSap}
@@ -147,6 +147,9 @@ const TablaSalidas = (props) => {
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {salida.nomArea}
+                </td>
+                <td className="text-sm font-bold text-navy-700 dark:text-white">
+                  {salida.numSalidas}
                 </td>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {"$" +
@@ -160,9 +163,7 @@ const TablaSalidas = (props) => {
                       .toFixed(2)
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </td>
-                <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {format(new Date(salida.fechaSalida), "dd-MMM-yyyy HH:mm:ss")}
-                </td>
+
                 <td className="flex items-center">
                   <Link to={`/admin/salidas/edit/${salida.idsalidas}`}>
                     <FaEdit className="text-gray-400 hover:text-gray-800" />
