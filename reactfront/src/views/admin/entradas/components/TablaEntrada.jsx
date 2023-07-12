@@ -27,8 +27,48 @@ const TablaEntradas = (props) => {
     setProducto(res.data);
   };
   //procedimiento para eliminar un usuario
+  //procedimiento para eliminar un usuario
   const deleteProducto = async (identradas) => {
+    const entradaToDelete = entradas.find(
+      (entrada) => entrada.identradas === identradas
+    );
+
+    // Delete the entry from URI
     await axios.delete(`${URI}${identradas}`);
+
+    // Update the URIinventario with decreased numEntradas
+    if (entradaToDelete) {
+      const productoToUpdate = await axios.get(
+        `${URIinventario}${entradaToDelete.idproductos}`
+      );
+      if (productoToUpdate) {
+        const updatedNumEntradas =
+          productoToUpdate.data.numEntradas - entradaToDelete.numEntradas;
+        const updatedTotalEntradas =
+          productoToUpdate.data.totalEntradas - entradaToDelete.numEntradas;
+
+        // Update the productos collection
+        await axios.put(`${URIinventario}${entradaToDelete.idproductos}`, {
+          numEntradas: updatedNumEntradas,
+          totalEntradas: updatedTotalEntradas,
+        });
+
+        // Update the totalProductos in productos collection
+        const productoToUpdateTotal = await axios.get(
+          `${URIinventario}${entradaToDelete.idproductos}`
+        );
+        if (productoToUpdateTotal) {
+          const updatedTotalProductos =
+            productoToUpdateTotal.data.totalProductos -
+            entradaToDelete.numEntradas;
+
+          await axios.put(`${URIinventario}${entradaToDelete.idproductos}`, {
+            totalProductos: updatedTotalProductos,
+          });
+        }
+      }
+    }
+
     setOpen(false);
     setIdentradasToDelete(null);
     getProductos();
@@ -40,6 +80,7 @@ const TablaEntradas = (props) => {
   };
 
   const URI = process.env.REACT_APP_API_BACKEND + "entradas/";
+  const URIinventario = process.env.REACT_APP_API_BACKEND + "productos/";
 
   return (
     <Card extra={"w-full pb-10 p-4 h-full"} style={{ marginTop: "50px" }}>

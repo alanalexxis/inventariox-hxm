@@ -185,22 +185,25 @@ const CompCreateSalida = () => {
           numSalidas: numSalidas,
           numSap: numSap,
           nomTecnico: nomTecnico,
-          fechaSalida: formattedFechaSalida, // Use the formatted value in the request body
+          fechaSalida: formattedFechaSalida,
           costoTotal: costoTotal,
         });
 
         const productoResponse = await axios.get(
           `${process.env.REACT_APP_API_BACKEND}productos/${idproductos}`
         );
-
         const producto = productoResponse.data;
+
         const newNumSalidas =
           parseInt(producto.totalSalidas) + parseInt(numSalidas);
+        const newTotalProductos =
+          parseInt(producto.totalProductos) - parseInt(numSalidas);
 
         await axios.put(
           `${process.env.REACT_APP_API_BACKEND}productos/${idproductos}`,
           {
             totalSalidas: newNumSalidas,
+            totalProductos: newTotalProductos,
           }
         );
 
