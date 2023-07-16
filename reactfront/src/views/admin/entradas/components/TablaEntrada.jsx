@@ -27,7 +27,7 @@ const TablaEntradas = (props) => {
     setEntradas(res.data.reverse());
   };
   //procedimiento para eliminar un usuario
-  const deleteProducto = async (identradas) => {
+  const deleteEntrada = async (identradas) => {
     const entradaToDelete = entradas.find(
       (entrada) => entrada.identradas === identradas
     );
@@ -275,7 +275,7 @@ const TablaEntradas = (props) => {
                                     type="button"
                                     className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 dark:bg-red-500 sm:ml-3 sm:w-auto"
                                     onClick={() =>
-                                      deleteProducto(identradasToDelete)
+                                      deleteEntrada(identradasToDelete)
                                     }
                                   >
                                     Eliminar

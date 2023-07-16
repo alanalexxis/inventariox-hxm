@@ -9,6 +9,7 @@ export const getAllSalidas = async (req, res) => {
       include: [
         { model: areaModel, as: "area" },
         { model: productoModel, as: "producto" },
+        { model: productoModel, as: "producto" },
       ],
     });
     res.json(
@@ -23,6 +24,7 @@ export const getAllSalidas = async (req, res) => {
         costoUnitario: salida.producto.costoUnitario,
         costoTotal: salida.costoTotal,
         fechaSalida: salida.fechaSalida,
+        idproductos: salida.producto.idproductos,
      
       }))
     );

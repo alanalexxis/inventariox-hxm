@@ -16,7 +16,7 @@ const TablaSalidas = (props) => {
   const cancelButtonRef = useRef(null);
   const [idsalidasToDelete, setIdsalidasToDelete] = useState(null);
 
-  const [salidas, setSalida] = useState([]);
+  const [salidas, setSalidas] = useState([]);
   useEffect(() => {
     getSalidas();
   }, []);
@@ -24,11 +24,53 @@ const TablaSalidas = (props) => {
   //procedimiento para mostrar todos los usuarios
   const getSalidas = async () => {
     const res = await axios.get(URI);
-    setSalida(res.data.reverse());
+    setSalidas(res.data.reverse());
   };
   //procedimiento para eliminar un usuario
   const deleteSalida = async (idsalidas) => {
+    const salidaToDelete = salidas.find(
+      (salida) => salida.idsalidas === idsalidas
+    );
+
+    // Delete the entry from URI
     await axios.delete(`${URI}${idsalidas}`);
+
+    // Update the URIinventario with decreased numSalidas
+    if (salidaToDelete) {
+      const productoToUpdate = await axios.get(
+        `${URIinventario}${salidaToDelete.idproductos}`
+      );
+      if (productoToUpdate) {
+        const updatedNumSalidas =
+          productoToUpdate.data.numSalidas - salidaToDelete.numSalidas;
+        const updatedTotalSalidas =
+          productoToUpdate.data.totalSalidas - salidaToDelete.numSalidas;
+
+        // Update the productos collection
+        await axios.put(`${URIinventario}${salidaToDelete.idproductos}`, {
+          numSalidas: updatedNumSalidas,
+          totalSalidas: updatedTotalSalidas,
+        });
+
+        // Update the totalProductos and costoTotal in productos collection
+        const productoToUpdateTotal = await axios.get(
+          `${URIinventario}${salidaToDelete.idproductos}`
+        );
+        if (productoToUpdateTotal) {
+          const updatedTotalProductos =
+            productoToUpdateTotal.data.totalProductos +
+            salidaToDelete.numSalidas;
+          const updatedCostoTotal =
+            productoToUpdateTotal.data.costoTotal + salidaToDelete.costoTotal;
+
+          await axios.put(`${URIinventario}${salidaToDelete.idproductos}`, {
+            totalProductos: updatedTotalProductos,
+            costoTotal: updatedCostoTotal,
+          });
+        }
+      }
+    }
+
     setOpen(false);
     setIdsalidasToDelete(null);
     getSalidas();
@@ -41,6 +83,7 @@ const TablaSalidas = (props) => {
 
   const URI = process.env.REACT_APP_API_BACKEND + "salidas/";
   const URIinventario = process.env.REACT_APP_API_BACKEND + "productos/";
+
   return (
     <Card extra={"w-full pb-10 p-4 h-full"} style={{ marginTop: "50px" }}>
       <Link
