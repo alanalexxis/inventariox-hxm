@@ -206,6 +206,7 @@ const CompCreateEntrada = () => {
           {
             totalEntradas: newNumEntradas,
             totalProductos: newTotalProductos,
+            costoTotal: newTotalProductos * producto.costoUnitario,
           }
         );
 
