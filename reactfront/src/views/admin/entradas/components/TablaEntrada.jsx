@@ -24,9 +24,8 @@ const TablaEntradas = (props) => {
   //procedimiento para mostrar todos los usuarios
   const getProductos = async () => {
     const res = await axios.get(URI);
-    setProducto(res.data);
+    setProducto(res.data.reverse());
   };
-  //procedimiento para eliminar un usuario
   //procedimiento para eliminar un usuario
   const deleteProducto = async (identradas) => {
     const entradaToDelete = entradas.find(
@@ -53,7 +52,7 @@ const TablaEntradas = (props) => {
           totalEntradas: updatedTotalEntradas,
         });
 
-        // Update the totalProductos in productos collection
+        // Update the totalProductos and costoTotal in productos collection
         const productoToUpdateTotal = await axios.get(
           `${URIinventario}${entradaToDelete.idproductos}`
         );
@@ -61,9 +60,12 @@ const TablaEntradas = (props) => {
           const updatedTotalProductos =
             productoToUpdateTotal.data.totalProductos -
             entradaToDelete.numEntradas;
+          const updatedCostoTotal =
+            productoToUpdateTotal.data.costoTotal - entradaToDelete.costoTotal;
 
           await axios.put(`${URIinventario}${entradaToDelete.idproductos}`, {
             totalProductos: updatedTotalProductos,
+            costoTotal: updatedCostoTotal,
           });
         }
       }
@@ -162,7 +164,7 @@ const TablaEntradas = (props) => {
           </thead>
 
           <tbody>
-            {entradas.reverse().map((entrada) => (
+            {entradas.map((entrada) => (
               <tr>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {entrada.codBarras}
