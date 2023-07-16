@@ -24,7 +24,7 @@ const TablaSalidas = (props) => {
   //procedimiento para mostrar todos los usuarios
   const getSalidas = async () => {
     const res = await axios.get(URI);
-    setSalida(res.data);
+    setSalida(res.data.reverse());
   };
   //procedimiento para eliminar un usuario
   const deleteSalida = async (idsalidas) => {
@@ -127,7 +127,7 @@ const TablaSalidas = (props) => {
           </thead>
 
           <tbody>
-            {salidas.reverse().map((salida) => (
+            {salidas.map((salida) => (
               <tr>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
                   {salida.codBarras}
