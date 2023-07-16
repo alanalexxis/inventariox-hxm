@@ -40,7 +40,7 @@ const TablaSalidas = (props) => {
   };
 
   const URI = process.env.REACT_APP_API_BACKEND + "salidas/";
-
+  const URIinventario = process.env.REACT_APP_API_BACKEND + "productos/";
   return (
     <Card extra={"w-full pb-10 p-4 h-full"} style={{ marginTop: "50px" }}>
       <Link

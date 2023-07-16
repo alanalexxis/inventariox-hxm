@@ -16,15 +16,15 @@ const TablaEntradas = (props) => {
   const cancelButtonRef = useRef(null);
   const [identradasToDelete, setIdentradasToDelete] = useState(null);
 
-  const [entradas, setProducto] = useState([]);
+  const [entradas, setEntradas] = useState([]);
   useEffect(() => {
-    getProductos();
+    getEntradas();
   }, []);
 
   //procedimiento para mostrar todos los usuarios
-  const getProductos = async () => {
+  const getEntradas = async () => {
     const res = await axios.get(URI);
-    setProducto(res.data.reverse());
+    setEntradas(res.data.reverse());
   };
   //procedimiento para eliminar un usuario
   const deleteProducto = async (identradas) => {
@@ -73,7 +73,7 @@ const TablaEntradas = (props) => {
 
     setOpen(false);
     setIdentradasToDelete(null);
-    getProductos();
+    getEntradas();
   };
 
   const handleDeleteClick = (identradas) => {
