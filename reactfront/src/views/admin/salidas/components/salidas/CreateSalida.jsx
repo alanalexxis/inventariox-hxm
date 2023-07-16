@@ -204,6 +204,7 @@ const CompCreateSalida = () => {
           {
             totalSalidas: newNumSalidas,
             totalProductos: newTotalProductos,
+            costoTotal: newTotalProductos * producto.costoUnitario,
           }
         );
 
