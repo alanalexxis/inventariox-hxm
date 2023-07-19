@@ -26,7 +26,7 @@ const TablaSalidas = (props) => {
     const res = await axios.get(URI);
     setSalidas(res.data.reverse());
   };
-  //procedimiento para eliminar un usuario
+  //procedimiento para eliminar una salida
   const deleteSalida = async (idsalidas) => {
     const salidaToDelete = salidas.find(
       (salida) => salida.idsalidas === idsalidas
