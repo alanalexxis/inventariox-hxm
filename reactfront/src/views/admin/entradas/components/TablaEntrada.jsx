@@ -26,50 +26,73 @@ const TablaEntradas = (props) => {
     const res = await axios.get(URI);
     setEntradas(res.data.reverse());
   };
-  //procedimiento para eliminar un usuario
+  //procedimiento para eliminar un entrada
   const deleteEntrada = async (identradas) => {
     const entradaToDelete = entradas.find(
       (entrada) => entrada.identradas === identradas
     );
 
-    // Delete the entry from URI
-    await axios.delete(`${URI}${identradas}`);
+    // If entradaToDelete is not found or already deleted, return without performing any further actions
+    if (!entradaToDelete) {
+      return;
+    }
 
-    // Update the URIinventario with decreased numEntradas
-    if (entradaToDelete) {
-      const productoToUpdate = await axios.get(
+    // Get the related product data before deleting the entry
+    const productoToUpdate = await axios.get(
+      `${URIinventario}${entradaToDelete.idproductos}`
+    );
+
+    if (productoToUpdate) {
+      const updatedTotalEntradas =
+        productoToUpdate.data.totalEntradas - entradaToDelete.numEntradas;
+
+      const updatedTotalProductos =
+        productoToUpdate.data.totalProductos - entradaToDelete.numEntradas;
+
+      // Check if the updated value is less than 0, don't update and return early
+      if (updatedTotalEntradas < 0) {
+        console.log("Validation: Update will result in negative value.");
+        return;
+      }
+      if (updatedTotalProductos < 0) {
+        console.log("Validation: Update will result in negative value.");
+        return;
+      }
+
+      // Update the productos collection
+      await axios.put(`${URIinventario}${entradaToDelete.idproductos}`, {
+        totalEntradas: updatedTotalEntradas,
+        // ... (other properties being updated)
+      });
+
+      // Update the totalProductos and costoTotal in productos collection
+      const productoToUpdateTotal = await axios.get(
         `${URIinventario}${entradaToDelete.idproductos}`
       );
-      if (productoToUpdate) {
-        const updatedNumEntradas =
-          productoToUpdate.data.numEntradas - entradaToDelete.numEntradas;
-        const updatedTotalEntradas =
-          productoToUpdate.data.totalEntradas - entradaToDelete.numEntradas;
+      if (productoToUpdateTotal) {
+        const updatedTotalProductos =
+          productoToUpdateTotal.data.totalProductos -
+          entradaToDelete.numEntradas;
 
-        // Update the productos collection
-        await axios.put(`${URIinventario}${entradaToDelete.idproductos}`, {
-          numEntradas: updatedNumEntradas,
-          totalEntradas: updatedTotalEntradas,
-        });
+        const updatedCostoTotal =
+          productoToUpdateTotal.data.costoTotal - entradaToDelete.costoTotal;
 
-        // Update the totalProductos and costoTotal in productos collection
-        const productoToUpdateTotal = await axios.get(
-          `${URIinventario}${entradaToDelete.idproductos}`
-        );
-        if (productoToUpdateTotal) {
-          const updatedTotalProductos =
-            productoToUpdateTotal.data.totalProductos -
-            entradaToDelete.numEntradas;
-          const updatedCostoTotal =
-            productoToUpdateTotal.data.costoTotal - entradaToDelete.costoTotal;
-
-          await axios.put(`${URIinventario}${entradaToDelete.idproductos}`, {
-            totalProductos: updatedTotalProductos,
-            costoTotal: updatedCostoTotal,
-          });
+        // Check if the updated values would result in negative, don't update and return early
+        if (updatedTotalProductos < 0 || updatedCostoTotal < 0) {
+          console.log("Validation: Update will result in negative value.");
+          return;
         }
+
+        await axios.put(`${URIinventario}${entradaToDelete.idproductos}`, {
+          totalProductos: updatedTotalProductos,
+          costoTotal: updatedCostoTotal,
+          // ... (other properties being updated)
+        });
       }
     }
+
+    // Delete the entry from URI
+    await axios.delete(`${URI}${identradas}`);
 
     setOpen(false);
     setIdentradasToDelete(null);
