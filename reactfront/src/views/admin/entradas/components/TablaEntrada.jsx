@@ -14,6 +14,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 const TablaEntradas = (props) => {
   const [open, setOpen] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorVisible, setErrorVisible] = useState(false);
   const cancelButtonRef = useRef(null);
   const [identradasToDelete, setIdentradasToDelete] = useState(null);
 
@@ -54,6 +55,7 @@ const TablaEntradas = (props) => {
       if (updatedTotalEntradas < 0) {
         console.log("Validation: Update will result in negative value.");
         setShowErrorMessage(true);
+        setErrorVisible(true); // Show the error message with animation
         setOpen(false);
         setIdentradasToDelete(null);
         return;
@@ -61,6 +63,7 @@ const TablaEntradas = (props) => {
       if (updatedTotalProductos < 0) {
         console.log("Validation: Update will result in negative value.");
         setShowErrorMessage(true);
+        setErrorVisible(true); // Show the error message with animation
         setOpen(false);
         setIdentradasToDelete(null);
         return;
@@ -88,6 +91,7 @@ const TablaEntradas = (props) => {
         if (updatedTotalProductos < 0 || updatedCostoTotal < 0) {
           console.log("Validation: Update will result in negative value.");
           setShowErrorMessage(true);
+          setErrorVisible(true); // Show the error message with animation
           setOpen(false);
           setIdentradasToDelete(null);
           return;
@@ -113,21 +117,35 @@ const TablaEntradas = (props) => {
     setIdentradasToDelete(identradas);
     setOpen(true);
   };
+  // Function to hide the error message after a duration
+  const hideErrorMessage = () => {
+    setErrorVisible(false);
+  };
 
   const URI = process.env.REACT_APP_API_BACKEND + "entradas/";
   const URIinventario = process.env.REACT_APP_API_BACKEND + "productos/";
-
+  useEffect(() => {
+    // Hide the error message after 3 seconds (adjust the duration as needed)
+    if (errorVisible) {
+      const timeout = setTimeout(hideErrorMessage, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [errorVisible]);
   return (
     <div>
-      {showErrorMessage && (
-        <div role="alert" className="mt-4">
+      {errorVisible && (
+        <div
+          role="alert"
+          className="error-alert mt-4"
+          onAnimationEnd={hideErrorMessage}
+        >
           <div className="rounded-t bg-red-500 px-4 py-2 font-bold text-white">
             Alerta
           </div>
           <div className="rounded-b border border-t-0 border-red-400 bg-red-100 px-4 py-3 text-red-700">
             <p>
-              No es posible eliminar esta entrada, el número de salidas excede
-              el número de entradas que desea eliminar
+              No es posible eliminar esta entrada, el número de salidas excederá
+              el de entradas.
             </p>
           </div>
         </div>
