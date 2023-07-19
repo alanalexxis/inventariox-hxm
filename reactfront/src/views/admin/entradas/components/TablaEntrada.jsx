@@ -124,6 +124,7 @@ const TablaEntradas = (props) => {
 
   const URI = process.env.REACT_APP_API_BACKEND + "entradas/";
   const URIinventario = process.env.REACT_APP_API_BACKEND + "productos/";
+
   useEffect(() => {
     // Hide the error message after 3 seconds (adjust the duration as needed)
     if (errorVisible) {
@@ -131,12 +132,14 @@ const TablaEntradas = (props) => {
       return () => clearTimeout(timeout);
     }
   }, [errorVisible]);
+
   return (
-    <div>
+    <div className="fixed">
       {errorVisible && (
         <div
           role="alert"
-          className="error-alert mt-4"
+          className="error-alert absolute left-0 z-50 mt-0 w-full"
+          style={{ top: "-20px" }}
           onAnimationEnd={hideErrorMessage}
         >
           <div className="rounded-t bg-red-500 px-4 py-2 font-bold text-white">
