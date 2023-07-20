@@ -134,25 +134,7 @@ const TablaEntradas = (props) => {
   }, [errorVisible]);
 
   return (
-    <div className="fixed">
-      {errorVisible && (
-        <div
-          role="alert"
-          className="error-alert absolute left-0 z-50 mt-0 w-full"
-          style={{ top: "-20px" }}
-          onAnimationEnd={hideErrorMessage}
-        >
-          <div className="rounded-t bg-red-500 px-4 py-2 font-bold text-white">
-            Alerta
-          </div>
-          <div className="rounded-b border border-t-0 border-red-400 bg-red-100 px-4 py-3 text-red-700">
-            <p>
-              No es posible eliminar esta entrada, el número de salidas excederá
-              el de entradas.
-            </p>
-          </div>
-        </div>
-      )}
+    <div className="relative">
       <Card extra={"w-full pb-10 p-4 h-full"} style={{ marginTop: "50px" }}>
         <Link
           to="/admin/entradas/create"
@@ -373,6 +355,24 @@ const TablaEntradas = (props) => {
           </table>
         </div>
       </Card>
+      {errorVisible && (
+        <div
+          role="alert"
+          className="error-alert mt-30 left-100 fixed z-50 w-full"
+          style={{ top: "10px" }} // Ajusta la distancia desde la parte superior según tu preferencia
+          onAnimationEnd={hideErrorMessage}
+        >
+          <div className="rounded-t bg-red-500 px-4 py-2 font-bold text-white">
+            Alerta
+          </div>
+          <div className="rounded-b border border-t-0 border-red-400 bg-red-100 px-4 py-3 text-red-700">
+            <p>
+              No es posible eliminar esta entrada, el número de salidas excederá
+              el de entradas.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
