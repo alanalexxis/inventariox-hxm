@@ -13,7 +13,6 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 const TablaEntradas = (props) => {
   const [open, setOpen] = useState(false);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
   const cancelButtonRef = useRef(null);
   const [identradasToDelete, setIdentradasToDelete] = useState(null);
@@ -54,7 +53,7 @@ const TablaEntradas = (props) => {
       // Check if the updated value is less than 0, don't update and return early
       if (updatedTotalEntradas < 0) {
         console.log("Validation: Update will result in negative value.");
-        setShowErrorMessage(true);
+
         setErrorVisible(true); // Show the error message with animation
         setOpen(false);
         setIdentradasToDelete(null);
@@ -62,7 +61,7 @@ const TablaEntradas = (props) => {
       }
       if (updatedTotalProductos < 0) {
         console.log("Validation: Update will result in negative value.");
-        setShowErrorMessage(true);
+
         setErrorVisible(true); // Show the error message with animation
         setOpen(false);
         setIdentradasToDelete(null);
@@ -90,7 +89,7 @@ const TablaEntradas = (props) => {
         // Check if the updated values would result in negative, don't update and return early
         if (updatedTotalProductos < 0 || updatedCostoTotal < 0) {
           console.log("Validation: Update will result in negative value.");
-          setShowErrorMessage(true);
+
           setErrorVisible(true); // Show the error message with animation
           setOpen(false);
           setIdentradasToDelete(null);
