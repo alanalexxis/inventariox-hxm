@@ -113,6 +113,12 @@ const TablaProductos = (props) => {
                 <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                   <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                     {" "}
+                    UBICACIÓN
+                  </div>
+                </th>
+                <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
+                  <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
+                    {" "}
                     ENTRADAS
                   </div>
                 </th>
@@ -162,6 +168,9 @@ const TablaProductos = (props) => {
                   </td>
                   <td className="text-sm font-bold text-navy-700 dark:text-white">
                     {producto.nomCategorias}
+                  </td>
+                  <td className="text-sm font-bold text-navy-700 dark:text-white">
+                    {producto.nomUbicacions}
                   </td>
                   <td className="text-sm font-bold text-navy-700 dark:text-white">
                     {producto.totalEntradas}
