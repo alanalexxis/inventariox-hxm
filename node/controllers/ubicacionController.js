@@ -7,7 +7,7 @@ export const getAllUbicacions = async (req, res) => {
     res.json(
       ubicacions.map((ubicacion) => ({
         idubicacions: ubicacion.idubicacions,
-        nomUbicacion: ubicacion.nomUbicacion,
+        nomUbicacions: ubicacion.nomUbicacions,
        
       }))
     );
