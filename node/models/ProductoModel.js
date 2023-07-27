@@ -29,6 +29,7 @@ productoModel.belongsTo(ubicacionModel, {
   as: "ubicacion",
 });
 
+
 // Definir la asociación entre la tabla de usuarios y la tabla de rangos
 productoModel.belongsTo(categoriaModel, {
   foreignKey: "idcategorias",

@@ -1,12 +1,17 @@
 //importamos el modelo
 import productoModel from "../models/ProductoModel.js";
 import categoriaModel from "../models/CategoriaModel.js";
+import ubicacionModel from "../models/UbicacionModel.js";
 
 export const getAllProductos = async (req, res) => {
   try {
     const productos = await productoModel.findAll({
-      include: { model: categoriaModel, as: "categoria" },
+      include: [
+        { model: categoriaModel, as: "categoria" },
+        { model: ubicacionModel, as: "ubicacion" },
+      ],
     });
+
     res.json(
       productos.map((producto) => ({
         idproductos: producto.idproductos,
@@ -19,6 +24,8 @@ export const getAllProductos = async (req, res) => {
         costoTotal: producto.costoTotal,
         nomCategorias: producto.categoria.nomCategorias,
         idcategorias: producto.categoria.idcategorias,
+        nomUbicacions: producto.ubicacion.nomUbicacions,
+    
       }))
     );
   } catch (error) {
