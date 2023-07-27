@@ -21,6 +21,7 @@ const CompCreateEntrada = () => {
   const [numEntradas, setNumEntradas] = useState("");
   const [numFactura, setNumFactura] = useState("");
   const [costoTotal, setCostoTotal] = useState("");
+  const [precioUnitario, setPrecioUnitario] = useState("");
   const [selectedResult, setSelectedResult] = useState(null);
   const [selectedResultProveedor, setSelectedResultProveedor] = useState(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -222,8 +223,8 @@ const CompCreateEntrada = () => {
   return (
     <>
       <div className="relative pt-2">
-        <div className="mx-auto max-w-xs p-4 sm:w-full">
-          <div className="block max-w-sm rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-hidden dark:bg-navy-800">
+        <div className="mx-auto max-w-xl p-4 sm:w-full">
+          <div className="block max-w-lg rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-hidden dark:bg-navy-800">
             <form className="" onSubmit={store}>
               {/* Renderizar mensaje de error si existe */}
               {error && (
@@ -282,6 +283,7 @@ const CompCreateEntrada = () => {
                             setSelectedResult(result);
                             setShowSearchResults(false); // Hide search results when a selection is made
                             setHighlightedIndex(-1); // Reset the highlighted index
+                            setPrecioUnitario(result.costoUnitario); // Update the costoTotal with the selected product's costoUnitario
                           }}
                         >
                           {result.descripcion}
@@ -290,43 +292,62 @@ const CompCreateEntrada = () => {
                     </ul>
                   )}
               </div>
-              <div className="mb-6">
-                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Número de entradas.
-                </label>
-                <input
-                  value={numEntradas}
-                  onChange={(e) => {
-                    const inputValue = e.target.value;
-                    const numValue = parseInt(inputValue);
 
-                    if (isNaN(numValue) || numValue < 0) {
-                      // Si el valor ingresado no es un número válido o es menor que cero
-                      setNumEntradas(0); // Restablecer el valor a cero
-                    } else {
-                      setNumEntradas(numValue); // Establecer el valor ingresado
-                    }
-                  }}
-                  type="number"
-                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                  placeholder="Ingrese el número de entradas."
-                  required
-                ></input>
+              <div className="-mx-3 mb-2 flex flex-wrap">
+                <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
+                  <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    Número de entradas.
+                  </label>
+                  <input
+                    value={numEntradas}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+                      const numValue = parseInt(inputValue);
+
+                      if (isNaN(numValue) || numValue < 0) {
+                        // Si el valor ingresado no es un número válido o es menor que cero
+                        setNumEntradas(0); // Restablecer el valor a cero
+                      } else {
+                        setNumEntradas(numValue); // Establecer el valor ingresado
+                      }
+                    }}
+                    type="number"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                    placeholder="Ingrese el número de entradas."
+                    required
+                  ></input>
+                </div>
+
+                <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
+                  <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    Precio unitario.
+                  </label>
+                  <input
+                    value={precioUnitario}
+                    onChange={(e) => setPrecioUnitario(e.target.value)}
+                    type="number"
+                    className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                    placeholder="Calculando...."
+                    required
+                    readOnly={true}
+                  ></input>
+                </div>
+                <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
+                  <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    Total.
+                  </label>
+                  <input
+                    value={costoTotal}
+                    onChange={(e) => setCostoTotal(e.target.value)}
+                    type="number"
+                    className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                    placeholder="Calculando...."
+                    required
+                    readOnly={true}
+                  ></input>
+                </div>
               </div>
-              <div className="mb-6">
-                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Total.
-                </label>
-                <input
-                  value={costoTotal}
-                  onChange={(e) => setCostoTotal(e.target.value)}
-                  type="number"
-                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                  placeholder="Calculando...."
-                  required
-                  readOnly={true}
-                ></input>
-              </div>
+
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Número de factura.

@@ -218,7 +218,7 @@ const CompCreateSalida = () => {
   return (
     <>
       <div className="relative pt-2">
-        <div className="mx-auto max-w-xs p-4 sm:w-full">
+        <div className="mx-auto max-w-md p-4 sm:w-full">
           <div className="block max-w-sm rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-hidden dark:bg-navy-800">
             <form className="" onSubmit={store}>
               {/* Renderizar mensaje de error si existe */}
