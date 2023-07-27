@@ -293,7 +293,7 @@ const CompCreateEntrada = () => {
                   )}
               </div>
 
-              <div className="-mx-3 mb-2 flex flex-wrap">
+              <div className="-mx-3 mb-6 flex flex-wrap">
                 <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
                   <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                     Número de entradas.
