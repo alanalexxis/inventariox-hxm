@@ -138,7 +138,9 @@ const CompCreateEntrada = () => {
       if (event.key === "ArrowDown") {
         event.preventDefault();
         setHighlightedIndexProveedor((prevIndex) =>
-          prevIndex < searchResults.length - 1 ? prevIndex + 1 : prevIndex
+          prevIndex < searchResultsProveedor.length - 1
+            ? prevIndex + 1
+            : prevIndex
         );
       } else if (event.key === "ArrowUp") {
         event.preventDefault();
