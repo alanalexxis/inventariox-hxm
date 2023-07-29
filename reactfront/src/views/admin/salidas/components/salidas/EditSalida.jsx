@@ -31,6 +31,7 @@ const CompEditSalida = () => {
   const [fechaSalida, setFechaSalida] = useState(new Date());
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [showSearchResultsArea, setShowSearchResultsArea] = useState(false);
+
   const calculateTotal = () => {
     if (selectedResult && numSalidas) {
       const total = selectedResult.costoUnitario * numSalidas;

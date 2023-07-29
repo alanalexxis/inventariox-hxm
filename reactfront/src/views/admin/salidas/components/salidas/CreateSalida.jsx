@@ -30,6 +30,7 @@ const CompCreateSalida = () => {
   const [fechaSalida, setFechaSalida] = useState(new Date());
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [showSearchResultsArea, setShowSearchResultsArea] = useState(false);
+  const [precioUnitario, setPrecioUnitario] = useState("");
   const calculateTotal = () => {
     if (selectedResult && numSalidas) {
       const total = selectedResult.costoUnitario * numSalidas;
@@ -218,8 +219,8 @@ const CompCreateSalida = () => {
   return (
     <>
       <div className="relative pt-2">
-        <div className="mx-auto max-w-md p-4 sm:w-full">
-          <div className="block max-w-sm rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-hidden dark:bg-navy-800">
+        <div className="mx-auto max-w-xl p-4 sm:w-full">
+          <div className="block max-w-lg rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-hidden dark:bg-navy-800">
             <form className="" onSubmit={store}>
               {/* Renderizar mensaje de error si existe */}
               {error && (
@@ -240,7 +241,7 @@ const CompCreateSalida = () => {
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                 />
               </div>
-              <div className="mb-6">
+              <div className="relative mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Buscar producto.
                 </label>
@@ -267,7 +268,10 @@ const CompCreateSalida = () => {
                 {showSearchResults &&
                   searchResults.length > 0 &&
                   !selectedResult && (
-                    <ul className="mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md">
+                    <ul
+                      className="absolute z-10 mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md"
+                      style={{ minWidth: "100%" }} // Set the minimum width to match the input field's width
+                    >
                       {searchResults.map((result, index) => (
                         <li
                           key={result.id}
@@ -278,6 +282,7 @@ const CompCreateSalida = () => {
                             setSelectedResult(result);
                             setShowSearchResults(false); // Hide search results when a selection is made
                             setHighlightedIndex(-1); // Reset the highlighted index
+                            setPrecioUnitario(result.costoUnitario);
                           }}
                         >
                           {result.descripcion}
@@ -286,43 +291,61 @@ const CompCreateSalida = () => {
                     </ul>
                   )}
               </div>
-              <div className="mb-6">
-                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Número de salidas.
-                </label>
-                <input
-                  value={numSalidas}
-                  onChange={(e) => {
-                    const inputValue = e.target.value;
-                    const numValue = parseInt(inputValue);
+              <div className="-mx-3 mb-6 flex flex-wrap">
+                <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
+                  <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    Número de salidas.
+                  </label>
+                  <input
+                    value={numSalidas}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+                      const numValue = parseInt(inputValue);
 
-                    if (isNaN(numValue) || numValue < 0) {
-                      // Si el valor ingresado no es un número válido o es menor que cero
-                      setNumEntradas(0); // Restablecer el valor a cero
-                    } else {
-                      setNumEntradas(numValue); // Establecer el valor ingresado
-                    }
-                  }}
-                  type="number"
-                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                  placeholder="Ingrese el número de salidas."
-                  required
-                ></input>
+                      if (isNaN(numValue) || numValue < 0) {
+                        // Si el valor ingresado no es un número válido o es menor que cero
+                        setNumEntradas(0); // Restablecer el valor a cero
+                      } else {
+                        setNumEntradas(numValue); // Establecer el valor ingresado
+                      }
+                    }}
+                    type="number"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                    placeholder="Ingrese el número de salidas."
+                    required
+                  ></input>
+                </div>
+
+                <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
+                  <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    Precio unitario.
+                  </label>
+                  <input
+                    value={precioUnitario}
+                    onChange={(e) => setPrecioUnitario(e.target.value)}
+                    type="number"
+                    className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                    placeholder="Calculando...."
+                    required
+                    readOnly={true}
+                  ></input>
+                </div>
+                <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
+                  <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    Total.
+                  </label>
+                  <input
+                    value={costoTotal}
+                    onChange={(e) => setCostoTotal(e.target.value)}
+                    type="number"
+                    className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                    placeholder="Calculando...."
+                    required
+                    readOnly={true}
+                  ></input>
+                </div>
               </div>
-              <div className="mb-6">
-                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Total.
-                </label>
-                <input
-                  value={costoTotal}
-                  onChange={(e) => setCostoTotal(e.target.value)}
-                  type="number"
-                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                  placeholder="Calculando...."
-                  required
-                  readOnly={true}
-                ></input>
-              </div>
+
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Número de SAP.
@@ -349,7 +372,7 @@ const CompCreateSalida = () => {
                   required
                 ></input>
               </div>
-              <div className="mb-6">
+              <div className="relative mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Buscar área.
                 </label>
@@ -376,7 +399,10 @@ const CompCreateSalida = () => {
                 {showSearchResultsArea &&
                   searchResultsArea.length > 0 &&
                   !selectedResultArea && (
-                    <ul className="mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md">
+                    <ul
+                      className="absolute z-10 mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md"
+                      style={{ minWidth: "100%" }} // Set the minimum width to match the input field's width
+                    >
                       {searchResultsArea.map((result, index) => (
                         <li
                           key={result.id}

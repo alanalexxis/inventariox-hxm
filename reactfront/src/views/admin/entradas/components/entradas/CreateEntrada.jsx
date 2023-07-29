@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 
@@ -31,6 +31,22 @@ const CompCreateEntrada = () => {
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [showSearchResultsProveedor, setShowSearchResultsProveedor] =
     useState(false);
+  const searchResultsRef = useRef();
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        searchResultsRef.current &&
+        !searchResultsRef.current.contains(event.target)
+      ) {
+        setShowSearchResultsProveedor(false);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
   const calculateTotal = () => {
     if (selectedResult && numEntradas) {
       const total = selectedResult.costoUnitario * numEntradas;
@@ -245,19 +261,20 @@ const CompCreateEntrada = () => {
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                 />
               </div>
-              <div className="mb-6">
+              <div className="relative mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Buscar producto.
                 </label>
                 <div className="relative">
+                  {/* Input field */}
                   <input
                     value={
                       selectedResult ? selectedResult.descripcion : idproductos
                     }
                     onChange={(e) => {
                       setIdproductos(e.target.value);
-                      setSelectedResult(null); // Reset the selected result when the input value changes
-                      setShowSearchResults(true); // Show search results when the input value changes
+                      setSelectedResult(null);
+                      setShowSearchResults(true);
                     }}
                     type="text"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
@@ -272,8 +289,12 @@ const CompCreateEntrada = () => {
                 {showSearchResults &&
                   searchResults.length > 0 &&
                   !selectedResult && (
-                    <ul className="mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md">
-                      {searchResults.map((result, index) => (
+                    <ul
+                      ref={searchResultsRef}
+                      className="absolute z-10 mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md"
+                      style={{ minWidth: "100%" }} // Set the minimum width to match the input field's width
+                    >
+                      {searchResults.slice(0, 6).map((result, index) => (
                         <li
                           key={result.id}
                           className={`cursor-pointer px-4 py-2 hover:bg-gray-100 ${
@@ -281,9 +302,9 @@ const CompCreateEntrada = () => {
                           }`}
                           onClick={() => {
                             setSelectedResult(result);
-                            setShowSearchResults(false); // Hide search results when a selection is made
-                            setHighlightedIndex(-1); // Reset the highlighted index
-                            setPrecioUnitario(result.costoUnitario); // Update the costoTotal with the selected product's costoUnitario
+                            setShowSearchResults(false);
+                            setHighlightedIndex(-1);
+                            setPrecioUnitario(result.costoUnitario);
                           }}
                         >
                           {result.descripcion}
@@ -361,7 +382,7 @@ const CompCreateEntrada = () => {
                   required
                 ></input>
               </div>
-              <div className="mb-6">
+              <div className="relative mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Buscar proveedor.
                 </label>
@@ -390,25 +411,30 @@ const CompCreateEntrada = () => {
                 {showSearchResultsProveedor &&
                   searchResultsProveedor.length > 0 &&
                   !selectedResultProveedor && (
-                    <ul className="mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md">
-                      {searchResultsProveedor.map((result, index) => (
-                        <li
-                          key={result.id}
-                          className={`cursor-pointer px-4 py-2 hover:bg-gray-100 ${
-                            index === highlightedIndexProveedor
-                              ? "bg-gray-100"
-                              : ""
-                          }`}
-                          onClick={() => {
-                            setSelectedResultProveedor(result);
-                            setShowSearchResultsProveedor(false); // Hide search results when a selection is made
-                            setHighlightedIndexProveedor(-1); // Reset the highlighted index
-                            console.log(result.nomProveedor);
-                          }}
-                        >
-                          {result.nomProveedor}
-                        </li>
-                      ))}
+                    <ul
+                      className="absolute z-10 mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md"
+                      style={{ minWidth: "100%" }} // Set the minimum width to match the input field's width
+                    >
+                      {searchResultsProveedor
+                        .slice(0, 6)
+                        .map((result, index) => (
+                          <li
+                            key={result.id}
+                            className={`cursor-pointer px-4 py-2 hover:bg-gray-100 ${
+                              index === highlightedIndexProveedor
+                                ? "bg-gray-100"
+                                : ""
+                            }`}
+                            onClick={() => {
+                              setSelectedResultProveedor(result);
+                              setShowSearchResultsProveedor(false); // Hide search results when a selection is made
+                              setHighlightedIndexProveedor(-1); // Reset the highlighted index
+                              console.log(result.nomProveedor);
+                            }}
+                          >
+                            {result.nomProveedor}
+                          </li>
+                        ))}
                     </ul>
                   )}
               </div>

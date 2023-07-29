@@ -110,8 +110,8 @@ const CompCreateProducto = () => {
   return (
     <>
       <div className="relative pt-2">
-        <div className="mx-auto max-w-md p-4 sm:w-full">
-          <div className="block max-w-sm rounded-lg border border-gray-200 bg-white p-6 shadow  dark:border-hidden dark:bg-navy-800  ">
+        <div className="mx-auto max-w-xl p-4 sm:w-full">
+          <div className="block max-w-lg rounded-lg border border-gray-200 bg-white p-6 shadow  dark:border-hidden dark:bg-navy-800  ">
             <form className="" onSubmit={store}>
               {/* Renderizar mensaje de error si existe */}
               {error && (
@@ -177,7 +177,7 @@ const CompCreateProducto = () => {
                 </select>
               </div>
 
-              <div className="mb-6">
+              <div className="relative mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Buscar ubicacion.
                 </label>
@@ -206,7 +206,10 @@ const CompCreateProducto = () => {
                 {showSearchResultsUbicacion &&
                   searchResultsUbicacion.length > 0 &&
                   !selectedResultUbicacion && (
-                    <ul className="mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md">
+                    <ul
+                      className="absolute z-10 mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md"
+                      style={{ minWidth: "100%" }} // Set the minimum width to match the input field's width
+                    >
                       {searchResultsUbicacion.map((result, index) => (
                         <li
                           key={result.id}
