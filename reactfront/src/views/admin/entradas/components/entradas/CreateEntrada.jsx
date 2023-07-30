@@ -32,13 +32,19 @@ const CompCreateEntrada = () => {
   const [showSearchResultsProveedor, setShowSearchResultsProveedor] =
     useState(false);
   const searchResultsRef = useRef();
+  const searchInputRef = useRef();
+
+  // Agregar un manejador de eventos para detectar clics fuera de la lista de sugerencias
   useEffect(() => {
     function handleClickOutside(event) {
       if (
         searchResultsRef.current &&
-        !searchResultsRef.current.contains(event.target)
+        !searchResultsRef.current.contains(event.target) &&
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target)
       ) {
         setShowSearchResultsProveedor(false);
+        setShowSearchResults(false);
       }
     }
 
@@ -268,6 +274,7 @@ const CompCreateEntrada = () => {
                 <div className="relative">
                   {/* Input field */}
                   <input
+                    ref={searchInputRef}
                     value={
                       selectedResult ? selectedResult.descripcion : idproductos
                     }
@@ -388,6 +395,7 @@ const CompCreateEntrada = () => {
                 </label>
                 <div className="relative">
                   <input
+                    ref={searchInputRef}
                     value={
                       selectedResultProveedor
                         ? selectedResultProveedor.nomProveedor
@@ -412,6 +420,7 @@ const CompCreateEntrada = () => {
                   searchResultsProveedor.length > 0 &&
                   !selectedResultProveedor && (
                     <ul
+                      ref={searchResultsRef}
                       className="absolute z-10 mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md"
                       style={{ minWidth: "100%" }} // Set the minimum width to match the input field's width
                     >

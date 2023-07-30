@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 
@@ -31,6 +31,28 @@ const CompCreateSalida = () => {
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [showSearchResultsArea, setShowSearchResultsArea] = useState(false);
   const [precioUnitario, setPrecioUnitario] = useState("");
+  const searchResultsRef = useRef();
+  const searchInputRef = useRef();
+
+  // Agregar un manejador de eventos para detectar clics fuera de la lista de sugerencias
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        searchResultsRef.current &&
+        !searchResultsRef.current.contains(event.target) &&
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target)
+      ) {
+        setShowSearchResultsArea(false);
+        setShowSearchResults(false);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
   const calculateTotal = () => {
     if (selectedResult && numSalidas) {
       const total = selectedResult.costoUnitario * numSalidas;
@@ -247,6 +269,7 @@ const CompCreateSalida = () => {
                 </label>
                 <div className="relative">
                   <input
+                    ref={searchInputRef}
                     value={
                       selectedResult ? selectedResult.descripcion : idproductos
                     }
@@ -269,10 +292,11 @@ const CompCreateSalida = () => {
                   searchResults.length > 0 &&
                   !selectedResult && (
                     <ul
+                      ref={searchResultsRef}
                       className="absolute z-10 mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md"
                       style={{ minWidth: "100%" }} // Set the minimum width to match the input field's width
                     >
-                      {searchResults.map((result, index) => (
+                      {searchResults.slice(0, 6).map((result, index) => (
                         <li
                           key={result.id}
                           className={`cursor-pointer px-4 py-2 hover:bg-gray-100 ${
@@ -378,6 +402,7 @@ const CompCreateSalida = () => {
                 </label>
                 <div className="relative">
                   <input
+                    ref={searchInputRef}
                     value={
                       selectedResultArea ? selectedResultArea.nomArea : idareas
                     }
@@ -400,6 +425,7 @@ const CompCreateSalida = () => {
                   searchResultsArea.length > 0 &&
                   !selectedResultArea && (
                     <ul
+                      ref={searchResultsRef}
                       className="absolute z-10 mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md"
                       style={{ minWidth: "100%" }} // Set the minimum width to match the input field's width
                     >
