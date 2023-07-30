@@ -16,6 +16,31 @@ const TablaProductos = (props) => {
   const [idproductosToDelete, setIdproductosToDelete] = useState(null);
   const [errorVisible, setErrorVisible] = useState(false);
   const [productos, setProducto] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 15;
+  // Get current products for the current page
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentProducts = productos.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
+  );
+
+  // Function to handle pagination: move to the previous page
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  // Function to handle pagination: move to the next page
+  const goToNextPage = () => {
+    const totalPages = Math.ceil(productos.length / recordsPerPage);
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   useEffect(() => {
     getProductos();
   }, []);
@@ -316,6 +341,73 @@ const TablaProductos = (props) => {
           </div>
         </div>
       )}
+      <div className="mt-6 flex items-center justify-between">
+        <button
+          onClick={goToPreviousPage}
+          disabled={currentPage === 1}
+          className="flex items-center gap-x-2 rounded-md border bg-white px-5 py-2 text-sm capitalize text-gray-700 transition-colors duration-200 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="h-5 w-5 rtl:-scale-x-100"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+            />
+          </svg>
+          <span>Previous</span>
+        </button>
+
+        <div className="hidden items-center gap-x-3 md:flex">
+          {/* Page numbers */}
+          {Array.from({
+            length: Math.ceil(productos.length / recordsPerPage),
+          }).map((_, index) => (
+            <Link
+              to={`#${index + 1}`}
+              key={index}
+              onClick={() => setCurrentPage(index + 1)}
+              className={`rounded-md ${
+                currentPage === index + 1
+                  ? "bg-blue-100/60 text-blue-500"
+                  : "text-gray-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+              } px-2 py-1 text-sm`}
+            >
+              {index + 1}
+            </Link>
+          ))}
+        </div>
+
+        <button
+          onClick={goToNextPage}
+          disabled={
+            currentPage === Math.ceil(productos.length / recordsPerPage)
+          }
+          className="flex items-center gap-x-2 rounded-md border bg-white px-5 py-2 text-sm capitalize text-gray-700 transition-colors duration-200 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+        >
+          <span>Next</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="h-5 w-5 rtl:-scale-x-100"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 };
