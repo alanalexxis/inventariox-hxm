@@ -429,7 +429,7 @@ const CompCreateSalida = () => {
                       className="absolute z-10 mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md"
                       style={{ minWidth: "100%" }} // Set the minimum width to match the input field's width
                     >
-                      {searchResultsArea.map((result, index) => (
+                      {searchResultsArea.slice(0, 6).map((result, index) => (
                         <li
                           key={result.id}
                           className={`cursor-pointer px-4 py-2 hover:bg-gray-100 ${

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 const URI = process.env.REACT_APP_API_BACKEND + "productos/";
@@ -19,6 +19,27 @@ const CompCreateProducto = () => {
   const [searchResultsUbicacion, setSearchResultsUbicacion] = useState([]); // State to hold the search results
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const searchResultsRef = useRef();
+  const searchInputRef = useRef();
+
+  // Agregar un manejador de eventos para detectar clics fuera de la lista de sugerencias
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        searchResultsRef.current &&
+        !searchResultsRef.current.contains(event.target) &&
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target)
+      ) {
+        setShowSearchResultsUbicacion(false);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   //funcion buscar proveedores
   useEffect(() => {
@@ -83,26 +104,37 @@ const CompCreateProducto = () => {
 
   const store = async (e) => {
     e.preventDefault();
+    if (!codigo) {
+      setError("Por favor, introduzca un código de producto.");
+    } else if (!descripcion) {
+      setError("Por favor, introduzca una descripción de producto.");
+    } else if (!costo) {
+      setError("Por favor, introduzca un costo por unidad de producto.");
+    } else if (!categoria) {
+      setError("Por favor, elija una categoría.");
+    } else if (!selectedResultUbicacion) {
+      setError("Por favor, busque y seleccione una ubicación.");
+    } else {
+      if (selectedResultUbicacion) {
+        const { idubicacions } = selectedResultUbicacion;
 
-    if (selectedResultUbicacion) {
-      const { idubicacions } = selectedResultUbicacion;
+        try {
+          await axios.post(URI, {
+            codBarras: codigo,
+            idubicacions: idubicacions,
+            descripcion: descripcion,
+            totalEntradas: 0,
+            totalSalidas: 0,
+            totalProductos: 0,
+            costoUnitario: costo,
+            costoTotal: 0,
+            idcategorias: categoria,
+          });
 
-      try {
-        await axios.post(URI, {
-          codBarras: codigo,
-          idubicacions: idubicacions,
-          descripcion: descripcion,
-          totalEntradas: 0,
-          totalSalidas: 0,
-          totalProductos: 0,
-          costoUnitario: costo,
-          costoTotal: 0,
-          idcategorias: categoria,
-        });
-
-        navigate("/admin/inventario");
-      } catch (error) {
-        setError("Error al guardar la entrada");
+          navigate("/admin/inventario");
+        } catch (error) {
+          setError("Error al guardar la entrada");
+        }
       }
     }
   };
@@ -115,9 +147,23 @@ const CompCreateProducto = () => {
             <form className="" onSubmit={store}>
               {/* Renderizar mensaje de error si existe */}
               {error && (
-                <p className="mt-2 rounded border border-red-400 bg-red-100 px-4 py-2 text-red-500">
-                  {error}
-                </p>
+                <div
+                  class="relative rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
+                  role="alert"
+                >
+                  <span class="block sm:inline">{error}</span>
+                  <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                    <svg
+                      class="fill-current h-6 w-6 text-red-500"
+                      role="button"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <title>Close</title>
+                      <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                    </svg>
+                  </span>
+                </div>
               )}
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
@@ -129,7 +175,6 @@ const CompCreateProducto = () => {
                   type="text"
                   className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                   placeholder="Ingrese un código de producto."
-                  required
                 ></input>
               </div>
               <div className="mb-6">
@@ -142,7 +187,6 @@ const CompCreateProducto = () => {
                   type="text"
                   className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                   placeholder="Ingrese una descripción."
-                  required
                 ></input>
               </div>
               <div className="mb-6">
@@ -151,12 +195,22 @@ const CompCreateProducto = () => {
                 </label>
                 <input
                   value={costo}
-                  onChange={(e) => setCosto(e.target.value)}
-                  type="number"
-                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                  placeholder="Ingrese el costo por unidad."
-                  required
-                ></input>
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+
+                    // Expresión regular para validar números enteros y decimales positivos sin el signo "+"
+                    const regex = /^(?!.*[+])\d*(?:\.\d*)?$/;
+
+                    if (regex.test(inputValue)) {
+                      setCosto(inputValue); // Establecer el valor ingresado si es válido
+                    } else {
+                      setCosto(""); // Dejar el campo vacío si no es un número válido
+                    }
+                  }}
+                  type="text" // Cambiar el tipo a "text"
+                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                  placeholder="Ingrese el número de entradas."
+                />
               </div>
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
@@ -183,6 +237,7 @@ const CompCreateProducto = () => {
                 </label>
                 <div className="relative">
                   <input
+                    ref={searchInputRef}
                     value={
                       selectedResultUbicacion
                         ? selectedResultUbicacion.nomUbicacions
@@ -196,7 +251,6 @@ const CompCreateProducto = () => {
                     type="text"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                     placeholder="Buscar ubicacion..."
-                    required
                   />
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                     <FaSearch className="text-gray-400" />
@@ -207,27 +261,30 @@ const CompCreateProducto = () => {
                   searchResultsUbicacion.length > 0 &&
                   !selectedResultUbicacion && (
                     <ul
+                      ref={searchResultsRef}
                       className="absolute z-10 mt-2 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-md"
                       style={{ minWidth: "100%" }} // Set the minimum width to match the input field's width
                     >
-                      {searchResultsUbicacion.map((result, index) => (
-                        <li
-                          key={result.id}
-                          className={`cursor-pointer px-4 py-2 hover:bg-gray-100 ${
-                            index === highlightedIndexUbicacion
-                              ? "bg-gray-100"
-                              : ""
-                          }`}
-                          onClick={() => {
-                            setSelectedResultUbicacion(result);
-                            setShowSearchResultsUbicacion(false); // Hide search results when a selection is made
-                            setHighlightedIndexUbicacion(-1); // Reset the highlighted index
-                            console.log(result.nomUbicacions);
-                          }}
-                        >
-                          {result.nomUbicacions}
-                        </li>
-                      ))}
+                      {searchResultsUbicacion
+                        .slice(0, 6)
+                        .map((result, index) => (
+                          <li
+                            key={result.id}
+                            className={`cursor-pointer px-4 py-2 hover:bg-gray-100 ${
+                              index === highlightedIndexUbicacion
+                                ? "bg-gray-100"
+                                : ""
+                            }`}
+                            onClick={() => {
+                              setSelectedResultUbicacion(result);
+                              setShowSearchResultsUbicacion(false); // Hide search results when a selection is made
+                              setHighlightedIndexUbicacion(-1); // Reset the highlighted index
+                              console.log(result.nomUbicacions);
+                            }}
+                          >
+                            {result.nomUbicacions}
+                          </li>
+                        ))}
                     </ul>
                   )}
               </div>

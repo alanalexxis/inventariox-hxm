@@ -332,18 +332,18 @@ const CompCreateEntrada = () => {
                       const inputValue = e.target.value;
                       const numValue = parseInt(inputValue);
 
-                      if (isNaN(numValue) || numValue < 0) {
-                        // Si el valor ingresado no es un número válido o es menor que cero
-                        setNumEntradas(0); // Restablecer el valor a cero
-                      } else {
+                      if (!isNaN(numValue) && numValue >= 0) {
+                        // Si el valor ingresado es un número válido y mayor o igual a cero
                         setNumEntradas(numValue); // Establecer el valor ingresado
+                      } else {
+                        setNumEntradas(""); // Dejar el campo vacío si no es un número válido
                       }
                     }}
                     type="number"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                     placeholder="Ingrese el número de entradas."
                     required
-                  ></input>
+                  />
                 </div>
 
                 <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
