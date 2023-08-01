@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
+import * as XLSX from "sheetjs-style";
 
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
@@ -25,6 +26,58 @@ const TablaProductos = (props) => {
     indexOfFirstRecord,
     indexOfLastRecord
   );
+  const exportToExcel = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_API_BACKEND + "productos/"
+      );
+      const jsonData = response.data;
+
+      // Map the jsonData to a new format with custom titles
+      const modifiedData = jsonData.map((item) => ({
+        CÓDIGO: {
+          v: item.codBarras,
+          t: "s",
+          s: { alignment: { horizontal: "center" } },
+        },
+        DESCRIPCIÓN: {
+          v: item.descripcion,
+          t: "s",
+          s: { alignment: { horizontal: "center" } },
+        },
+        CANTIDAD: {
+          v: item.totalProductos,
+          t: "n",
+          s: { alignment: { horizontal: "center" } },
+        },
+        "COSTO UNITARIO": {
+          v: item.costoUnitario,
+          t: "n",
+          s: { alignment: { horizontal: "center" } },
+        },
+        "COSTO TOTAL": {
+          v: item.costoTotal,
+          t: "n",
+          s: { alignment: { horizontal: "center" } },
+        },
+        CATEGORÍA: {
+          v: item.nomCategorias,
+          t: "s",
+          s: { alignment: { horizontal: "center" } },
+        },
+        // Add more properties with custom titles as needed
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(modifiedData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Productos");
+
+      // Export the data to Excel file
+      XLSX.writeFile(workbook, "productos.xlsx");
+    } catch (error) {
+      console.error("Error exporting data to Excel:", error);
+    }
+  };
 
   const goToPreviousPage = () => {
     if (currentPage > 1) {
@@ -472,6 +525,10 @@ const TablaProductos = (props) => {
             />
           </svg>
         </button>
+        <div>
+          {/* ... Resto del código de tu componente ... */}
+          <button onClick={exportToExcel}>Exportar a Excel</button>
+        </div>
       </div>
     </div>
   );
