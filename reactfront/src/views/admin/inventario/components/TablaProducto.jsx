@@ -33,42 +33,33 @@ const TablaProductos = (props) => {
       );
       const jsonData = response.data;
 
-      // Map the jsonData to a new format with custom titles
       const modifiedData = jsonData.map((item) => ({
-        CÓDIGO: {
-          v: item.codBarras,
-          t: "s",
-          s: { alignment: { horizontal: "center" } },
-        },
-        DESCRIPCIÓN: {
-          v: item.descripcion,
-          t: "s",
-          s: { alignment: { horizontal: "center" } },
-        },
-        CANTIDAD: {
-          v: item.totalProductos,
-          t: "n",
-          s: { alignment: { horizontal: "center" } },
-        },
-        "COSTO UNITARIO": {
-          v: item.costoUnitario,
-          t: "n",
-          s: { alignment: { horizontal: "center" } },
-        },
-        "COSTO TOTAL": {
-          v: item.costoTotal,
-          t: "n",
-          s: { alignment: { horizontal: "center" } },
-        },
-        CATEGORÍA: {
-          v: item.nomCategorias,
-          t: "s",
-          s: { alignment: { horizontal: "center" } },
-        },
+        CÓDIGO: item.codBarras,
+        DESCRIPCIÓN: item.descripcion,
+        CANTIDAD: item.totalProductos,
+        "COSTO UNITARIO": { v: item.costoUnitario, t: "n", z: "$#,##0.00" }, // Format as currency
+        "COSTO TOTAL": { v: item.costoTotal, t: "n", z: "$#,##0.00" }, // Format as currency
+        CATEGORÍA: item.nomCategorias,
         // Add more properties with custom titles as needed
       }));
 
       const worksheet = XLSX.utils.json_to_sheet(modifiedData);
+
+      // Change the style of the title cells
+      const titleCellStyle = {
+        fill: { fgColor: { rgb: "FFFF00" } },
+        alignment: { horizontal: "center" },
+        font: { bold: true },
+      };
+
+      // Set the title cell style for each column
+      Object.keys(worksheet).forEach((cell) => {
+        if (cell.endsWith("1")) {
+          // Check if it's a title cell (ends with "1" since titles are in the first row)
+          worksheet[cell].s = titleCellStyle;
+        }
+      });
+
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Productos");
 
