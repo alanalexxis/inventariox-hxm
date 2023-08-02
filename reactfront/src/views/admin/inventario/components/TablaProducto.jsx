@@ -190,13 +190,25 @@ const TablaProductos = (props) => {
   return (
     <div className="relative">
       <Card extra={"w-full pb-10 p-4 h-full"} style={{ marginTop: "50px" }}>
-        <Link
-          to="/admin/inventario/create"
-          className="ml-10 mb-10 inline-block rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-3 py-2 text-center text-sm font-medium text-white shadow-lg shadow-green-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-2 focus:ring-green-300 dark:shadow-lg dark:shadow-green-800/80 dark:focus:ring-green-800"
-          style={{ position: "sticky", top: "50px", maxWidth: "200px" }}
-        >
-          Registrar producto <i className="far fa-cart-plus mr-0"></i>
-        </Link>
+        <div className="flex flex-wrap justify-start space-x-4">
+          {/* Primer botón */}
+          <Link
+            to="/admin/inventario/create"
+            className="mb-10 inline-block flex-grow rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-3 py-2 text-center text-sm font-medium text-white shadow-lg shadow-green-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-2 focus:ring-green-300 dark:shadow-lg dark:shadow-green-800/80 dark:focus:ring-green-800"
+            style={{ maxWidth: "180px" }}
+          >
+            Registrar producto <i className="far fa-cart-plus mr-0"></i>
+          </Link>
+
+          {/* Segundo botón */}
+          <Link
+            onClick={exportToExcel}
+            className="mb-10 inline-block rounded-lg bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 px-3 py-2 text-center text-sm font-medium text-white shadow-lg shadow-blue-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-2 focus:ring-blue-300 dark:shadow-lg dark:shadow-blue-800/80 dark:focus:ring-blue-800"
+            style={{ maxWidth: "200px" }}
+          >
+            Exportar a Excel <i className="far fa-file-excel mr-0"></i>
+          </Link>
+        </div>
 
         <header className="relative flex items-center justify-between">
           <div className="text-xl font-bold text-navy-700 dark:text-white">
@@ -525,10 +537,6 @@ const TablaProductos = (props) => {
             />
           </svg>
         </button>
-        <div>
-          {/* ... Resto del código de tu componente ... */}
-          <button onClick={exportToExcel}>Exportar a Excel</button>
-        </div>
       </div>
     </div>
   );
