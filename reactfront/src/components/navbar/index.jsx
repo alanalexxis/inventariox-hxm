@@ -226,9 +226,9 @@ const Navbar = (props) => {
                   {" "}
                   {data && (
                     <>
-                      {data.alumno ? (
+                      {data.usuario ? (
                         <p className="text-sm font-bold text-navy-700 dark:text-white">
-                          👋 Hey, {data.alumno.nombre}
+                          👋 Hey, {data.usuario.correo}
                         </p>
                       ) : data.tutor ? (
                         <p className="text-sm font-bold text-navy-700 dark:text-white">

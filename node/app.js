@@ -69,67 +69,10 @@ app.post("/api/login", (req, res) => {
         if (usuario.contrasena !== contrasena) {
           res.status(400).send("Contraseña incorrecta");
         } else {
-          // Si el usuario se encuentra, busca el alumno asociado
-          alumnoModel
-            .findOne({
-              where: {
-                idusuarios: usuario.idusuarios,
-              },
-            })
-            .then((alumno) => {
-              if (alumno) {
-                const response = {
-                  alumno: alumno,
-                  usuario: usuario,
-                };
-                res.status(200).send(response);
-              } else {
-                // Si no encuentra al alumno, busca el tutor asociado
-                tutorModel
-                  .findOne({
-                    where: {
-                      idusuarios: usuario.idusuarios,
-                    },
-                  })
-                  .then((tutor) => {
-                    if (tutor) {
-                      const response = {
-                        tutor: tutor,
-                        usuario: usuario,
-                      };
-                      res.status(200).send(response);
-                    } else {
-                      // Si no encuentra al tutor, busca el director asociado
-                      directorModel
-                        .findOne({
-                          where: {
-                            idusuarios: usuario.idusuarios,
-                          },
-                        })
-                        .then((director) => {
-                          if (director) {
-                            const response = {
-                              director: director,
-                              usuario: usuario,
-                            };
-                            res.status(200).send(response);
-                          } else {
-                            res.status(404).send("Director no encontrado");
-                          }
-                        })
-                        .catch((err) => {
-                          res.status(500).send(err);
-                        });
-                    }
-                  })
-                  .catch((err) => {
-                    res.status(500).send(err);
-                  });
-              }
-            })
-            .catch((err) => {
-              res.status(500).send(err);
-            });
+          const response = {
+            usuario: usuario,
+          };
+          res.status(200).send(response);
         }
       } else {
         // Si el correo no existe, devuelve un mensaje de error

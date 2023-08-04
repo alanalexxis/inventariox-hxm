@@ -70,7 +70,7 @@ export default function SignIn() {
         if (data.usuario.idrangos === 1) {
           navigate("/admin"); // Redireccionar a /admin si idrangos = 1
         } else if (data.usuario.idrangos === 2) {
-          navigate("/alumno/"); // Redireccionar a /usuario/ si idrangos = 2
+          navigate("/admin/"); // Redireccionar a /usuario/ si idrangos = 2
         }
       })
       .catch(({ response }) => {
