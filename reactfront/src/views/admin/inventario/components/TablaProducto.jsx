@@ -43,6 +43,24 @@ const TablaProductos = (props) => {
         // Add more properties with custom titles as needed
       }));
 
+      // Calculate the total costoTotal
+      const totalCostoTotal = jsonData.reduce(
+        (total, item) => total + item.costoTotal,
+        0
+      );
+
+      // Add a row for total costoTotal
+      const totalRow = {
+        CÓDIGO: "",
+        DESCRIPCIÓN: "",
+        CANTIDAD: "",
+        "COSTO UNITARIO": "Total",
+        "COSTO TOTAL": { v: totalCostoTotal, t: "n", z: "$#,##0.00" }, // Format as currency
+        CATEGORÍA: "",
+        // Add more properties with custom titles as needed
+      };
+      modifiedData.push(totalRow);
+
       const worksheet = XLSX.utils.json_to_sheet(modifiedData);
 
       // Change the style of the title cells
@@ -52,11 +70,27 @@ const TablaProductos = (props) => {
         font: { bold: true },
       };
 
+      // Change the style of the "Total" cell to red
+      const totalCellStyle = {
+        fill: { fgColor: { rgb: "FFF000" } }, // Red fill color
+        alignment: { horizontal: "center" },
+        font: { bold: true },
+      };
+
       // Set the title cell style for each column
       Object.keys(worksheet).forEach((cell) => {
         if (cell.endsWith("1")) {
           // Check if it's a title cell (ends with "1" since titles are in the first row)
           worksheet[cell].s = titleCellStyle;
+        }
+      });
+
+      // Set the "Total" cell style
+      const lastRow = modifiedData.length + 1;
+      Object.keys(worksheet).forEach((cell) => {
+        if (cell.endsWith(`${lastRow}`)) {
+          // Check if it's the last row (the "Total" row)
+          worksheet[cell].s = totalCellStyle;
         }
       });
 
@@ -197,7 +231,7 @@ const TablaProductos = (props) => {
             className="mb-10 inline-block rounded-lg bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 px-3 py-2 text-center text-sm font-medium text-white shadow-lg shadow-blue-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-2 focus:ring-blue-300 dark:shadow-lg dark:shadow-blue-800/80 dark:focus:ring-blue-800"
             style={{ maxWidth: "200px" }}
           >
-            Exportar a Excel <i className="far fa-file-excel mr-0"></i>
+            Generar reporte <i className="far fa-file-excel mr-0"></i>
           </Link>
         </div>
 
@@ -275,7 +309,6 @@ const TablaProductos = (props) => {
                 </th>
               </tr>
             </thead>
-
             <tbody>
               {currentProducts.map((producto) => (
                 <tr>
