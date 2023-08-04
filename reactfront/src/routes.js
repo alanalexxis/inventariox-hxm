@@ -31,16 +31,16 @@ import RouteController from "routes/RouteController";
 
 import CompEditUsuario from "views/admin/usuario/components/usuario/EditUsuario";
 import CompCreateUsuario from "views/admin/usuario/components/usuario/CreateUsuario";
-import CompCreateAlumno from "views/admin/usuario/components/alumno/CreateAlumno";
+
 import CompCreateGrupo from "views/admin/grupo/components/grupo/CreateGrupo";
 import CompCreatePeriodo from "views/admin/grupo/components/periodo/CreatePeriodo";
 import CompCreateCarrera from "views/admin/grupo/components/carrera/CreateCarrera";
 import CompEditCarrera from "views/admin/grupo/components/carrera/EditCarrera";
 import CompEditPeriodo from "views/admin/grupo/components/periodo/EditPeriodo";
 import CompCreateProducto from "views/admin/inventario/components/inventario/CreateProducto";
-import CompEditAlumno from "views/admin/usuario/components/alumno/EditAlumno";
-import CompCreateTutor from "views/admin/usuario/components/tutor/CreateTutor";
-import CompEditTutor from "views/admin/usuario/components/tutor/EditTutor";
+
+
+
 import CompEditProducto from "views/admin/inventario/components/inventario/EditProducto";
 import CompEditGrupo from "views/admin/grupo/components/grupo/EditGrupo";
 import CompCreatePermiso from "views/admin/permiso/components/permiso/CreatePermiso";
@@ -48,8 +48,8 @@ import CompCreateEntrada from "views/admin/entradas/components/entradas/CreateEn
 import CompEditEntrada from "views/admin/entradas/components/entradas/EditEntrada";
 import CompEditSalida from "views/admin/salidas/components/salidas/EditSalida";
 import CompEditPermiso from "views/admin/permiso/components/permiso/EditPermiso";
-import CompCreateDirector from "views/admin/usuario/components/director/CreateDirector";
-import CompEditDirector from "views/admin/usuario/components/director/EditDirector";
+
+
 import CompEditGeneral from "views/admin/profile/components/editGeneral/editGeneral";
 import CompCreateSalida from "views/admin/salidas/components/salidas/CreateSalida";
 const routes = [
@@ -149,13 +149,7 @@ const routes = [
     path: "carrera/edit/:idcarreras",
     component: <CompEditCarrera />,
   },
-  {
-    name: "Editar alumnos",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "alumno/edit/:idalumnos",
-    component: <CompEditAlumno />,
-  },
+
   {
     name: "Editar permisos",
     layout: "/admin",
@@ -184,20 +178,7 @@ const routes = [
     path: "grupo/edit/:idgrupos",
     component: <CompEditGrupo />,
   },
-  {
-    name: "Editar tutores",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "tutor/edit/:idtutores",
-    component: <CompEditTutor />,
-  },
-  {
-    name: "Editar directores",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "director/edit/:iddirectores",
-    component: <CompEditDirector />,
-  },
+
   {
     name: "Editar periodos",
     layout: "/admin",
@@ -219,13 +200,7 @@ const routes = [
     path: "permiso/create",
     component: <CompCreatePermiso />,
   },
-  {
-    name: "Añadir directores",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "director/create",
-    component: <CompCreateDirector />,
-  },
+
   {
     name: "Añadir periodos",
     layout: "/admin",
@@ -247,13 +222,7 @@ const routes = [
     path: "carrera/create",
     component: <CompCreateCarrera />,
   },
-  {
-    name: "Añadir tutores",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "tutor/create",
-    component: <CompCreateTutor />,
-  },
+
   {
     name: "Añadir grupos",
     layout: "/admin",
@@ -269,13 +238,7 @@ const routes = [
   //   path: "grupo/create",
   //   component: <CompCreateGrupo />,
   // },
-  {
-    name: "Añadir alumnos",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "alumno/create",
-    component: <CompCreateAlumno />,
-  },
+
 
   {
     name: "Perfil",

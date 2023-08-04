@@ -67,12 +67,10 @@ export default function SignIn() {
         }
 
         // Verificar el valor de idrangos
-        if (data.usuario.idrangos === 3) {
-          navigate("/admin"); // Redireccionar a /admin si idrangos = 3
-        } else if (data.usuario.idrangos === 1) {
-          navigate("/alumno/"); // Redireccionar a /alumno/ si idrangos = 1
+        if (data.usuario.idrangos === 1) {
+          navigate("/admin"); // Redireccionar a /admin si idrangos = 1
         } else if (data.usuario.idrangos === 2) {
-          navigate("/tutor/"); // Redireccionar a /alumno/ si idrangos = 1
+          navigate("/alumno/"); // Redireccionar a /usuario/ si idrangos = 2
         }
       })
       .catch(({ response }) => {

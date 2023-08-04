@@ -94,9 +94,8 @@ const CompCreateUsuario = () => {
                   <option value="" disabled>
                     Selecciona una opción
                   </option>
-                  <option value="1">Alumno</option>
-                  <option value="2">Tutor</option>
-                  <option value="3">Director</option>
+                  <option value="1">Administrador</option>
+                  <option value="2">Usuario</option>
                 </select>
               </div>
               <button
