@@ -223,31 +223,19 @@ const Navbar = (props) => {
             <div className="flex h-48 w-56 flex-col justify-start rounded-[20px] bg-white bg-cover bg-no-repeat shadow-xl shadow-shadow-500 dark:!bg-navy-700 dark:text-white dark:shadow-none">
               <div className="mt-3 ml-4">
                 <div className="flex items-center gap-2">
-                  {" "}
-                  {data && (
-                    <>
-                      {data.usuario ? (
-                        <p className="text-sm font-bold text-navy-700 dark:text-white">
-                          👋 Hey, {data.usuario.correo}
-                        </p>
-                      ) : data.tutor ? (
-                        <p className="text-sm font-bold text-navy-700 dark:text-white">
-                          👋 Hey, {data.tutor.nombre}
-                        </p>
-                      ) : data.director ? (
-                        <p className="text-sm font-bold text-navy-700 dark:text-white">
-                          👋 Hey, {data.director.nombre}
-                        </p>
-                      ) : (
-                        // Mensaje por defecto si no se encuentra el tipo de usuario
-                        <p className="text-sm font-bold text-navy-700 dark:text-white">
-                          👋 Hey, usuario desconocido
-                        </p>
-                      )}
-                    </>
+                  {data && data.usuario ? (
+                    <p className="text-sm font-bold text-navy-700 dark:text-white">
+                      👋 Hey, {data.usuario.correo}
+                    </p>
+                  ) : (
+                    // Mensaje por defecto si no se encuentra el tipo de usuario
+                    <p className="text-sm font-bold text-navy-700 dark:text-white">
+                      👋 Hey, usuario desconocido
+                    </p>
                   )}
                 </div>
               </div>
+
               <div className="mt-3 h-px w-full bg-gray-200 dark:bg-white/20 " />
 
               <div className="mt-3 ml-4 flex flex-col">
