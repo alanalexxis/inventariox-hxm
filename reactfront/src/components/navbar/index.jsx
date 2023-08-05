@@ -225,7 +225,7 @@ const Navbar = (props) => {
                 <div className="flex items-center gap-2">
                   {data && data.usuario ? (
                     <p className="text-sm font-bold text-navy-700 dark:text-white">
-                      👋 Hey, {data.usuario.correo}
+                      👋 Hey, {data.usuario.nombre}
                     </p>
                   ) : (
                     // Mensaje por defecto si no se encuentra el tipo de usuario
