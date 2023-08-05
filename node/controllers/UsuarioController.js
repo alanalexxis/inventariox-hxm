@@ -11,6 +11,7 @@ export const getAllUsuarios = async (req, res) => {
       usuarios.map((usuario) => ({
         idusuarios: usuario.idusuarios,
         correo: usuario.correo,
+        nombre: usuario.nombre,
         contrasena: usuario.contrasena,
         idrangos: usuario.rango.idusuarios,
         nomRangos: usuario.rango.nomRangos,

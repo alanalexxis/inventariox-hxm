@@ -12,6 +12,7 @@ const usuarioModel = db.define("usuario", {
   },
 
   correo: { type: DataTypes.STRING },
+  nombre: { type: DataTypes.STRING },
   contrasena: { type: DataTypes.STRING },
   idrangos: { type: DataTypes.INTEGER },
   image: { type: DataTypes.STRING }, // Tipo de dato para el nombre de archivo

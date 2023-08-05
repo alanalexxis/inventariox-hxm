@@ -50,7 +50,7 @@ const CompCreateUsuario = () => {
                 <input
                   value={correo}
                   onChange={(e) => setCorreo(e.target.value)}
-                  type="text"
+                  type="email"
                   className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
                   placeholder="example@mail.com"
                   required
