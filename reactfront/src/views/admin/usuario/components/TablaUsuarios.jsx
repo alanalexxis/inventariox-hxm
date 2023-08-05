@@ -78,7 +78,7 @@ const ColumnsTable = (props) => {
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
                 <div className="flex w-full justify-between pr-10 text-xs tracking-wide text-gray-600">
                   {" "}
-                  ID
+                  NOMBRE
                 </div>
               </th>
               <th className="border-b border-gray-200 pr-14 pb-[10px] text-start dark:!border-navy-700">
@@ -112,7 +112,7 @@ const ColumnsTable = (props) => {
             {usuarios.map((usuario) => (
               <tr>
                 <td className="text-sm font-bold text-navy-700 dark:text-white">
-                  {usuario.idusuarios}
+                  {usuario.nombre}
                 </td>
 
                 <td className="text-sm font-bold text-navy-700 dark:text-white">

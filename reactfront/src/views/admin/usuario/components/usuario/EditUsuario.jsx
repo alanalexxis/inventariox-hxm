@@ -5,6 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 const URI = process.env.REACT_APP_API_BACKEND + "usuarios/";
 
 const CompEditUsuario = () => {
+  const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [idrangos, setIdrangos] = useState("");
@@ -23,6 +24,7 @@ const CompEditUsuario = () => {
       setError("Selecciona un rango.");
     } else {
       await axios.put(URI + idusuarios, {
+        nombre: nombre,
         correo: correo,
         contrasena: contrasena,
         idrangos: idrangos,
@@ -36,6 +38,7 @@ const CompEditUsuario = () => {
       setCorreo(res.data.correo);
       setContrasena(res.data.contrasena);
       setIdrangos(res.data.idrangos);
+      setNombre(res.data.nombre);
     };
     getBlogById();
   }, [idusuarios]);
@@ -52,6 +55,20 @@ const CompEditUsuario = () => {
                   {error}
                 </p>
               )}
+              <div className="mb-6">
+                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                  Nombre
+                </label>
+                <input
+                  value={nombre}
+                  onChange={(e) => setNombre(e.target.value)}
+                  type="text"
+                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                  placeholder="Ingrese un nombre."
+                  required
+                ></input>
+              </div>
+
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Correo
