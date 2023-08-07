@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `entradas` (
   KEY `fk_entradas_proveedors1_idx` (`idproveedors`),
   CONSTRAINT `fk_entradas_productos1` FOREIGN KEY (`idproductos`) REFERENCES `productos` (`idproductos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_entradas_proveedors1` FOREIGN KEY (`idproveedors`) REFERENCES `proveedors` (`idproveedors`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE = InnoDB AUTO_INCREMENT = 67 DEFAULT CHARSET = utf8 COLLATE = utf8_spanish_ci;
+) ENGINE = InnoDB AUTO_INCREMENT = 68 DEFAULT CHARSET = utf8 COLLATE = utf8_spanish_ci;
 
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: productos
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `salidas` (
   KEY `fk_salidas_areas1_idx` (`idareas`),
   CONSTRAINT `fk_salidas_areas1` FOREIGN KEY (`idareas`) REFERENCES `areas` (`idareas`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_salidas_productos1` FOREIGN KEY (`idproductos`) REFERENCES `productos` (`idproductos`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
 
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: ubicacions
@@ -191,6 +191,18 @@ INSERT INTO
   )
 VALUES
   (66, 200, 3, 30.00, '2023-08-02 21:27:29', '78', 7);
+INSERT INTO
+  `entradas` (
+    `identradas`,
+    `idproductos`,
+    `numEntradas`,
+    `costoTotal`,
+    `fechaEntrada`,
+    `numFactura`,
+    `idproveedors`
+  )
+VALUES
+  (67, 199, 9, 94.50, '2023-08-07 15:38:40', '98', 2);
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: productos
@@ -214,11 +226,11 @@ VALUES
     199,
     'HXM89JKJSAS',
     'Tornillos',
-    10,
-    5,
-    5,
+    19,
+    7,
+    12,
     10.50,
-    52.50,
+    126.00,
     2,
     1
   );
@@ -347,6 +359,28 @@ VALUES
     1,
     52.50,
     '2023-08-04 03:16:39'
+  );
+INSERT INTO
+  `salidas` (
+    `idsalidas`,
+    `idproductos`,
+    `numSalidas`,
+    `numSap`,
+    `nomTecnico`,
+    `idareas`,
+    `costoTotal`,
+    `fechaSalida`
+  )
+VALUES
+  (
+    4,
+    199,
+    2,
+    '9',
+    'maroo',
+    1,
+    21.00,
+    '2023-08-07 15:57:42'
   );
 
 # ------------------------------------------------------------

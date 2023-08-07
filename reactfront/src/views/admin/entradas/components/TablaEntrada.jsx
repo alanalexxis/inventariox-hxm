@@ -12,12 +12,18 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 const TablaEntradas = (props) => {
+  const [entradas, setEntradas] = useState([]);
   const [open, setOpen] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
   const cancelButtonRef = useRef(null);
   const [identradasToDelete, setIdentradasToDelete] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 15;
+  // Get current products for the current page
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentProducts = entradas.slice(indexOfFirstRecord, indexOfLastRecord);
 
-  const [entradas, setEntradas] = useState([]);
   useEffect(() => {
     getEntradas();
   }, []);
@@ -132,6 +138,64 @@ const TablaEntradas = (props) => {
     }
   }, [errorVisible]);
 
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  // Function to handle pagination: move to the next page
+  const goToNextPage = () => {
+    const totalPages = Math.ceil(entradas.length / recordsPerPage);
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  // Function to generate an array with page numbers for rendering
+  const generatePageNumbers = () => {
+    const totalPages = Math.ceil(entradas.length / recordsPerPage);
+    const visiblePages = 5; // Number of visible page numbers (including ellipsis)
+
+    if (totalPages <= visiblePages) {
+      // If total pages is less than or equal to visiblePages, show all page numbers
+      return Array.from({ length: totalPages }, (_, index) => index + 1);
+    } else {
+      const currentPageIndex = currentPage - 1;
+      const firstVisiblePageIndex = Math.max(0, currentPageIndex - 2);
+      const lastVisiblePageIndex = Math.min(
+        totalPages - 1,
+        currentPageIndex + 2
+      );
+
+      const pageNumbers = [];
+      if (firstVisiblePageIndex > 0) {
+        pageNumbers.push(1);
+        if (firstVisiblePageIndex > 1) {
+          // Add ellipsis if the first page is not visible
+          pageNumbers.push("...");
+        }
+      }
+
+      for (let i = firstVisiblePageIndex; i <= lastVisiblePageIndex; i++) {
+        pageNumbers.push(i + 1);
+      }
+
+      if (lastVisiblePageIndex < totalPages - 1) {
+        if (lastVisiblePageIndex < totalPages - 2) {
+          // Add ellipsis if the last page is not visible
+          pageNumbers.push("...");
+        }
+        pageNumbers.push(totalPages);
+      }
+
+      return pageNumbers;
+    }
+  };
+
+  useEffect(() => {
+    getEntradas();
+  }, []);
+
   return (
     <div className="relative">
       <Card extra={"w-full pb-10 p-4 h-full"} style={{ marginTop: "50px" }}>
@@ -213,7 +277,7 @@ const TablaEntradas = (props) => {
             </thead>
 
             <tbody>
-              {entradas.map((entrada) => (
+              {currentProducts.map((entrada) => (
                 <tr>
                   <td className="text-sm font-bold text-navy-700 dark:text-white">
                     {entrada.codBarras}
@@ -372,6 +436,97 @@ const TablaEntradas = (props) => {
           </div>
         </div>
       )}
+      <div className="mt-6 flex items-center justify-between">
+        <button
+          onClick={goToPreviousPage}
+          disabled={currentPage === 1}
+          className={`flex items-center gap-x-2 rounded-md border px-5 py-2 text-sm capitalize transition-colors duration-200 ${
+            currentPage === 1
+              ? "cursor-not-allowed text-gray-400"
+              : "text-gray-700"
+          } ${
+            currentPage === 1
+              ? "bg-gray-100"
+              : "bg-white hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+          }`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className={`h-5 w-5 ${
+              currentPage === 1 ? "text-gray-400" : "text-gray-700"
+            } rtl:-scale-x-100`}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+            />
+          </svg>
+          <span>Anterior</span>
+        </button>
+
+        <div className="hidden items-center gap-x-3 md:flex">
+          {/* Page numbers */}
+          {generatePageNumbers().map((pageNumber, index) =>
+            pageNumber === "..." ? (
+              <span key={index} className="px-2 py-1 text-gray-500">
+                {pageNumber}
+              </span>
+            ) : (
+              <Link
+                to={`#${pageNumber}`}
+                key={index}
+                onClick={() => setCurrentPage(pageNumber)}
+                className={`rounded-md ${
+                  currentPage === pageNumber
+                    ? "bg-blue-100/60 text-blue-500"
+                    : "text-gray-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+                } px-2 py-1 text-sm`}
+              >
+                {pageNumber}
+              </Link>
+            )
+          )}
+        </div>
+
+        <button
+          onClick={goToNextPage}
+          disabled={currentPage === Math.ceil(entradas.length / recordsPerPage)}
+          className={`flex items-center gap-x-2 rounded-md border bg-white px-5 py-2 text-sm capitalize transition-colors duration-200 ${
+            currentPage === Math.ceil(entradas.length / recordsPerPage)
+              ? "cursor-not-allowed text-gray-400"
+              : "text-gray-700"
+          } ${
+            currentPage === Math.ceil(entradas.length / recordsPerPage)
+              ? "bg-gray-100"
+              : "bg-white hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+          }`}
+        >
+          <span>Siguiente</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className={`h-5 w-5 ${
+              currentPage === Math.ceil(entradas.length / recordsPerPage)
+                ? "text-gray-400"
+                : "text-gray-700"
+            } rtl:-scale-x-100`}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 };

@@ -229,13 +229,13 @@ const Dashboard = () => {
         />
         <Widget
           icon={<GiExitDoor className="h-7 w-7 text-green-500" />} // Agrega la clase "text-green-500"
-          title={`Total en entradas - ${currentMonth} ${currentYear}`}
+          title={`Entradas - ${currentMonth} ${currentYear}`}
           subtitle={`$${costosTotalesEntradas}`} // Agregar el símbolo "$" antes de costosTotales
         />
 
         <Widget
           icon={<GiEntryDoor className="h-6 w-6 text-green-500" />} // Agrega la clase "text-green-500"
-          title={`Total en salidas - ${currentMonth} ${currentYear}`}
+          title={`Salidas - ${currentMonth} ${currentYear}`}
           subtitle={`$${costosTotalesSalidas}`} // Agregar el símbolo "$" antes de costosTotales
         />
 
