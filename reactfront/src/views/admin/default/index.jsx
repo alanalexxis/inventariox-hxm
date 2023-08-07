@@ -3,7 +3,11 @@ import Banner1 from "./components/Banner";
 import { FaSchool } from "react-icons/fa";
 import { BsUiChecks } from "react-icons/bs";
 
-import { MdOutlinePendingActions, MdCheckCircle } from "react-icons/md";
+import {
+  MdOutlinePendingActions,
+  MdCheckCircle,
+  MdOutlineAttachMoney,
+} from "react-icons/md";
 import Clima from "components/widget/Clima";
 import { AiFillCloseCircle } from "react-icons/ai";
 
@@ -12,12 +16,31 @@ import Widget from "components/widget/Widget";
 import axios from "axios";
 import { useState, useEffect } from "react";
 const Dashboard = () => {
+  // Obtener el mes y el año actual
+  const currentDate = new Date();
+  const monthNames = [
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
+  ];
+  const currentMonth = monthNames[currentDate.getMonth()];
+  const currentYear = currentDate.getFullYear();
   const [permisosPendientes, setPermisosPendientes] = useState(0);
+  const [costosTotales, setCostosTotales] = useState(0);
   const [permisosRechazados, setPermisosRechazados] = useState(0);
   const [permisosAprobados, setPermisosAprobados] = useState(0);
-  const [permisosTotales, setPermisosTotales] = useState(0);
+  const [productosTotales, setProductosTotales] = useState(0);
   const [alumnosTotales, setAlumnosTotales] = useState(0);
-  const URI = process.env.REACT_APP_API_BACKEND + "permisos/";
+  const URI = process.env.REACT_APP_API_BACKEND + "productos/";
   const URIalumnos = process.env.REACT_APP_API_BACKEND + "alumnosgrupos/";
   //funcion para obtener los permisos pendientes
   useEffect(() => {
@@ -37,6 +60,7 @@ const Dashboard = () => {
     obtenerPermisosPendientes(); // Llamar a la función para obtener los permisos pendientes al cargar el componente o recibir actualizaciones relevantes
   }, []); // Asegurarse de pasar un arreglo vacío como segundo argumento para que el efecto solo se ejecute al cargar el componente
   //funcion para obtener los permisos rechazados
+
   useEffect(() => {
     const obtenerPermisosRechazados = async () => {
       try {
@@ -73,18 +97,38 @@ const Dashboard = () => {
   }, []); // Asegurarse de pasar un arreglo vacío como segundo argumento para que el efecto solo se ejecute al cargar el componente
 
   useEffect(() => {
-    const obtenerPermisosTotales = async () => {
+    const obtenerProductosTotales = async () => {
       try {
         const res = await axios.get(`${URI}`); // Consultar a la API para obtener todos los permisos
-        const permisos = res.data;
-        setPermisosTotales(permisos.length); // Actualizar el estado con la cantidad total de permisos
+        const productos = res.data;
+        setProductosTotales(productos.length); // Actualizar el estado con la cantidad total de permisos
       } catch (error) {
-        console.error(`Error al obtener permisos:`, error);
+        console.error(`Error al obtener productos:`, error);
       }
     };
 
-    obtenerPermisosTotales(); // Llamar a la función para obtener todos los permisos al cargar el componente o recibir actualizaciones relevantes
+    obtenerProductosTotales(); // Llamar a la función para obtener todos los permisos al cargar el componente o recibir actualizaciones relevantes
   }, []); // Asegurarse de pasar un arreglo vacío como segundo argumento para que el efecto solo se ejecute al cargar el componente
+
+  useEffect(() => {
+    const obtenerCostosTotales = async () => {
+      try {
+        const res = await axios.get(URI); // Consultar a la API para obtener todos los productos
+        const productos = res.data;
+
+        // Sumar los costos totales de todos los productos
+        const totalCosto = productos.reduce((acc, producto) => {
+          return acc + producto.costoTotal;
+        }, 0);
+
+        setCostosTotales(totalCosto); // Actualizar el estado con la suma de los costos totales
+      } catch (error) {
+        console.error("Error al obtener costos totales:", error);
+      }
+    };
+
+    obtenerCostosTotales();
+  }, []);
   useEffect(() => {
     const obtenerAlumnosTotales = async () => {
       try {
@@ -166,10 +210,20 @@ const Dashboard = () => {
         >
           Respaldar base de datos <i className="fas fa-database ml-1"></i>
         </button>
+        <Widget
+          icon={<BsUiChecks className="h-6 w-6 text-green-500" />} // Agrega la clase "text-green-500"
+          title={"Total de productos"}
+          subtitle={productosTotales}
+        />
 
         <Widget
+          icon={<MdOutlineAttachMoney className="h-6 w-6 text-green-500" />} // Agrega la clase "text-green-500"
+          title={"Total en stock"}
+          subtitle={`$${costosTotales}`} // Agregar el símbolo "$" antes de costosTotales
+        />
+        <Widget
           icon={<MdOutlinePendingActions className="h-7 w-7 text-green-500" />} // Agrega la clase "text-green-500"
-          title={"Permisos pendientes"}
+          title={`Total en entradas - ${currentMonth} ${currentYear}`}
           subtitle={permisosPendientes}
         />
 
@@ -183,18 +237,6 @@ const Dashboard = () => {
           icon={<AiFillCloseCircle className="h-6 w-6 text-green-500" />} // Agrega la clase "text-green-500"
           title={"Permisos rechazados"}
           subtitle={permisosRechazados}
-        />
-
-        <Widget
-          icon={<BsUiChecks className="h-6 w-6 text-green-500" />} // Agrega la clase "text-green-500"
-          title={"Total de permisos"}
-          subtitle={permisosTotales}
-        />
-
-        <Widget
-          icon={<FaSchool className="h-7 w-7 text-green-500" />} // Agrega la clase "text-green-500"
-          title={"Alumnos en la división"}
-          subtitle={alumnosTotales}
         />
       </div>
 

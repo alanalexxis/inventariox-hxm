@@ -140,7 +140,7 @@ const dbConfig = {
   host: "localhost",
   user: "root",
   password: "",
-  database: "bdPermisos",
+  database: "dbinventariohxm",
 };
 
 // Generar el respaldo de la base de datos
