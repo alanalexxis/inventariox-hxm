@@ -8,11 +8,11 @@ const Banner1 = () => {
     >
       <div className="w-full">
         <h4 className="mb-[14px] max-w-full text-xl font-bold text-white md:w-[64%] md:text-3xl md:leading-[42px] lg:w-[46%] xl:w-[85%] 2xl:w-[75%] 3xl:w-[52%]">
-          Descubre, aprueba, y envía tus permisos
+          Controla, registra y administra tu inventario de productos.
         </h4>
         <p className="mb-[40px] max-w-full text-base font-medium text-[#ffffff] md:w-[64%] lg:w-[40%] xl:w-[72%] 2xl:w-[60%] 3xl:w-[45%]">
-          ¡Administra tus permisos de manera eficiente con nuestra aplicación
-          móvil! ¡Aprueba, deniega y gestiona los permisos de forma rápida y
+          ¡Administra tus productos de manera eficiente con nuestra aplicación !
+          ¡Agrega, actualiza y gestiona los productos de forma rápida y
           sencilla!
         </p>
 

@@ -10,10 +10,11 @@ const Project = () => {
     <Card extra={"w-full p-4 h-full"}>
       <div className="mb-8 w-full">
         <h4 className="text-xl font-bold text-navy-700 dark:text-white">
-          Nuestras carreras
+          Nuestros hoteles.
         </h4>
         <p className="mt-2 text-base text-gray-600">
-          ¡Conoce nuestras carreras de la división de TIC y mantente informado!
+          ¡Explora nuestras emocionantes opciones de hoteles en Xcaret y
+          mantente al día con las últimas novedades!
         </p>
       </div>
       {/* Project 1 */}
@@ -24,12 +25,12 @@ const Project = () => {
           </div>
           <div className="ml-4">
             <p className="text-base font-medium text-navy-700 dark:text-white">
-              T.S.U en Desarrollo de Software Multiplataforma
+              Hotel Xcaret México.
             </p>
             <p className="mt-2 text-sm text-gray-600">
               <a
                 className="ml-1 font-medium text-brand-500 hover:text-brand-500 dark:text-white"
-                href="http://www.utselva.edu.mx/oferta/tsu-software-multiplataforma.php "
+                href="https://www.hotelxcaretmexico.com/es/"
               >
                 Conoce más...
               </a>
@@ -46,12 +47,12 @@ const Project = () => {
           </div>
           <div className="ml-4">
             <p className="text-base font-medium text-navy-700 dark:text-white">
-              T.S.U en Infraestructura de Redes Digitales
+              Hotel Xcaret Arte.
             </p>
             <p className="mt-2 text-sm text-gray-600">
               <a
                 className="ml-1 font-medium text-brand-500 hover:text-brand-500 dark:text-white"
-                href="http://www.utselva.edu.mx/oferta/tsu-infraestuctura-redes-digitales.php "
+                href="https://www.hotelxcaretarte.com/es/"
               >
                 Conoce más...
               </a>
@@ -68,12 +69,12 @@ const Project = () => {
           </div>
           <div className="ml-4">
             <p className="text-base font-medium text-navy-700 dark:text-white">
-              T.S.U en Entornos Virtuales y Negocios Digitales
+              La Casa de la Playa.
             </p>
             <p className="mt-2 text-sm text-gray-600">
               <a
                 className="ml-1 font-medium text-brand-500 hover:text-brand-500 dark:text-white"
-                href=" http://www.utselva.edu.mx/oferta/tsu-entornos-virtuales.php"
+                href="https://www.lacasadelaplaya.com/es/"
               >
                 Conoce más...
               </a>

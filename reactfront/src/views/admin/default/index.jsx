@@ -1,6 +1,5 @@
 import { Timeline } from "react-twitter-widgets";
 import Banner1 from "./components/Banner";
-import { FaSchool } from "react-icons/fa";
 import { BsUiChecks } from "react-icons/bs";
 
 import {
@@ -8,6 +7,8 @@ import {
   MdCheckCircle,
   MdOutlineAttachMoney,
 } from "react-icons/md";
+
+import { GiExitDoor, GiEntryDoor } from "react-icons/gi";
 import Clima from "components/widget/Clima";
 import { AiFillCloseCircle } from "react-icons/ai";
 
@@ -34,68 +35,18 @@ const Dashboard = () => {
   ];
   const currentMonth = monthNames[currentDate.getMonth()];
   const currentYear = currentDate.getFullYear();
-  const [permisosPendientes, setPermisosPendientes] = useState(0);
+
   const [costosTotales, setCostosTotales] = useState(0);
   const [permisosRechazados, setPermisosRechazados] = useState(0);
-  const [permisosAprobados, setPermisosAprobados] = useState(0);
+
   const [productosTotales, setProductosTotales] = useState(0);
-  const [alumnosTotales, setAlumnosTotales] = useState(0);
+
+  const [costosTotalesEntradas, setCostosTotalesEntradas] = useState(0);
+  const [costosTotalesSalidas, setCostosTotalesSalidas] = useState(0);
   const URI = process.env.REACT_APP_API_BACKEND + "productos/";
   const URIalumnos = process.env.REACT_APP_API_BACKEND + "alumnosgrupos/";
-  //funcion para obtener los permisos pendientes
-  useEffect(() => {
-    const obtenerPermisosPendientes = async () => {
-      try {
-        const res = await axios.get(`${URI}`); // Consultar a la API para obtener todos los permisos
-        const permisos = res.data;
-        const permisosPendientes = permisos.filter(
-          (permiso) => permiso.status === "Pendiente"
-        ).length; // Filtrar los permisos con estado "pendiente" y obtener la cantidad
-        setPermisosPendientes(permisosPendientes); // Actualizar el estado con la cantidad de permisos pendientes
-      } catch (error) {
-        console.error(`Error al obtener permisos pendientes:`, error);
-      }
-    };
-
-    obtenerPermisosPendientes(); // Llamar a la función para obtener los permisos pendientes al cargar el componente o recibir actualizaciones relevantes
-  }, []); // Asegurarse de pasar un arreglo vacío como segundo argumento para que el efecto solo se ejecute al cargar el componente
-  //funcion para obtener los permisos rechazados
-
-  useEffect(() => {
-    const obtenerPermisosRechazados = async () => {
-      try {
-        const res = await axios.get(`${URI}`); // Consultar a la API para obtener todos los permisos
-        const permisos = res.data;
-        const permisosRechazados = permisos.filter(
-          (permiso) => permiso.status === "Rechazado"
-        ).length; // Filtrar los permisos con estado "pendiente" y obtener la cantidad
-        setPermisosRechazados(permisosRechazados); // Actualizar el estado con la cantidad de permisos pendientes
-      } catch (error) {
-        console.error(`Error al obtener permisos rechazados:`, error);
-      }
-    };
-
-    obtenerPermisosRechazados(); // Llamar a la función para obtener los permisos pendientes al cargar el componente o recibir actualizaciones relevantes
-  }, []); // Asegurarse de pasar un arreglo vacío como segundo argumento para que el efecto solo se ejecute al cargar el componente
-
-  //funcion para obtener los permisos aprobados
-  useEffect(() => {
-    const obtenerPermisosAprobados = async () => {
-      try {
-        const res = await axios.get(`${URI}`); // Consultar a la API para obtener todos los permisos
-        const permisos = res.data;
-        const permisosAprobados = permisos.filter(
-          (permiso) => permiso.status === "Aprobado"
-        ).length; // Filtrar los permisos con estado "pendiente" y obtener la cantidad
-        setPermisosAprobados(permisosAprobados); // Actualizar el estado con la cantidad de permisos pendientes
-      } catch (error) {
-        console.error(`Error al obtener permisos aprobados:`, error);
-      }
-    };
-
-    obtenerPermisosAprobados(); // Llamar a la función para obtener los permisos pendientes al cargar el componente o recibir actualizaciones relevantes
-  }, []); // Asegurarse de pasar un arreglo vacío como segundo argumento para que el efecto solo se ejecute al cargar el componente
-
+  const URIentradas = process.env.REACT_APP_API_BACKEND + "entradas/";
+  const URIsalidas = process.env.REACT_APP_API_BACKEND + "salidas/";
   useEffect(() => {
     const obtenerProductosTotales = async () => {
       try {
@@ -130,18 +81,73 @@ const Dashboard = () => {
     obtenerCostosTotales();
   }, []);
   useEffect(() => {
-    const obtenerAlumnosTotales = async () => {
+    const obtenerCostosTotalesEntradas = async () => {
       try {
-        const res = await axios.get(`${URIalumnos}`); // Consultar a la API para obtener todos los permisos
-        const alumnos = res.data;
-        setAlumnosTotales(alumnos.length); // Actualizar el estado con la cantidad total de permisos
+        const res = await axios.get(URIentradas); // Consultar a la API para obtener todos los productos
+        const productos = res.data;
+
+        // Obtener el mes y el año actual
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth() + 1; // Sumamos 1 porque los meses en JavaScript van de 0 a 11
+        const currentYear = currentDate.getFullYear();
+
+        // Filtrar los productos que corresponden al mes y año actual
+        const productosMesYAnoActual = productos.filter((producto) => {
+          const fechaProducto = new Date(producto.fechaEntrada); // Utilizamos el campo "fechaEntrada" en lugar de "fecha"
+          const mesProducto = fechaProducto.getMonth() + 1;
+          const anoProducto = fechaProducto.getFullYear();
+
+          return mesProducto === currentMonth && anoProducto === currentYear;
+        });
+
+        // Sumar los costos totales de los productos filtrados
+        const totalCosto = productosMesYAnoActual.reduce((acc, producto) => {
+          return acc + producto.costoTotal;
+        }, 0);
+
+        setCostosTotalesEntradas(totalCosto); // Actualizar el estado con la suma de los costos totales
       } catch (error) {
-        console.error(`Error al obtener alumnos:`, error);
+        console.error("Error al obtener costos totales:", error);
       }
     };
 
-    obtenerAlumnosTotales(); // Llamar a la función para obtener todos los permisos al cargar el componente o recibir actualizaciones relevantes
-  }, []); // Asegurarse de pasar un arreglo vacío como segundo argumento para que el efecto solo se ejecute al cargar el componente
+    obtenerCostosTotalesEntradas();
+  }, []);
+
+  useEffect(() => {
+    const obtenerCostosTotalesSalidas = async () => {
+      try {
+        const res = await axios.get(URIsalidas); // Consultar a la API para obtener todos los productos
+        const productos = res.data;
+
+        // Obtener el mes y el año actual
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth() + 1; // Sumamos 1 porque los meses en JavaScript van de 0 a 11
+        const currentYear = currentDate.getFullYear();
+
+        // Filtrar los productos que corresponden al mes y año actual
+        const productosMesYAnoActual = productos.filter((producto) => {
+          const fechaProducto = new Date(producto.fechaSalida); // Utilizamos el campo "fechaEntrada" en lugar de "fecha"
+          const mesProducto = fechaProducto.getMonth() + 1;
+          const anoProducto = fechaProducto.getFullYear();
+
+          return mesProducto === currentMonth && anoProducto === currentYear;
+        });
+
+        // Sumar los costos totales de los productos filtrados
+        const totalCosto = productosMesYAnoActual.reduce((acc, producto) => {
+          return acc + producto.costoTotal;
+        }, 0);
+
+        setCostosTotalesSalidas(totalCosto); // Actualizar el estado con la suma de los costos totales
+      } catch (error) {
+        console.error("Error al obtener costos totales:", error);
+      }
+    };
+
+    obtenerCostosTotalesSalidas();
+  }, []);
+
   const handleBackupDatabase = async () => {
     try {
       // Llamada a la API para generar el respaldo de la base de datos
@@ -222,15 +228,15 @@ const Dashboard = () => {
           subtitle={`$${costosTotales}`} // Agregar el símbolo "$" antes de costosTotales
         />
         <Widget
-          icon={<MdOutlinePendingActions className="h-7 w-7 text-green-500" />} // Agrega la clase "text-green-500"
+          icon={<GiExitDoor className="h-7 w-7 text-green-500" />} // Agrega la clase "text-green-500"
           title={`Total en entradas - ${currentMonth} ${currentYear}`}
-          subtitle={permisosPendientes}
+          subtitle={`$${costosTotalesEntradas}`} // Agregar el símbolo "$" antes de costosTotales
         />
 
         <Widget
-          icon={<MdCheckCircle className="h-6 w-6 text-green-500" />} // Agrega la clase "text-green-500"
-          title={"Permisos aprobados"}
-          subtitle={permisosAprobados}
+          icon={<GiEntryDoor className="h-6 w-6 text-green-500" />} // Agrega la clase "text-green-500"
+          title={`Total en salidas - ${currentMonth} ${currentYear}`}
+          subtitle={`$${costosTotalesSalidas}`} // Agregar el símbolo "$" antes de costosTotales
         />
 
         <Widget
