@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
-
+import * as XLSX from "sheetjs-style";
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
@@ -196,17 +196,103 @@ const TablaEntradas = (props) => {
     getEntradas();
   }, []);
 
+  const exportToExcel = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_API_BACKEND + "productos/"
+      );
+      const jsonData = response.data;
+
+      const modifiedData = jsonData.map((item) => ({
+        CÓDIGO: item.codBarras,
+        DESCRIPCIÓN: item.descripcion,
+        CANTIDAD: item.totalProductos,
+        "COSTO UNITARIO": { v: item.costoUnitario, t: "n", z: "$#,##0.00" }, // Format as currency
+        "COSTO TOTAL": { v: item.costoTotal, t: "n", z: "$#,##0.00" }, // Format as currency
+        CATEGORÍA: item.nomCategorias,
+        // Add more properties with custom titles as needed
+      }));
+
+      // Calculate the total costoTotal
+      const totalCostoTotal = jsonData.reduce(
+        (total, item) => total + item.costoTotal,
+        0
+      );
+
+      // Add a row for total costoTotal
+      const totalRow = {
+        CÓDIGO: "",
+        DESCRIPCIÓN: "",
+        CANTIDAD: "",
+        "COSTO UNITARIO": "Total",
+        "COSTO TOTAL": { v: totalCostoTotal, t: "n", z: "$#,##0.00" }, // Format as currency
+        CATEGORÍA: "",
+        // Add more properties with custom titles as needed
+      };
+      modifiedData.push(totalRow);
+
+      const worksheet = XLSX.utils.json_to_sheet(modifiedData);
+
+      // Change the style of the title cells
+      const titleCellStyle = {
+        fill: { fgColor: { rgb: "FFFF00" } },
+        alignment: { horizontal: "center" },
+        font: { bold: true },
+      };
+
+      // Change the style of the "Total" cell to red
+      const totalCellStyle = {
+        fill: { fgColor: { rgb: "FFF000" } }, // Red fill color
+        alignment: { horizontal: "center" },
+        font: { bold: true },
+      };
+
+      // Set the title cell style for each column
+      Object.keys(worksheet).forEach((cell) => {
+        if (cell.endsWith("1")) {
+          // Check if it's a title cell (ends with "1" since titles are in the first row)
+          worksheet[cell].s = titleCellStyle;
+        }
+      });
+
+      // Set the "Total" cell style
+      const lastRow = modifiedData.length + 1;
+      Object.keys(worksheet).forEach((cell) => {
+        if (cell.endsWith(`${lastRow}`)) {
+          // Check if it's the last row (the "Total" row)
+          worksheet[cell].s = totalCellStyle;
+        }
+      });
+
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Productos");
+
+      // Export the data to Excel file
+      XLSX.writeFile(workbook, "productos.xlsx");
+    } catch (error) {
+      console.error("Error exporting data to Excel:", error);
+    }
+  };
+
   return (
     <div className="relative">
       <Card extra={"w-full pb-10 p-4 h-full"} style={{ marginTop: "50px" }}>
-        <Link
-          to="/admin/entradas/create"
-          className="ml-10 mb-10 inline-block rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-3 py-2 text-center text-sm font-medium text-white shadow-lg shadow-green-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-2 focus:ring-green-300 dark:shadow-lg dark:shadow-green-800/80 dark:focus:ring-green-800"
-          style={{ position: "sticky", top: "50px", maxWidth: "200px" }}
-        >
-          Registrar entrada <i className="far fa-cart-plus mr-0"></i>
-        </Link>
-
+        <div className="flex flex-wrap justify-start space-x-4">
+          <Link
+            to="/admin/entradas/create"
+            className="mb-10 inline-block flex-grow rounded-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 px-3 py-2 text-center text-sm font-medium text-white shadow-lg shadow-green-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-2 focus:ring-green-300 dark:shadow-lg dark:shadow-green-800/80 dark:focus:ring-green-800"
+            style={{ maxWidth: "180px" }}
+          >
+            Registrar entrada <i className="far fa-cart-plus mr-0"></i>
+          </Link>
+          <Link
+            onClick={exportToExcel}
+            className="mb-10 inline-block rounded-lg bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 px-3 py-2 text-center text-sm font-medium text-white shadow-lg shadow-blue-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-2 focus:ring-blue-300 dark:shadow-lg dark:shadow-blue-800/80 dark:focus:ring-blue-800"
+            style={{ maxWidth: "200px" }}
+          >
+            Generar reporte <i className="far fa-file-excel mr-0"></i>
+          </Link>
+        </div>
         <header className="relative flex items-center justify-between">
           <div className="text-xl font-bold text-navy-700 dark:text-white">
             Entradas
@@ -277,8 +363,11 @@ const TablaEntradas = (props) => {
             </thead>
 
             <tbody>
-              {currentProducts.map((entrada) => (
+              {currentProducts.map((entrada, index) => (
                 <tr>
+                  <td className="text-sm font-bold text-navy-700 dark:text-white">
+                    {(currentPage - 1) * recordsPerPage + index + 1}
+                  </td>
                   <td className="text-sm font-bold text-navy-700 dark:text-white">
                     {entrada.codBarras}
                   </td>

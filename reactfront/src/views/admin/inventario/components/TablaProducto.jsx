@@ -310,8 +310,11 @@ const TablaProductos = (props) => {
               </tr>
             </thead>
             <tbody>
-              {currentProducts.map((producto) => (
+              {currentProducts.map((producto, index) => (
                 <tr>
+                  <td className="text-sm font-bold text-navy-700 dark:text-white">
+                    {(currentPage - 1) * recordsPerPage + index + 1}
+                  </td>
                   <td className="text-sm font-bold text-navy-700 dark:text-white">
                     {producto.codBarras}
                   </td>
