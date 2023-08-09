@@ -32,7 +32,6 @@ const TablaProductos = (props) => {
         process.env.REACT_APP_API_BACKEND + "productos/"
       );
       const jsonData = response.data;
-
       const modifiedData = jsonData.map((item) => ({
         CÓDIGO: item.codBarras,
         DESCRIPCIÓN: item.descripcion,
@@ -63,36 +62,28 @@ const TablaProductos = (props) => {
 
       const worksheet = XLSX.utils.json_to_sheet(modifiedData);
 
-      // Change the style of the title cells
-      const titleCellStyle = {
-        fill: { fgColor: { rgb: "FFFF00" } },
-        alignment: { horizontal: "center" },
-        font: { bold: true },
-      };
+      // Apply the styles to the specific cells
+      const cellRange = XLSX.utils.decode_range(worksheet["!ref"]);
+      for (let col = cellRange.s.c; col <= cellRange.e.c; col++) {
+        for (let row = cellRange.s.r; row <= cellRange.e.r; row++) {
+          const cellAddress = XLSX.utils.encode_cell({ r: row, c: col });
+          const cell = worksheet[cellAddress];
 
-      // Change the style of the "Total" cell to red
-      const totalCellStyle = {
-        fill: { fgColor: { rgb: "FFF000" } }, // Red fill color
-        alignment: { horizontal: "center" },
-        font: { bold: true },
-      };
-
-      // Set the title cell style for each column
-      Object.keys(worksheet).forEach((cell) => {
-        if (cell.endsWith("1")) {
-          // Check if it's a title cell (ends with "1" since titles are in the first row)
-          worksheet[cell].s = titleCellStyle;
+          if (row === 0 && col < 6) {
+            cell.s = {
+              fill: { fgColor: { rgb: "FFFF00" } },
+              alignment: { horizontal: "center" },
+              font: { bold: true },
+            };
+          } else if (row === cellRange.e.r && col === 4) {
+            cell.s = {
+              fill: { fgColor: { rgb: "FFF000" } },
+              alignment: { horizontal: "center" },
+              font: { bold: true },
+            };
+          }
         }
-      });
-
-      // Set the "Total" cell style
-      const lastRow = modifiedData.length + 1;
-      Object.keys(worksheet).forEach((cell) => {
-        if (cell.endsWith(`${lastRow}`)) {
-          // Check if it's the last row (the "Total" row)
-          worksheet[cell].s = totalCellStyle;
-        }
-      });
+      }
 
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Productos");
