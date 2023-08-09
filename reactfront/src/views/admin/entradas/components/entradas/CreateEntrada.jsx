@@ -20,6 +20,7 @@ const CompCreateEntrada = () => {
   const [idproveedors, setIdproveedors] = useState("");
   const [numEntradas, setNumEntradas] = useState("");
   const [numFactura, setNumFactura] = useState("");
+  const [numOrden, setNunOrden] = useState("");
   const [costoTotal, setCostoTotal] = useState("");
   const [precioUnitario, setPrecioUnitario] = useState("");
   const [selectedResult, setSelectedResult] = useState(null);
@@ -214,6 +215,7 @@ const CompCreateEntrada = () => {
           fechaEntrada: formattedFechaEntrada,
           numFactura: numFactura,
           costoTotal: costoTotal,
+          numOrden: numOrden,
         });
 
         const productoResponse = await axios.get(
@@ -376,19 +378,34 @@ const CompCreateEntrada = () => {
                 </div>
               </div>
 
-              <div className="mb-6">
-                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Número de factura.
-                </label>
-                <input
-                  value={numFactura}
-                  onChange={(e) => setNumFactura(e.target.value)}
-                  type="text"
-                  className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
-                  placeholder="Ej. 9999"
-                  required
-                ></input>
+              <div className="-mx-3 mb-6 flex flex-wrap">
+                <div className="mb-6 w-full px-3 md:mb-0 md:w-1/2">
+                  <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    Número de factura.
+                  </label>
+                  <input
+                    value={numFactura}
+                    onChange={(e) => setNumFactura(e.target.value)}
+                    className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                    placeholder="Ej. 9999"
+                    required
+                  ></input>
+                </div>
+                <div className="mb-6 w-full px-3 md:mb-0 md:w-1/2">
+                  <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    Número de orden.
+                  </label>
+                  <input
+                    value={numOrden}
+                    onChange={(e) => setNunOrden(e.target.value)}
+                    type="number"
+                    className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 dark:border-navy-600 dark:bg-navy-700 dark:text-white dark:placeholder-gray-400 dark:focus:outline-none dark:focus:ring-2 dark:focus:ring-green-500"
+                    placeholder="Ej. 9999"
+                    required
+                  ></input>
+                </div>
               </div>
+
               <div className="relative mb-6">
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Buscar proveedor.
