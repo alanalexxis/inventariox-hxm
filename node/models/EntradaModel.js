@@ -14,6 +14,8 @@ const entradaModel = db.define("entrada", {
   costoTotal: { type: DataTypes.FLOAT },
   fechaEntrada: { type: DataTypes.DATE },
   numFactura: { type: DataTypes.STRING },
+  numOrden: { type: DataTypes.STRING },
+  
 });
 
 // Definir la asociación entre la tabla de usuarios y la tabla de rangos

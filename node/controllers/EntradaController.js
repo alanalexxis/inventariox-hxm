@@ -21,6 +21,7 @@ export const getAllEntradas = async (req, res) => {
         costoTotal: entrada.costoTotal,
         fechaEntrada: entrada.fechaEntrada,
         numFactura: entrada.numFactura,
+        numOrden: entrada.numOrden,
         nomProducto: entrada.producto.descripcion,
         nomProveedor: entrada.proveedor.nomProveedor,
         idproductos: entrada.producto.idproductos,

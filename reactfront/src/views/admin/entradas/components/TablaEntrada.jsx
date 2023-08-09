@@ -199,16 +199,18 @@ const TablaEntradas = (props) => {
   const exportToExcel = async () => {
     try {
       const response = await axios.get(
-        process.env.REACT_APP_API_BACKEND + "productos/"
+        process.env.REACT_APP_API_BACKEND + "entradas/"
       );
       const jsonData = response.data;
       const modifiedData = jsonData.map((item) => ({
         CÓDIGO: item.codBarras,
         DESCRIPCIÓN: item.descripcion,
-        CANTIDAD: item.totalProductos,
+        CANTIDAD: item.numEntradas,
         "COSTO UNITARIO": { v: item.costoUnitario, t: "n", z: "$#,##0.00" }, // Format as currency
         "COSTO TOTAL": { v: item.costoTotal, t: "n", z: "$#,##0.00" }, // Format as currency
-        CATEGORÍA: item.nomCategorias,
+        FECHA: item.fechaEntrada,
+        "NÚMERO DE FACTURA": item.numFactura,
+        PROVEEDOR: item.nomProveedor,
         // Add more properties with custom titles as needed
       }));
 
@@ -226,6 +228,8 @@ const TablaEntradas = (props) => {
         "COSTO UNITARIO": "Total",
         "COSTO TOTAL": { v: totalCostoTotal, t: "n", z: "$#,##0.00" }, // Format as currency
         CATEGORÍA: "",
+        "NÚMERO DE FACTURA": "",
+        PROVEEDOR: "",
         // Add more properties with custom titles as needed
       };
       modifiedData.push(totalRow);
