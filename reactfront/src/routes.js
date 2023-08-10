@@ -10,6 +10,7 @@ import EntradaTabla from "views/admin/entradas";
 import SalidaTabla from "views/admin/salidas";
 import GrupoTable from "views/admin/grupo/";
 import PermisoTable from "views/admin/permiso/";
+import { TbDoorEnter, TbDoorExit } from "react-icons/tb";
 
 // Auth Imports
 import SignIn from "views/auth/SignIn";
@@ -73,14 +74,14 @@ const routes = [
   {
     name: "Entradas",
     layout: "/admin",
-    icon: <MdExitToApp className="h-6 w-6" />,
+    icon: <TbDoorEnter className="h-6 w-6" />,
     path: "entradas",
     component: <EntradaTabla />,
   },
   {
     name: "Salidas",
     layout: "/admin",
-    icon: <MdExitToApp className="h-6 w-6" />,
+    icon: <TbDoorExit className="h-6 w-6" />,
     path: "salidas",
     component: <SalidaTabla />,
   },
