@@ -2,11 +2,7 @@ import { Timeline } from "react-twitter-widgets";
 import Banner1 from "./components/Banner";
 import { BsUiChecks } from "react-icons/bs";
 
-import {
-  MdOutlinePendingActions,
-  MdCheckCircle,
-  MdOutlineAttachMoney,
-} from "react-icons/md";
+import { MdOutlineAttachMoney } from "react-icons/md";
 
 import { GiExitDoor, GiEntryDoor } from "react-icons/gi";
 import Clima from "components/widget/Clima";

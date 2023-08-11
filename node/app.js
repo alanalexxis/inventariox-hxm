@@ -9,14 +9,7 @@ import db from "./database/db.js";
 import sharp from "sharp";
 //importamos nuestro enrutador
 import UsuarioRoutes from "./routes/routesUsuario.js";
-import TutorRoutes from "./routes/routesTutor.js";
-import CarreraRoutes from "./routes/routesCarrera.js";
-import PeriodoRoutes from "./routes/routesPeriodo.js";
-import AlumnoRoutes from "./routes/routesAlumno.js";
-import GrupoRoutes from "./routes/routesGrupo.js";
-import AlumnoGrupoRoutes from "./routes/routesAlumnoGrupo.js";
-import PermisoRoutes from "./routes/routesPermiso.js";
-import DirectorRoutes from "./routes/routesDirector.js";
+
 import ProductoRoutes from "./routes/routesProducto.js";
 import EntradaRoutes from "./routes/routesEntrada.js";
 import ProveedorRoutes from "./routes/routesProveedor.js";
@@ -24,9 +17,7 @@ import AreaRoutes from "./routes/routesArea.js";
 import SalidaRoutes from "./routes/routesSalida.js";
 import UbicacionRoutes from "./routes/routesUbicacion.js";
 import usuarioModel from "./models/UsuarioModel.js";
-import alumnoModel from "./models/AlumnoModel.js";
-import tutorModel from "./models/TutorModel.js";
-import directorModel from "./models/DirectorModel.js";
+
 
 const app = express();
 
@@ -34,14 +25,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 app.use("/usuarios", UsuarioRoutes);
-app.use("/tutores", TutorRoutes);
-app.use("/carreras", CarreraRoutes);
-app.use("/periodos", PeriodoRoutes);
-app.use("/alumnos", AlumnoRoutes);
-app.use("/grupos", GrupoRoutes);
-app.use("/alumnosgrupos", AlumnoGrupoRoutes);
-app.use("/permisos", PermisoRoutes);
-app.use("/directores", DirectorRoutes);
 app.use("/productos", ProductoRoutes);
 app.use("/entradas", EntradaRoutes);
 app.use("/proveedors", ProveedorRoutes);

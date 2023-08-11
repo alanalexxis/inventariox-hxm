@@ -8,22 +8,6 @@ const Sidebar = ({ open, onClose }) => {
     (route) =>
       route.name !== "Editar usuarios" &&
       route.name !== "Añadir usuarios" &&
-      route.name !== "Añadir alumnos" &&
-      route.name !== "Añadir grupos" &&
-      route.name !== "Añadir periodos" &&
-      route.name !== "Añadir carreras" &&
-      route.name !== "Editar carreras" &&
-      route.name !== "Editar periodos" &&
-      route.name !== "Editar alumnos" &&
-      route.name !== "Añadir alumno a grupo" &&
-      route.name !== "Añadir tutores" &&
-      route.name !== "Editar tutores" &&
-      route.name !== "Editar alumnos grupos" &&
-      route.name !== "Editar grupos" &&
-      route.name !== "Añadir permisos" &&
-      route.name !== "Editar permisos" &&
-      route.name !== "Añadir directores" &&
-      route.name !== "Editar directores" &&
       route.name !== "Añadir productos" &&
       route.name !== "Editar productos" &&
       route.name !== "Editar entradas" &&

@@ -8,8 +8,8 @@ import DataTables from "views/admin/usuario";
 import ProductoTabla from "views/admin/inventario/";
 import EntradaTabla from "views/admin/entradas";
 import SalidaTabla from "views/admin/salidas";
-import GrupoTable from "views/admin/grupo/";
-import PermisoTable from "views/admin/permiso/";
+
+
 import { TbDoorEnter, TbDoorExit } from "react-icons/tb";
 
 // Auth Imports
@@ -22,35 +22,20 @@ import {
   MdBarChart,
   MdPerson,
   MdLock,
-  MdNoteAdd,
-  MdPeople,
+
   MdInventory,
-  MdExitToApp,
+
 } from "react-icons/md";
 import { ImEnter } from "react-icons/im";
 import RouteController from "routes/RouteController";
 
 import CompEditUsuario from "views/admin/usuario/components/usuario/EditUsuario";
 import CompCreateUsuario from "views/admin/usuario/components/usuario/CreateUsuario";
-
-import CompCreateGrupo from "views/admin/grupo/components/grupo/CreateGrupo";
-import CompCreatePeriodo from "views/admin/grupo/components/periodo/CreatePeriodo";
-import CompCreateCarrera from "views/admin/grupo/components/carrera/CreateCarrera";
-import CompEditCarrera from "views/admin/grupo/components/carrera/EditCarrera";
-import CompEditPeriodo from "views/admin/grupo/components/periodo/EditPeriodo";
 import CompCreateProducto from "views/admin/inventario/components/inventario/CreateProducto";
-
-
-
 import CompEditProducto from "views/admin/inventario/components/inventario/EditProducto";
-import CompEditGrupo from "views/admin/grupo/components/grupo/EditGrupo";
-import CompCreatePermiso from "views/admin/permiso/components/permiso/CreatePermiso";
 import CompCreateEntrada from "views/admin/entradas/components/entradas/CreateEntrada";
 import CompEditEntrada from "views/admin/entradas/components/entradas/EditEntrada";
 import CompEditSalida from "views/admin/salidas/components/salidas/EditSalida";
-import CompEditPermiso from "views/admin/permiso/components/permiso/EditPermiso";
-
-
 import CompEditGeneral from "views/admin/profile/components/editGeneral/editGeneral";
 import CompCreateSalida from "views/admin/salidas/components/salidas/CreateSalida";
 const routes = [
@@ -121,20 +106,6 @@ const routes = [
     component: <ProductoTabla />,
   },
   
-  {
-    name: "Grupos",
-    layout: "/admin",
-    icon: <MdPeople className="h-6 w-6" />,
-    path: "grupos",
-    component: <GrupoTable />,
-  },
-  {
-    name: "Permisos",
-    layout: "/admin",
-    icon: <MdNoteAdd className="h-6 w-6" />,
-    path: "permisos",
-    component: <PermisoTable />,
-  },
 
   {
     name: "Editar usuarios",
@@ -143,21 +114,7 @@ const routes = [
     path: "data-tables/edit/:idusuarios",
     component: <CompEditUsuario />,
   },
-  {
-    name: "Editar carreras",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "carrera/edit/:idcarreras",
-    component: <CompEditCarrera />,
-  },
 
-  {
-    name: "Editar permisos",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "permiso/edit/:idpermisos",
-    component: <CompEditPermiso />,
-  },
   {
     name: "Editar info",
     layout: "/admin",
@@ -172,21 +129,9 @@ const routes = [
     path: "inventario/edit/:idproductos",
     component: <CompEditProducto />,
   },
-  {
-    name: "Editar grupos",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "grupo/edit/:idgrupos",
-    component: <CompEditGrupo />,
-  },
 
-  {
-    name: "Editar periodos",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "periodo/edit/:idperiodos",
-    component: <CompEditPeriodo />,
-  },
+
+
   {
     name: "Añadir usuarios",
     layout: "/admin",
@@ -194,21 +139,7 @@ const routes = [
     path: "data-tables/create",
     component: <CompCreateUsuario />,
   },
-  {
-    name: "Añadir permisos",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "permiso/create",
-    component: <CompCreatePermiso />,
-  },
 
-  {
-    name: "Añadir periodos",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "periodo/create",
-    component: <CompCreatePeriodo />,
-  },
   {
     name: "Añadir productos",
     layout: "/admin",
@@ -216,21 +147,9 @@ const routes = [
     path: "inventario/create",
     component: <CompCreateProducto />,
   },
-  {
-    name: "Añadir carreras",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "carrera/create",
-    component: <CompCreateCarrera />,
-  },
 
-  {
-    name: "Añadir grupos",
-    layout: "/admin",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "grupo/create",
-    component: <CompCreateGrupo />,
-  },
+
+
 
   // {
   //   name: "Añadir grupos",
