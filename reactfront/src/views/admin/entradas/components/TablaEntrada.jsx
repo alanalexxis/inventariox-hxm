@@ -209,6 +209,7 @@ const TablaEntradas = (props) => {
         "COSTO UNITARIO": { v: item.costoUnitario, t: "n", z: "$#,##0.00" }, // Format as currency
         "COSTO TOTAL": { v: item.costoTotal, t: "n", z: "$#,##0.00" }, // Format as currency
         FECHA: item.fechaEntrada,
+        "NÚMERO DE ORDEN": item.numOrden,
         "NÚMERO DE FACTURA": item.numFactura,
         PROVEEDOR: item.nomProveedor,
         // Add more properties with custom titles as needed
@@ -227,7 +228,8 @@ const TablaEntradas = (props) => {
         CANTIDAD: "",
         "COSTO UNITARIO": "Total",
         "COSTO TOTAL": { v: totalCostoTotal, t: "n", z: "$#,##0.00" }, // Format as currency
-        CATEGORÍA: "",
+        FECHA: "",
+        "NÚMERO DE ORDEN": "",
         "NÚMERO DE FACTURA": "",
         PROVEEDOR: "",
         // Add more properties with custom titles as needed
@@ -243,7 +245,7 @@ const TablaEntradas = (props) => {
           const cellAddress = XLSX.utils.encode_cell({ r: row, c: col });
           const cell = worksheet[cellAddress];
 
-          if (row === 0 && col < 6) {
+          if (row === 0 && col < 9) {
             cell.s = {
               fill: { fgColor: { rgb: "FFFF00" } },
               alignment: { horizontal: "center" },
@@ -262,8 +264,27 @@ const TablaEntradas = (props) => {
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Productos");
 
-      // Export the data to Excel file
-      XLSX.writeFile(workbook, "productos.xlsx");
+      const currentDate = new Date();
+      const monthNames = [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ];
+      const fileName = `entradas_${
+        monthNames[currentDate.getMonth()]
+      }_${currentDate.getFullYear()}.xlsx`;
+
+      // Export the data to Excel file with the generated filename
+      XLSX.writeFile(workbook, fileName);
     } catch (error) {
       console.error("Error exporting data to Excel:", error);
     }
